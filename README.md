@@ -1,2 +1,6 @@
-# regex
-Regex parser made in Java
+# Regular expression parser made in Java
+
+##Documentation
+
+[project definition](docs/definition.md)
+
