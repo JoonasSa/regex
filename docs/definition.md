@@ -4,7 +4,7 @@
 
 The idea is to implement the Thompson's construction algorithm to compile a regular expression (regex) into an equivalent nondeterministic finite automaton (NFA). This NFA will be used to match strings againts the regular expression. The program will also preprocess the string to allow for richer regex syntax ([1-9], \d etc). Finally the NFA is used to match the string.
 
-If there is time I will implement a NFA to DFA transformation and compare it's performance to the NFA implementation using only a NFA. 
+If there is time I will implement a NFA to deterministic finite automaton (DFA) transformation with [powerset construction](https://en.wikipedia.org/wiki/Powerset_construction) and compare it's performance to the implementation that uses only NFA. The DFA will have 2^n states where n is the number of states in NFA. This seems to imply that there could be a threshold m where if n <= m then it is faster to match input strings with a DFA but when n > m then it is faster to use the NFA because of the time it takes to construct a DFA and the time it takes to match strings with NFA vs DFA.   
 
 #### Thompson's contruction
 
@@ -50,7 +50,7 @@ The data structures used here seemed to make the most sense. A state as a struct
 
 ## Using the program
 
-The program takes a regex or a string as an input. The regexes are used to contruct NFA's and input strings are match against a regex (the last one construted or any if I have the time to implement this).
+The program takes a regex and/or a string as an input. The regexes are used to contruct NFA's. The input string is matched against a regex (the last one constructed or any older regex if I have the time to implement this). The program outputs a boolean telling if the string was matched and the run times for all of the different parts of the process.
 
 ## Target time and space complexity
 
