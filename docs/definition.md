@@ -4,7 +4,7 @@
 
 The idea is to implement the Thompson's construction algorithm to compile a regular expression (regex) into an equivalent nondeterministic finite automaton (NFA). This NFA will be used to match strings againts the regular expression. The program will also preprocess the string to allow for richer regex syntax ([1-9], \d etc). Finally the NFA is used to match the string.
 
-If there is time I will implement a NFA to DFA transformation and compare it's performance to the NFA implementation using only a NFA. 
+If there is time I will implement a NFA to DFA transformation and compare it's performance to the implementation that uses only NFA. 
 
 #### Thompson's contruction
 
