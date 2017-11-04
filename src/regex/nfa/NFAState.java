@@ -15,4 +15,12 @@ public class NFAState {
         this.arrowB = b;
         this.symbol = s;
     }
+    
+    public void setArrowA(NFAState a) {
+        this.arrowA = a;
+    }
+    
+    public void setArrowB(NFAState b) {
+        this.arrowB = b;
+    }
 }
