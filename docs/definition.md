@@ -50,7 +50,7 @@ The data structures used here seemed to make the most sense. A state as a struct
 
 ## Using the program
 
-The program takes a regex or a string as an input. The regexes are used to contruct NFA's and input strings are match against a regex (the last one construted or any if I have the time to implement this).
+The program takes a regex or a string as an input. The regexes are used to contruct NFA's. The input string is matched against a regex (the last one constructed or any older regex if I have the time to implement this). The program outputs a boolean telling if the string was matched and the run times for all of the different parts of the process.
 
 ## Target time and space complexity
 
