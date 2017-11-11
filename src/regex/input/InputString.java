@@ -10,7 +10,19 @@ public class InputString {
         this.index = 0;
     }
     
+    public boolean hasNextChar() {
+        return index < input.length();
+    }
+    
     public char getNextChar() {
+        if (index == input.length())
+            throw new IllegalStateException("Trying to get index out of bounds");
         return input.charAt(index++);
+    }
+    
+    public char peekNextChar() {
+        if (index == input.length())
+            throw new IllegalStateException("Trying to peek index out of bounds");
+        return input.charAt(index);
     }
 }

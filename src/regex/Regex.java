@@ -1,16 +1,21 @@
 
 package regex;
 
+import regex.nfa.*;
+import regex.input.RegexStringPreprocessor;
+
 public class Regex {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //String regex = RegexParser.parse(args[0]);
-        //NFAState start = NFAConstructor.constructNFA(regex);
-        //boolean result = NFAMatcher.match(args[1]);
-        //System.out.println("The input string match was: " + result);
+        String input = "abcde";
+        String regex = RegexStringPreprocessor.parseInput(input);
+        NFAState start = new NFAConstructor().constructNFA(regex);
+        NFAMatcher matcher = new NFAMatcher(start);
+        boolean result = matcher.match(input);
+        System.out.println("The input string match was: " + result);
     }
     
 }

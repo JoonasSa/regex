@@ -9,18 +9,41 @@ public class NFAState {
     public NFAState arrowB;
     public char symbol;
     
-    public NFAState(StateType t, NFAState a, NFAState b, char s) {
+    public NFAState(StateType t, char s) {
         this.type = t;
-        this.arrowA = a;
-        this.arrowB = b;
         this.symbol = s;
+        this.arrowA = null;
+        this.arrowB = null;
     }
     
-    public void setArrowA(NFAState a) {
-        this.arrowA = a;
+    public NFAState(char s) {
+        this.type = StateType.NORMAL;
+        this.symbol = s;
+        this.arrowA = null;
+        this.arrowB = null;
     }
     
-    public void setArrowB(NFAState b) {
-        this.arrowB = b;
+    public void setNext(NFAState state) {
+        if (this.arrowA == null) {
+            this.arrowA = state;
+        } else if (this.arrowB == null) {
+            this.arrowB = state;
+        } else {
+            throw new IllegalStateException("Tried to add third connection to a NFA state!");
+        }
+    }
+    
+    public String dumpInfo() {
+        return "Type: " + type + ", symbol: " + symbol;
+    }
+
+    @Override
+    public String toString() {
+        String info = "Type: " + type + ", symbol: " + symbol;
+        if (arrowA != null)
+            info += ", A: " + arrowA.dumpInfo();
+        if (arrowB != null)
+            info += ", B: " + arrowB.dumpInfo();
+        return info;
     }
 }

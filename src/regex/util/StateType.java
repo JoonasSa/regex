@@ -2,5 +2,5 @@
 package regex.util;
 
 public enum StateType {
-    START, NORMAL, FINAL
+    START, NORMAL, END
 }
