@@ -62,6 +62,8 @@ The program takes a regex and/or a string as an input. The regexes are used to c
 
 [Thompson's contruction](https://en.wikipedia.org/wiki/Thompson%27s_construction)
 
+[Powerset construction](https://en.wikipedia.org/wiki/Powerset_construction)
+
 [A Regular Expression Matcher](http://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html)
 
 [Regex in Perl](https://perl.plover.com/Regex/article.html)
