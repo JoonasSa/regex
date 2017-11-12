@@ -10,3 +10,5 @@ Opin että \*-operaattoria implementointi naiivisti ei onnistu, koska regexissä
 En tiedä jäikö mikään niinkään epäselväksi. Lähinnä NFA:n konstruktoinnin käytännön toteutus aiheuttaa päänvaivaa, mutta löysin ihan hyvän esimerkin asialle niin uskon selviäväni hommasta ihan kunnialla.
 
 Ensiviikolla refaktoroin NFAConstructorin toimimaan rekursiivisesti ja alan implementoimaan \*, + ja | -operaattoreita varmaankin tuossa järjestyksessä. Toisaalta pitää miettiä olisiko |-operaattori viisainta tehdä ensin, koska se on varmaankin helppo tehdä rekursiivisella strategialla.
+
+Jostain syystä testcovin kanssa on jotain ongelmia. Pitänee korjata myös se jossai vaiheessa...
