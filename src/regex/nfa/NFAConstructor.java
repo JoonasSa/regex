@@ -19,6 +19,7 @@ public class NFAConstructor {
         return start;
     }
     
+    //make this recursive
     private NFAState recursiveBuild(NFAState prev) {
         while (regex.hasNextChar()) {
             char currentChar = regex.getNextChar();

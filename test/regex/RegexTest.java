@@ -1,40 +1,59 @@
 
 package regex;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import regex.input.RegexStringPreprocessor;
+import regex.nfa.NFAConstructor;
+import regex.nfa.NFAMatcher;
+import regex.nfa.NFAState;
 
 public class RegexTest {
     
-    public RegexTest() {
+    private boolean runWholeProgram(String regex, String input) {
+        regex = RegexStringPreprocessor.parseInput(regex);
+        NFAState start = new NFAConstructor().constructNFA(regex);
+        return new NFAMatcher(start).match(input);
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of main method, of class Regex.
-     */
+    //Simple inputs
     @Test
-    public void testMain() {
-        assertTrue(true);
+    public void simpleInputTrue1() {
+        assertTrue(runWholeProgram("abcde", "abcde"));
     }
     
+    @Test
+    public void simpleInputTrue2() {
+        assertTrue(runWholeProgram("lksdfljlsj", "lksdfljlsj"));
+    }
+    
+    @Test
+    public void simpleInputTrue3() {
+        assertTrue(runWholeProgram("isfsafiösaof", "isfsafiösaof"));
+    }
+    
+    @Test
+    public void simpleInputTrue4() {
+        assertTrue(runWholeProgram(" ", " "));
+    }
+    
+    @Test
+    public void simpleInputFalse1() {
+        assertFalse(runWholeProgram("abcd", "abcde"));
+    }
+    
+    @Test
+    public void simpleInputFalse2() {
+        assertFalse(runWholeProgram("lksdjlsj", "lksdfljlsj"));
+    }
+    
+    @Test
+    public void simpleInputFalse3() {
+        assertFalse(runWholeProgram("isfsafiösaoh", "isfsafiösaof"));
+    }
+    
+    @Test
+    public void simpleInputFalse4() {
+        assertFalse(runWholeProgram("a", ""));
+    }
 }
