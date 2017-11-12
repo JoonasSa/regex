@@ -30,6 +30,9 @@ public class NFAState {
         this.arrowB = null;
     }
     
+    /**
+     * @param state to set as one of the one of the next nfa states of the current state
+     */
     public void setNext(NFAState state) {
         if (this.arrowA == null) {
             this.arrowA = state;

@@ -23,6 +23,10 @@ public class NFAMatcher {
         this.queue.add(start);
     }
     
+    /**
+     * @param input string
+     * @return is the input string a match with the regex
+     */
     public boolean match(String input) {
         for (int i = 0; i < input.length(); i++) {
             System.out.println("char: " + input.charAt(i));
@@ -43,6 +47,10 @@ public class NFAMatcher {
         return false;
     }
     
+    /**
+     * @param current nfa state
+     * @param c current character in input string
+     */
     private void handleNFAState(NFAState current, char c) {
         System.out.println(current);
         if (transitionSymbol(current.arrowA, c)) {
@@ -64,6 +72,11 @@ public class NFAMatcher {
         }
     }
     
+    /**
+     * @param arrow points to connected state
+     * @param c current character in input string
+     * @return is valid transition
+     */
     private boolean transitionSymbol(NFAState arrow, char c) {
         if (arrow == null) {
             return false;
@@ -71,6 +84,10 @@ public class NFAMatcher {
         return arrow.symbol == c;
     }
     
+    /**
+     * @param arrow points to connected state
+     * @return is epsilon transition
+     */
     private boolean transitionEpsilon(NFAState arrow) {
         if (arrow == null) {
             return false;

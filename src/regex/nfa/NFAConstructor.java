@@ -6,9 +6,12 @@ import regex.util.StateType;
 
 public class NFAConstructor {
     
-    //star = rekursio handleStar
     private static InputString regex;
     
+    /**
+     * @param input regex
+     * @return first state of the NFA
+     */
     public NFAState constructNFA(String input) {
         System.out.println("input: " + input);
         regex = new InputString(input);
@@ -19,7 +22,7 @@ public class NFAConstructor {
         return start;
     }
     
-    //make this recursive
+    //make this recursive, should be able to link multiple states to end state
     private NFAState recursiveBuild(NFAState prev) {
         while (regex.hasNextChar()) {
             char currentChar = regex.getNextChar();
@@ -33,7 +36,7 @@ public class NFAConstructor {
         return prev;
     }
 
-    //this should be done recursively, though it doesn't work atm
+    //this should be done recursively, this approach doesn't work
     private void handleStar(NFAState prev) {
         NFAState start = new NFAState(regex.getNextChar());
         prev.setNext(start);

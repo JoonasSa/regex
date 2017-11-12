@@ -29,7 +29,7 @@ public class RegexTest {
     
     @Test
     public void simpleInputTrue3() {
-        assertTrue(runWholeProgram("isfsafiösaof", "isfsafiösaof"));
+        assertTrue(runWholeProgram("isfsafisaof", "isfsafisaof"));
     }
     
     @Test
