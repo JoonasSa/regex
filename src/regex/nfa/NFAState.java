@@ -23,6 +23,13 @@ public class NFAState {
         this.arrowB = null;
     }
     
+    public NFAState(StateType t) {
+        this.type = t;
+        this.symbol = 'a';
+        this.arrowA = null;
+        this.arrowB = null;
+    }
+    
     public void setNext(NFAState state) {
         if (this.arrowA == null) {
             this.arrowA = state;

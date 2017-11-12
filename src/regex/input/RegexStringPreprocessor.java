@@ -1,8 +1,6 @@
 
 package regex.input;
 
-import java.util.Arrays;
-
 public class RegexStringPreprocessor {
 
     public static String parseInput(String regex) {

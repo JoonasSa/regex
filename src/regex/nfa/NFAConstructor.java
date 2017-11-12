@@ -12,10 +12,9 @@ public class NFAConstructor {
     public NFAState constructNFA(String input) {
         System.out.println("input: " + input);
         regex = new InputString(input);
-        NFAState start = new NFAState(StateType.START, (char) 0);
-        NFAState end = new NFAState(StateType.END, (char) 0);
+        NFAState start = new NFAState(StateType.START, 'ε');
+        NFAState end = new NFAState(StateType.END, 'ε');
         NFAState prev = recursiveBuild(start);
-        System.out.println(prev);
         prev.setNext(end);
         return start;
     }
@@ -23,9 +22,9 @@ public class NFAConstructor {
     private NFAState recursiveBuild(NFAState prev) {
         while (regex.hasNextChar()) {
             char currentChar = regex.getNextChar();
-            if (currentChar == '.') {
-                handleStar(prev);
-            }
+            //if (currentChar == '.') {
+            //    handleStar(prev);
+            //}
             NFAState current = new NFAState(currentChar);
             prev.setNext(current);
             prev = current;
