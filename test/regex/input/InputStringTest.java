@@ -50,7 +50,37 @@ public class InputStringTest {
         assertFalse(input.hasNextChar());
     }
     
-    @Test(expected = IllegalStateException.class)  
+    @Test
+    public void getExpression1() {
+        assertEquals('a', new InputString("(abc)").getExpression().getNextChar());
+    }
+    
+    @Test
+    public void getExpression2() {
+        assertEquals('(', new InputString("((abc))").getExpression().getNextChar());
+    }
+    
+    @Test
+    public void getExpression3() {
+        assertEquals('a', new InputString("((a()b()c))").getExpression().getExpression().getNextChar());
+    }
+    
+    @Test(expected = IllegalStateException.class)
+    public void getExpressionException1() {
+        new InputString(")").getExpression();
+    }
+    
+    @Test(expected = IllegalStateException.class)
+    public void getExpressionException2() {
+        new InputString("(").getExpression();
+    }
+    
+    @Test(expected = IllegalStateException.class)
+    public void getExpressionException3() {
+        new InputString("((abc)").getExpression();
+    }
+    
+    @Test(expected = IllegalStateException.class)
     public void getNextCharThrowsExceptionTest() {
         input.getNextChar();
         input.getNextChar();
@@ -58,7 +88,7 @@ public class InputStringTest {
         input.getNextChar();
     }
     
-    @Test(expected = IllegalStateException.class)  
+    @Test(expected = IllegalStateException.class)
     public void peekNextCharThrowsExceptionTest() {
         input.getNextChar();
         input.getNextChar();

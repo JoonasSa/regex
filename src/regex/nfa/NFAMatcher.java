@@ -56,19 +56,11 @@ public class NFAMatcher {
         if (transitionSymbol(current.arrowA, c)) {
             NFAState next = current.arrowA;
             queue.add(next);
-            if (transitionEpsilon(next.arrowA)) {
-                queue.add(next.arrowA);
-            } else if (transitionEpsilon(next.arrowB)) {
-                queue.add(next.arrowB);
-            }
+            recursiveEpsilonTrasition(next);
         } else if (transitionSymbol(current.arrowB, c)) {
             NFAState next = current.arrowB;
             queue.add(next);
-            if (transitionEpsilon(next.arrowA)) {
-                queue.add(next.arrowA);
-            } else if (transitionEpsilon(next.arrowB)) {
-                queue.add(next.arrowB);
-            }
+            recursiveEpsilonTrasition(next);
         }
     }
     
@@ -85,13 +77,19 @@ public class NFAMatcher {
     }
     
     /**
-     * @param arrow points to connected state
-     * @return is epsilon transition
+     * @param state the current state to simulate epsilon transitions on
      */
-    private boolean transitionEpsilon(NFAState arrow) {
-        if (arrow == null) {
-            return false;
+    private void recursiveEpsilonTrasition(NFAState state) {
+        if (state == null) {
+            return;
         }
-        return arrow.symbol == 'ε';
+        if (state.arrowA != null && state.arrowA.symbol == 'ε') {
+            queue.add(state.arrowA);
+            recursiveEpsilonTrasition(state.arrowA);
+        }
+        if (state.arrowB != null && state.arrowB.symbol == 'ε') {
+            queue.add(state.arrowB);
+            recursiveEpsilonTrasition(state.arrowB);
+        }
     }
 }

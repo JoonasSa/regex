@@ -14,22 +14,22 @@ public class NFAConstructor {
      */
     public NFAState constructNFA(String input) {
         System.out.println("input: " + input);
-        regex = new InputString(input);
         NFAState start = new NFAState(StateType.START, 'ε');
         NFAState end = new NFAState(StateType.END, 'ε');
-        NFAState prev = recursiveBuild(start);
+        NFAState prev = recursiveBuild(start, new InputString(input));
         prev.setNext(end);
         return start;
     }
     
     //make this recursive, should be able to link multiple states to end state
-    private NFAState recursiveBuild(NFAState prev) {
+    private NFAState recursiveBuild(NFAState prev, InputString regex) {
+        NFAState current;
         while (regex.hasNextChar()) {
-            char currentChar = regex.getNextChar();
-            //if (currentChar == '.') {
-            //    handleStar(prev);
-            //}
-            NFAState current = new NFAState(currentChar);
+            if (regex.peekNextChar() == '(') {
+                current = recursiveBuild(prev, regex.getExpression());
+            } else {
+                current = new NFAState(regex.getNextChar());
+            }
             prev.setNext(current);
             prev = current;
         }
