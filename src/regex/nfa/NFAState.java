@@ -47,6 +47,7 @@ public class NFAState {
         return "Type: " + type + ", symbol: " + symbol;
     }
 
+    //could use better logging for debugging
     @Override
     public String toString() {
         String info = "Type: " + type + ", symbol: " + symbol;

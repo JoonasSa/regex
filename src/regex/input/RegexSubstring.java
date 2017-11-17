@@ -4,13 +4,15 @@ package regex.input;
 import java.util.Stack;
 import regex.util.CharacterClassifier;
 
-public class InputString {
+public class RegexSubstring {
     private final String input;
     private int index;
+    private Character symbol;
     
-    public InputString(String i) {
+    public RegexSubstring(String i) {
         this.input = i;
         this.index = 0;
+        this.symbol = null;
     }
     
     public boolean hasNextChar() {
@@ -23,7 +25,16 @@ public class InputString {
         return input.charAt(index++);
     }
     
-    public InputString getExpression() {
+    public char peekNextChar() {
+        if (index == input.length())
+            throw new IllegalStateException("Trying to peek index out of bounds");
+        return input.charAt(index);
+    }
+    
+    /**
+     * @return InputString that contains the next nested regex expression i.e. (a(b)c)* returns new InputString("a(b)c")
+     */
+    public RegexSubstring getExpression() {
         Stack<Character> stack = new Stack<>();
         String expression = "";
         this.index++; //move past first parentheses
@@ -46,18 +57,27 @@ public class InputString {
         if (leftParentheses != 0) {
             throw new IllegalStateException("Invalid parentheses.");
         }
-        //parentheses might have a special symbol after them
+        RegexSubstring sub = new RegexSubstring(expression);
+        //parentheses might have a regex symbol after them
         if (this.hasNextChar()) {
             if (CharacterClassifier.isRegexCharacter(this.peekNextChar())) {
-                expression += this.getNextChar();
+                sub.setRegexSymbol(this.getNextChar());
             }
         }
-        return new InputString(expression);
+        return sub;
     }
     
-    public char peekNextChar() {
-        if (index == input.length())
-            throw new IllegalStateException("Trying to peek index out of bounds");
-        return input.charAt(index);
+    public void setRegexSymbol(char symbol) {
+        this.symbol = symbol;
     }
+    
+    public Character getRegexSymbol() {
+        if (this.symbol == null) {
+            return null;
+        }
+        char c = this.symbol;
+        this.symbol = null;
+        return c;
+    }
+    
 }

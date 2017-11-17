@@ -14,7 +14,7 @@ public class NFAMatcher {
         3. If there are still more characters in the input string return to 2 reading the next char c.
         4. If one of the dequeued states was the final state and the input string has been read then the input string is matched.
         Otherwise the string is not matched.
-     */
+    */
     
     private Queue<NFAState> queue;
     

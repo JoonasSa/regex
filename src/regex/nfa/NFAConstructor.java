@@ -1,13 +1,13 @@
-
 package regex.nfa;
 
-import regex.input.InputString;
+import regex.input.RegexSubstring;
+import regex.util.CharacterClassifier;
 import regex.util.StateType;
 
 public class NFAConstructor {
-    
-    private static InputString regex;
-    
+
+    private static RegexSubstring regex;
+
     /**
      * @param input regex
      * @return first state of the NFA
@@ -16,40 +16,44 @@ public class NFAConstructor {
         System.out.println("input: " + input);
         NFAState start = new NFAState(StateType.START, 'ε');
         NFAState end = new NFAState(StateType.END, 'ε');
-        NFAState prev = recursiveBuild(start, new InputString(input));
+        NFAState prev = recursiveBuild(start, new RegexSubstring(input));
         prev.setNext(end);
         return start;
     }
-    
-    //make this recursive, should be able to link multiple states to end state
-    private NFAState recursiveBuild(NFAState prev, InputString regex) {
+
+    //should be able to link multiple states to end state
+    /**
+     * @param input regex
+     * @return first state of the NFA
+     */
+    private NFAState recursiveBuild(NFAState prev, RegexSubstring regex) {
         NFAState current;
         while (regex.hasNextChar()) {
             if (regex.peekNextChar() == '(') {
                 current = recursiveBuild(prev, regex.getExpression());
             } else {
-                current = new NFAState(regex.getNextChar());
+                Character symbol = regex.getRegexSymbol();
+                if (symbol != null) {
+                    current = kleeneStar(prev, regex);
+                } else {
+                    //this is probaply not right => think about it
+                    current = new NFAState(regex.getNextChar());
+                    prev.setNext(current);
+                }
             }
-            prev.setNext(current);
             prev = current;
         }
         return prev;
     }
 
-    //this should be done recursively, this approach doesn't work
-    private void handleStar(NFAState prev) {
-        NFAState start = new NFAState(regex.getNextChar());
-        prev.setNext(start);
-        prev = start;
-        while (regex.peekNextChar() != '*') {
-            NFAState current = new NFAState(regex.getNextChar());
-            prev.setNext(current);
-            prev = current;
-        }
-        prev.setNext(start);
-        System.out.println(prev);
-        regex.getNextChar(); //move past *
-        regex.getNextChar(); //move past .
+    //doesn't work
+    private NFAState kleeneStar(NFAState prev, RegexSubstring regex) {
+        NFAState starFirst = new NFAState('ε');
+        prev.setNext(starFirst);
+        recursiveBuild(starFirst, regex);
+        NFAState starLast = new NFAState('ε');
+        prev.setNext(starLast);
+        return starLast;
     }
 
 }
