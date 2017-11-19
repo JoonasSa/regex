@@ -8,3 +8,5 @@ Tällä viikolla tuli taas opittua taukojen ja suunnittelun hyödyllisyys. Käyt
 Ei oikeestaan ole enää mitään epäselvyyksiä. Uskon tässä vaiheessa että saan vietyä projektin loppuun saakka kunnialla. 
 
 Ensiviikolla jatkan NFA generointi toiminnallisuuden parissa. Alan myös varmaan edistää regex preprosessointia. Saa nähdä aionko vielä implementoida tässä projektissa NFA -> DFA muutosta. Se riippuu varmaankin täysin siitä kuinka paljon saan ensi viikolla tuota NFA generointia tehtyä.
+
+Ainiin ja en vieläkään saanut tuota codecovia toimimaan. En ymmärrä ollenkaan mikä siinä mättää. Se ei vain löydä repoani ilmeisesti...
