@@ -30,7 +30,7 @@ public class NFAConstructorTest {
     @Test
     public void correctLastStateType() {
         NFAState start = constructor.constructNFA("a");
-        assertEquals(StateType.END, start.arrowA.arrowA.type);
+        assertEquals(StateType.END, start.arrowA.arrowA.arrowA.type);
     }
     
     @Test
@@ -42,18 +42,18 @@ public class NFAConstructorTest {
     @Test
     public void correctMidStateSymbol() {
         NFAState start = constructor.constructNFA("a");
-        assertEquals('a', start.arrowA.symbol);
+        assertEquals('a', start.arrowA.arrowA.symbol);
     }
     
     @Test
     public void correctLastStateSymbol() {
         NFAState start = constructor.constructNFA("a");
-        assertEquals('ε', start.arrowA.arrowA.symbol);
+        assertEquals('ε', start.arrowA.arrowA.arrowA.symbol);
     }
     
     @Test
     public void toStringTest() {
         NFAState start = constructor.constructNFA("a");
-        assertEquals("Type: START, symbol: ε, A: Type: NORMAL, symbol: a", start.toString());
+        assertEquals("Type: START, symbol: ε, A: Type: NORMAL, symbol: ε", start.toString());
     }
 }

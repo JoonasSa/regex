@@ -7,12 +7,10 @@ import regex.util.CharacterClassifier;
 public class RegexSubstring {
     private final String input;
     private int index;
-    private Character symbol;
     
     public RegexSubstring(String i) {
         this.input = i;
         this.index = 0;
-        this.symbol = null;
     }
     
     public boolean hasNextChar() {
@@ -57,27 +55,7 @@ public class RegexSubstring {
         if (leftParentheses != 0) {
             throw new IllegalStateException("Invalid parentheses.");
         }
-        RegexSubstring sub = new RegexSubstring(expression);
-        //parentheses might have a regex symbol after them
-        if (this.hasNextChar()) {
-            if (CharacterClassifier.isRegexCharacter(this.peekNextChar())) {
-                sub.setRegexSymbol(this.getNextChar());
-            }
-        }
-        return sub;
+        return new RegexSubstring(expression);
     }
-    
-    public void setRegexSymbol(char symbol) {
-        this.symbol = symbol;
-    }
-    
-    public Character getRegexSymbol() {
-        if (this.symbol == null) {
-            return null;
-        }
-        char c = this.symbol;
-        this.symbol = null;
-        return c;
-    }
-    
+
 }

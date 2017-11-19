@@ -20,7 +20,7 @@ public class NFAMatcher {
     
     public NFAMatcher(NFAState start) {
         this.queue = new LinkedList<>();
-        this.queue.add(start);
+        recursiveEpsilonTransition(start);
     }
     
     /**
@@ -29,7 +29,6 @@ public class NFAMatcher {
      */
     public boolean match(String input) {
         for (int i = 0; i < input.length(); i++) {
-            System.out.println("char: " + input.charAt(i));
             queue.add(new NFAState(StateType.QUEUE_END));
             while (true) {
                 NFAState current = queue.poll();
@@ -52,15 +51,14 @@ public class NFAMatcher {
      * @param c current character in input string
      */
     private void handleNFAState(NFAState current, char c) {
-        System.out.println(current);
         if (transitionSymbol(current.arrowA, c)) {
             NFAState next = current.arrowA;
             queue.add(next);
-            recursiveEpsilonTrasition(next);
+            recursiveEpsilonTransition(next);
         } else if (transitionSymbol(current.arrowB, c)) {
             NFAState next = current.arrowB;
             queue.add(next);
-            recursiveEpsilonTrasition(next);
+            recursiveEpsilonTransition(next);
         }
     }
     
@@ -79,17 +77,17 @@ public class NFAMatcher {
     /**
      * @param state the current state to simulate epsilon transitions on
      */
-    private void recursiveEpsilonTrasition(NFAState state) {
+    private void recursiveEpsilonTransition(NFAState state) {
         if (state == null) {
             return;
         }
         if (state.arrowA != null && state.arrowA.symbol == 'ε') {
             queue.add(state.arrowA);
-            recursiveEpsilonTrasition(state.arrowA);
+            recursiveEpsilonTransition(state.arrowA);
         }
         if (state.arrowB != null && state.arrowB.symbol == 'ε') {
             queue.add(state.arrowB);
-            recursiveEpsilonTrasition(state.arrowB);
+            recursiveEpsilonTransition(state.arrowB);
         }
     }
 }

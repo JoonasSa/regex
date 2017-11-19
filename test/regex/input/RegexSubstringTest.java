@@ -49,31 +49,7 @@ public class RegexSubstringTest {
         regex.getNextChar();
         assertFalse(regex.hasNextChar());
     }
-    
-    @Test
-    public void getRegexSymbolTest1() {
-        assertNull(regex.getRegexSymbol());
-    }
-    
-    @Test
-    public void getRegexSymbolTest2() {
-        regex = new RegexSubstring("(abc)*");
-        assertEquals(new Character('*'), regex.getExpression().getRegexSymbol());
-    }
-    
-    @Test
-    public void getRegexSymbolTest3() {
-        regex.setRegexSymbol('a');
-        regex.getRegexSymbol();
-        assertNull(regex.getRegexSymbol());
-    }
-    
-    @Test
-    public void setRegexSymbolTest() {
-        regex.setRegexSymbol('a');
-        assertEquals(new Character('a'), regex.getRegexSymbol());
-    }
-    
+
     @Test
     public void getExpression1() {
         assertEquals('a', new RegexSubstring("(abc)").getExpression().getNextChar());

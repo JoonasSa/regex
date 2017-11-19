@@ -56,4 +56,45 @@ public class RegexTest {
     public void simpleInputFalse4() {
         assertFalse(runWholeProgram("a", ""));
     }
+    
+    //Union inputs
+    @Test
+    public void unionInputTrue1() {
+        assertTrue(runWholeProgram("a|b", "a"));
+    }
+    
+    @Test
+    public void unionInputTrue2() {
+        assertTrue(runWholeProgram("a|b", "b"));
+    }
+    
+    @Test
+    public void unionInputTrue3() {
+        assertTrue(runWholeProgram("a|b|c", "c"));
+    }
+    
+    @Test
+    public void unionInputTrue4() {
+        assertTrue(runWholeProgram("a|b|c|aa|bb|cc", "bb"));
+    }
+    
+    @Test
+    public void unionInputFalse1() {
+        assertFalse(runWholeProgram("a|b", ""));
+    }
+    
+    @Test
+    public void unionInputFalse2() {
+        assertFalse(runWholeProgram("a|b", "ab"));
+    }
+    
+    @Test
+    public void unionInputFalse3() {
+        assertFalse(runWholeProgram("a|b|c", "d"));
+    }
+    
+    @Test
+    public void unionInputFalse4() {
+        assertFalse(runWholeProgram("a|b|c|aa|bb|cc", "ab"));
+    }
 }
