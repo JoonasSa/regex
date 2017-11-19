@@ -22,10 +22,11 @@ public class NFAConstructor {
         return start;
     }
 
-    //should be able to link multiple states to end state
     /**
-     * @param input regex
-     * @return first state of the NFA
+     * @param componentStart first state of the part currently under construction
+     * @param prev the previous NFAState
+     * @param regex the input regex
+     * @return last state of the constructed NFA part
      */
     private NFAState recursiveBuild(NFAState componentStart, NFAState prev, RegexSubstring regex) {
         while (regex.hasNextChar()) {
@@ -55,7 +56,14 @@ public class NFAConstructor {
         }
         return prev;
     }
-
+    
+    /**
+     * @param componentStart first state of the part currently under construction
+     * @param prev the previous NFAState
+     * @param regex the input regex
+     * @param c current character from the input string
+     * @return last state of the constructed NFA part
+     */
     private NFAState handleRegexSymbol(NFAState componentStart, NFAState prev, RegexSubstring regex, char c) {
         switch (c) {
             case '|':
@@ -69,6 +77,12 @@ public class NFAConstructor {
     }
 
     //doesn't work
+    /**
+     * @param componentStart first state of the part currently under construction
+     * @param prev the previous NFAState
+     * @param regex the input regex
+     * @return last state of the constructed NFA kleene start part
+     */
     private NFAState kleeneStar(NFAState componentStart, NFAState prev, RegexSubstring regex) {
         NFAState starFirst = new NFAState('ε');
         prev.setNext(starFirst);
@@ -78,6 +92,12 @@ public class NFAConstructor {
         return starLast;
     }
 
+    /**
+     * @param componentStart first state of the part currently under construction
+     * @param prev the previous NFAState
+     * @param regex the input regex
+     * @return last state of the constructed NFA union part
+     */
     private NFAState union(NFAState componentStart, NFAState prev, RegexSubstring regex) {
         //Union first split
         NFAState startA = componentStart.arrowA; //arrowA component is already built

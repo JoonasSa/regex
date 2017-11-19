@@ -1,7 +1,6 @@
 
 package regex.input;
 
-import java.util.Stack;
 import regex.util.CharacterClassifier;
 
 public class RegexSubstring {
@@ -33,7 +32,6 @@ public class RegexSubstring {
      * @return InputString that contains the next nested regex expression i.e. (a(b)c)* returns new InputString("a(b)c")
      */
     public RegexSubstring getExpression() {
-        Stack<Character> stack = new Stack<>();
         String expression = "";
         this.index++; //move past first parentheses
         int leftParentheses = 1; //therefore increase leftParentheses by one

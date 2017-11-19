@@ -1,7 +1,6 @@
 package regex.nfa;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import regex.datastructure.Queue;
 import regex.util.StateType;
 
 public class NFAMatcher {
@@ -16,10 +15,10 @@ public class NFAMatcher {
         Otherwise the string is not matched.
     */
     
-    private Queue<NFAState> queue;
+    private Queue queue;
     
     public NFAMatcher(NFAState start) {
-        this.queue = new LinkedList<>();
+        this.queue = new Queue(100); //todo different sizes
         recursiveEpsilonTransition(start);
     }
     
@@ -29,9 +28,9 @@ public class NFAMatcher {
      */
     public boolean match(String input) {
         for (int i = 0; i < input.length(); i++) {
-            queue.add(new NFAState(StateType.QUEUE_END));
+            queue.enqueue(new NFAState(StateType.QUEUE_END));
             while (true) {
-                NFAState current = queue.poll();
+                NFAState current = queue.dequeue();
                 if (current.type == StateType.QUEUE_END) {
                     break;
                 }
@@ -39,7 +38,7 @@ public class NFAMatcher {
             }
         }
         while (!queue.isEmpty()) {
-            if (queue.poll().type == StateType.END) {
+            if (queue.dequeue().type == StateType.END) {
                 return true;
             }
         }
@@ -53,11 +52,11 @@ public class NFAMatcher {
     private void handleNFAState(NFAState current, char c) {
         if (transitionSymbol(current.arrowA, c)) {
             NFAState next = current.arrowA;
-            queue.add(next);
+            queue.enqueue(next);
             recursiveEpsilonTransition(next);
         } else if (transitionSymbol(current.arrowB, c)) {
             NFAState next = current.arrowB;
-            queue.add(next);
+            queue.enqueue(next);
             recursiveEpsilonTransition(next);
         }
     }
@@ -75,18 +74,18 @@ public class NFAMatcher {
     }
     
     /**
-     * @param state the current state to simulate epsilon transitions on
+     * @param state to simulate epsilon transitions on
      */
     private void recursiveEpsilonTransition(NFAState state) {
         if (state == null) {
             return;
         }
         if (state.arrowA != null && state.arrowA.symbol == 'ε') {
-            queue.add(state.arrowA);
+            queue.enqueue(state.arrowA);
             recursiveEpsilonTransition(state.arrowA);
         }
         if (state.arrowB != null && state.arrowB.symbol == 'ε') {
-            queue.add(state.arrowB);
+            queue.enqueue(state.arrowB);
             recursiveEpsilonTransition(state.arrowB);
         }
     }
