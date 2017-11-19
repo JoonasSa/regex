@@ -13,7 +13,7 @@ public class NFAConstructor {
      * @return first state of the NFA
      */
     public NFAState constructNFA(String input) {
-        System.out.println("input: " + input);
+        System.out.println("regex input: " + input);
         NFAState start = new NFAState(StateType.START, 'ε');
         NFAState epsilon = new NFAState(StateType.NORMAL, 'ε');
         start.setNext(epsilon);
@@ -31,7 +31,6 @@ public class NFAConstructor {
     private NFAState recursiveBuild(NFAState componentStart, NFAState prev, RegexSubstring regex) {
         while (regex.hasNextChar()) {
             char c = regex.getNextChar();
-            System.out.println("current char " + c);
             if (CharacterClassifier.isRegexCharacter(c)) {
                 prev = handleRegexSymbol(componentStart, prev, regex, c);
             } else {
@@ -40,13 +39,13 @@ public class NFAConstructor {
                     case '(':
                         current = recursiveBuild(new NFAState(regex.getNextChar()), prev, regex.getExpression());
                     case ')':
+                        //if there is a * or + after this we need to call kleenestar with componentStart as prev
                         if (CharacterClassifier.isRegexCharacter(regex.peekNextChar())) {
                             return handleRegexSymbol(start, prev, regex, regex.getNextChar());
                         }
                         return prev;
                     */
                     default:
-                        System.out.println("default");
                         NFAState current = new NFAState(c);
                         prev.setNext(current);
                         prev = current;
@@ -70,25 +69,25 @@ public class NFAConstructor {
                 prev = union(componentStart, prev, regex);
                 break;
             case '*':
-                prev = kleeneStar(componentStart, prev, regex);
+                prev = kleeneStar(prev, regex);
                 break;
         }
         return prev;
     }
 
-    //doesn't work
+    //DOESN'T WORK => NFAStates might need a parent field
+    //function to insert a epsilon state in between parent or child states might turn out to be very useful
     /**
      * @param componentStart first state of the part currently under construction
      * @param prev the previous NFAState
      * @param regex the input regex
      * @return last state of the constructed NFA kleene start part
      */
-    private NFAState kleeneStar(NFAState componentStart, NFAState prev, RegexSubstring regex) {
-        NFAState starFirst = new NFAState('ε');
-        prev.setNext(starFirst);
-        recursiveBuild(componentStart, starFirst, regex);
+    private NFAState kleeneStar(NFAState prev, RegexSubstring regex) {
         NFAState starLast = new NFAState('ε');
         prev.setNext(starLast);
+        NFAState starFirst = new NFAState('ε');
+        starLast.setNext(starFirst);
         return starLast;
     }
 

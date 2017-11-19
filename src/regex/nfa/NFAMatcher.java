@@ -27,6 +27,7 @@ public class NFAMatcher {
      * @return is the input string a match with the regex
      */
     public boolean match(String input) {
+        System.out.println("input string: " + input);
         for (int i = 0; i < input.length(); i++) {
             queue.enqueue(new NFAState(StateType.QUEUE_END));
             while (true) {
