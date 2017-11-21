@@ -69,25 +69,40 @@ public class NFAConstructor {
                 prev = union(componentStart, prev, regex);
                 break;
             case '*':
-                prev = kleeneStar(prev, regex);
+                prev = kleeneStar(componentStart, prev);
+                break;
+            case '+':
+                prev = plus(componentStart, prev);
                 break;
         }
         return prev;
     }
 
-    //DOESN'T WORK => NFAStates might need a parent field
+    //works correctly for single characters?
     //function to insert a epsilon state in between parent or child states might turn out to be very useful
     /**
      * @param componentStart first state of the part currently under construction
      * @param prev the previous NFAState
-     * @param regex the input regex
      * @return last state of the constructed NFA kleene start part
      */
-    private NFAState kleeneStar(NFAState prev, RegexSubstring regex) {
+    private NFAState kleeneStar(NFAState componentStart, NFAState prev) {
         NFAState starLast = new NFAState('ε');
         prev.setNext(starLast);
-        NFAState starFirst = new NFAState('ε');
-        starLast.setNext(starFirst);
+        prev.setNext(componentStart);
+        componentStart.setNext(starLast);
+        return starLast;
+    }
+    
+    //works correctly?
+    /**
+     * @param componentStart first state of the part currently under construction
+     * @param prev the previous NFAState
+     * @return last state of the constructed NFA kleene start part
+     */
+    private NFAState plus(NFAState componentStart, NFAState prev) {
+        NFAState starLast = new NFAState('ε');
+        prev.setNext(starLast);
+        prev.setNext(componentStart);
         return starLast;
     }
 

@@ -57,6 +57,48 @@ public class RegexTest {
         assertFalse(runWholeProgram("a", ""));
     }
     
+    //Kleene star tests
+    @Test
+    public void kleeneStarInputTrue1() {
+        assertTrue(runWholeProgram("a*", "a"));
+    }
+    
+    @Test
+    public void kleeneStarInputTrue2() {
+        assertTrue(runWholeProgram("a*", "aaa"));
+    }
+    
+    @Test
+    public void kleeneStarInputTrue3() {
+        assertTrue(runWholeProgram("a*", ""));
+    }
+    
+    @Test
+    public void kleeneStarInputFalse1() {
+        assertFalse(runWholeProgram("a*", "b"));
+    }
+    
+    //Plus tests
+    @Test
+    public void plusInputTrue1() {
+        assertTrue(runWholeProgram("a+", "a"));
+    }
+    
+    @Test
+    public void plusInputTrue2() {
+        assertTrue(runWholeProgram("a+", "aaa"));
+    }
+    
+    @Test
+    public void plusInputFalse1() {
+        assertFalse(runWholeProgram("a+", ""));
+    }
+    
+    @Test
+    public void plusInputFalse2() {
+        assertFalse(runWholeProgram("a+", "b"));
+    }
+    
     //Union inputs
     @Test
     public void unionInputTrue1() {
@@ -97,4 +139,5 @@ public class RegexTest {
     public void unionInputFalse4() {
         assertFalse(runWholeProgram("a|b|c|aa|bb|cc", "ab"));
     }
+
 }

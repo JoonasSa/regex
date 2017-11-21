@@ -14,10 +14,12 @@ public class Regex {
         //preprocess regex string
         //String regex = RegexStringPreprocessor.parseInput(input);
         //consruct nfa from processed regex string
-        NFAState start = new NFAConstructor().constructNFA("a|b|c|ac|bc|cc");
+        NFAState start = new NFAConstructor().constructNFA("a*");
         //match input string on the nfa created from regex string
-        boolean result = new NFAMatcher(start).match("cc");
+        boolean result = new NFAMatcher(start).match("aaa");
         System.out.println("The input string match was: " + result);
     }
+    
+    //TODO LIST: sulkeet, preprosessointi (lisä syntaksia, kuten [0-9], [a-zA-Z], \*), NFA -> DFA
     
 }
