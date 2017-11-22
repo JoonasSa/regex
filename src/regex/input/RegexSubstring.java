@@ -1,8 +1,6 @@
 
 package regex.input;
 
-import regex.util.CharacterClassifier;
-
 public class RegexSubstring {
     private final String input;
     private int index;

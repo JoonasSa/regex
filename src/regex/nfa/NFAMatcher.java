@@ -29,17 +29,20 @@ public class NFAMatcher {
     public boolean match(String input) {
         System.out.println("input string: " + input);
         for (int i = 0; i < input.length(); i++) {
-            queue.enqueue(new NFAState(StateType.QUEUE_END));
+            queue.enqueue(new NFAState(StateType.QUEUE_END, 'a'));
             while (true) {
                 NFAState current = queue.dequeue();
                 if (current.type == StateType.QUEUE_END) {
                     break;
                 }
+                System.out.println(current);
                 handleNFAState(current, input.charAt(i));
             }
         }
         while (!queue.isEmpty()) {
-            if (queue.dequeue().type == StateType.END) {
+            NFAState s = queue.dequeue();
+            System.out.println("dequeu: " + s);
+            if (s.type == StateType.END) {
                 return true;
             }
         }
@@ -55,7 +58,8 @@ public class NFAMatcher {
             NFAState next = current.arrowA;
             queue.enqueue(next);
             recursiveEpsilonTransition(next);
-        } else if (transitionSymbol(current.arrowB, c)) {
+        } 
+        if (transitionSymbol(current.arrowB, c)) {
             NFAState next = current.arrowB;
             queue.enqueue(next);
             recursiveEpsilonTransition(next);

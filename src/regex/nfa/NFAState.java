@@ -12,24 +12,15 @@ public class NFAState {
     public NFAState(StateType t, char s) {
         this.type = t;
         this.symbol = s;
-        this.arrowA = null;
-        this.arrowB = null;
+        this.arrowA = this.arrowB = null;
     }
     
     public NFAState(char s) {
         this.type = StateType.NORMAL;
         this.symbol = s;
-        this.arrowA = null;
-        this.arrowB = null;
+        this.arrowA = this.arrowB = null;
     }
-    
-    public NFAState(StateType t) {
-        this.type = t;
-        this.symbol = 'a';
-        this.arrowA = null;
-        this.arrowB = null;
-    }
-    
+
     /**
      * @param state to set as one of the one of the next nfa states of the current state
      */
@@ -41,6 +32,16 @@ public class NFAState {
         } else {
             throw new IllegalStateException("Tried to add third connection to a NFA state!");
         }
+    }
+    
+    /**
+     * @return Deep copy of the NFAState
+     */
+    public NFAState getCopy() {
+        NFAState s = new NFAState(this.type, this.symbol);
+        s.setNext(this.arrowA);
+        s.setNext(this.arrowB);
+        return s;
     }
     
     public String dumpInfo() {

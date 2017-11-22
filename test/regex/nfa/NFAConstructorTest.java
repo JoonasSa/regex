@@ -50,10 +50,5 @@ public class NFAConstructorTest {
         NFAState start = constructor.constructNFA("a");
         assertEquals('ε', start.arrowA.arrowA.arrowA.symbol);
     }
-    
-    @Test
-    public void toStringTest() {
-        NFAState start = constructor.constructNFA("a");
-        assertEquals("Type: START, symbol: ε, A: Type: NORMAL, symbol: ε", start.toString());
-    }
+
 }

@@ -23,7 +23,8 @@ public class NFAConstructor {
     }
 
     /**
-     * @param componentStart first state of the part currently under construction
+     * @param componentStart first state of the part currently under
+     * construction
      * @param prev the previous NFAState
      * @param regex the input regex
      * @return last state of the constructed NFA part
@@ -44,7 +45,7 @@ public class NFAConstructor {
                             return handleRegexSymbol(start, prev, regex, regex.getNextChar());
                         }
                         return prev;
-                    */
+                     */
                     default:
                         NFAState current = new NFAState(c);
                         prev.setNext(current);
@@ -55,9 +56,10 @@ public class NFAConstructor {
         }
         return prev;
     }
-    
+
     /**
-     * @param componentStart first state of the part currently under construction
+     * @param componentStart first state of the part currently under
+     * construction
      * @param prev the previous NFAState
      * @param regex the input regex
      * @param c current character from the input string
@@ -78,24 +80,33 @@ public class NFAConstructor {
         return prev;
     }
 
-    //works correctly for single characters?
-    //function to insert a epsilon state in between parent or child states might turn out to be very useful
+    //buggy doesn't work corretly
     /**
-     * @param componentStart first state of the part currently under construction
+     * @param componentStart first state of the part currently under
+     * construction
      * @param prev the previous NFAState
      * @return last state of the constructed NFA kleene start part
      */
     private NFAState kleeneStar(NFAState componentStart, NFAState prev) {
         NFAState starLast = new NFAState('ε');
-        prev.setNext(starLast);
-        prev.setNext(componentStart);
+        NFAState starFirst = componentStart.getCopy();
+        componentStart = new NFAState('ε');
+        /*componentStart.symbol = 'ε';
+        componentStart.arrowA = null;
+        componentStart.arrowB = null;*/
+        componentStart.setNext(starFirst);
         componentStart.setNext(starLast);
+        prev.setNext(starLast);
+        prev.setNext(starFirst);
+        System.out.println("componenStart: " + componentStart);
+        System.out.println("starFirst: " + starFirst);
         return starLast;
     }
-    
-    //works correctly?
+
+    //refactor into kleene star, doesn't work
     /**
-     * @param componentStart first state of the part currently under construction
+     * @param componentStart first state of the part currently under
+     * construction
      * @param prev the previous NFAState
      * @return last state of the constructed NFA kleene start part
      */
@@ -107,7 +118,8 @@ public class NFAConstructor {
     }
 
     /**
-     * @param componentStart first state of the part currently under construction
+     * @param componentStart first state of the part currently under
+     * construction
      * @param prev the previous NFAState
      * @param regex the input regex
      * @return last state of the constructed NFA union part
