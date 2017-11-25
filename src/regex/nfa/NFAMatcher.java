@@ -35,13 +35,13 @@ public class NFAMatcher {
                 if (current.type == StateType.QUEUE_END) {
                     break;
                 }
-                System.out.println(current);
+                //System.out.println("current: " + current);
                 handleNFAState(current, input.charAt(i));
             }
         }
         while (!queue.isEmpty()) {
             NFAState s = queue.dequeue();
-            System.out.println("dequeu: " + s);
+            //System.out.println("dequeue: " + s);
             if (s.type == StateType.END) {
                 return true;
             }
@@ -85,6 +85,7 @@ public class NFAMatcher {
         if (state == null) {
             return;
         }
+        //System.out.println("epsilon: " + state);
         if (state.arrowA != null && state.arrowA.symbol == 'ε') {
             queue.enqueue(state.arrowA);
             recursiveEpsilonTransition(state.arrowA);

@@ -5,20 +5,19 @@ import regex.util.StateType;
 
 public class NFAState {
     public StateType type;
-    public NFAState arrowA;
-    public NFAState arrowB;
+    public NFAState arrowA = null;
+    public NFAState arrowB = null;
     public char symbol;
+    public String name = null;
     
     public NFAState(StateType t, char s) {
         this.type = t;
         this.symbol = s;
-        this.arrowA = this.arrowB = null;
     }
     
     public NFAState(char s) {
         this.type = StateType.NORMAL;
         this.symbol = s;
-        this.arrowA = this.arrowB = null;
     }
 
     /**

@@ -58,7 +58,6 @@ public class RegexTest {
     }
     
     //Kleene star tests
-    
     @Test
     public void kleeneStarInputTrue1() {
         assertTrue(runWholeProgram("a*", "a"));
@@ -68,7 +67,7 @@ public class RegexTest {
     public void kleeneStarInputTrue2() {
         assertTrue(runWholeProgram("a*", "aaa"));
     }
-    /* FIX THESE
+    
     @Test
     public void kleeneStarInputTrue3() {
         assertTrue(runWholeProgram("a*", ""));
@@ -83,7 +82,7 @@ public class RegexTest {
     public void kleeneStarInputTrue5() {
         assertTrue(runWholeProgram("b*a*", "aa"));
     }
-    */
+    
     @Test
     public void kleeneStarInputFalse1() {
         assertFalse(runWholeProgram("a*", "b"));
@@ -169,12 +168,27 @@ public class RegexTest {
     
     @Test
     public void complicatedInputTrue2() {
-        assertTrue(runWholeProgram("a*|b*", "bb"));
+        assertTrue(runWholeProgram("a*|b*", "bbbb"));
     }
     
     @Test
     public void complicatedInputTrue3() {
         assertTrue(runWholeProgram("a*|b*|c", "c"));
+    }
+    
+    @Test
+    public void complicatedInputTrue4() {
+        assertTrue(runWholeProgram("ab*|c", "abb"));
+    }
+    
+    @Test
+    public void complicatedInputTrue5() {
+        assertTrue(runWholeProgram("a*b*|c*b*", "cbb"));
+    }
+    
+    @Test
+    public void complicatedInputTrue6() {
+        assertTrue(runWholeProgram("a*b*|c*b*", ""));
     }
 
     @Test

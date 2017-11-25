@@ -88,18 +88,24 @@ public class NFAConstructor {
      * @return last state of the constructed NFA kleene start part
      */
     private NFAState kleeneStar(NFAState componentStart, NFAState prev) {
-        NFAState starLast = new NFAState('ε');
         NFAState starFirst = componentStart.getCopy();
-        componentStart = new NFAState('ε');
-        /*componentStart.symbol = 'ε';
+        NFAState starLast = new NFAState('ε');
         componentStart.arrowA = null;
-        componentStart.arrowB = null;*/
+        componentStart.arrowB = null;
         componentStart.setNext(starFirst);
         componentStart.setNext(starLast);
-        prev.setNext(starLast);
         prev.setNext(starFirst);
-        System.out.println("componenStart: " + componentStart);
+        prev.setNext(starLast);
+        /*
+        prev.name = "prev";
+        componentStart.name = "component start";
+        starFirst.name = "star first";
+        starLast.name = "star last";
+        System.out.println("componentStart: " + componentStart);
+        System.out.println("prev: " + prev);
         System.out.println("starFirst: " + starFirst);
+        System.out.println("starLast: " + starLast);
+        */
         return starLast;
     }
 
@@ -125,21 +131,40 @@ public class NFAConstructor {
      * @return last state of the constructed NFA union part
      */
     private NFAState union(NFAState componentStart, NFAState prev, RegexSubstring regex) {
-        //Union first split
+        //Create new union start state
+        NFAState unionA = componentStart.getCopy();
+        componentStart.symbol = 'ε';
+        componentStart.arrowA = null;
+        componentStart.arrowB = null;
+        componentStart.setNext(unionA); //Union 1. split
+        NFAState unionB = new NFAState('ε');
+        componentStart.setNext(unionB); //Union 2. split
+        NFAState unionBLast = recursiveBuild(unionB, unionB, regex);
+        NFAState unionLast = new NFAState('ε'); //Link both union sides to a union end state
+        prev.setNext(unionLast);
+        unionBLast.setNext(unionLast);
+        return unionLast;
+    }
+    
+    /*
+    //OLD
+    //Create new union start state
+        NFAState unionFirst = componentStart.getCopy();
+        //Union 1. split
         NFAState startA = componentStart.arrowA; //arrowA component is already built
         componentStart.arrowA = null;
-        NFAState unionFirst = new NFAState('ε'); //new epsilon transition to union split
-        componentStart.setNext(unionFirst);
-        unionFirst.setNext(startA);
-        //Union second split
-        NFAState unionSecond = new NFAState('ε'); //new epsilon transition to union split
-        componentStart.setNext(unionSecond);
-        NFAState unionSecondEnd = recursiveBuild(unionSecond, unionSecond, regex);
+        NFAState unionA = new NFAState('ε');
+        componentStart.setNext(unionA);
+        unionA.setNext(startA);
+        //Union 2. split
+        NFAState unionB = new NFAState('ε');
+        componentStart.setNext(unionB);
+        NFAState unionBLast = recursiveBuild(unionB, unionB, regex);
         //Link both union sides to a union end state
-        NFAState unionEnd = new NFAState('ε');
-        prev.setNext(unionEnd); //link first union part to union end state
-        unionSecondEnd.setNext(unionEnd); //link second union part to union end state
-        return unionEnd;
-    }
+        NFAState unionLast = new NFAState('ε');
+        prev.setNext(unionLast); //link first union part to union end state
+        unionBLast.setNext(unionLast); //link second union part to union end state
+        return unionLast;
+    */
 
 }
