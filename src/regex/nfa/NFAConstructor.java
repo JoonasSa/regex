@@ -16,9 +16,12 @@ public class NFAConstructor {
         System.out.println("regex input: " + input);
         NFAState start = new NFAState(StateType.START, 'ε');
         NFAState epsilon = new NFAState(StateType.NORMAL, 'ε');
+        //epsilon.name = "epsilon";
         start.setNext(epsilon);
         NFAState prev = recursiveBuild(epsilon, epsilon, new RegexSubstring(input));
         prev.setNext(new NFAState(StateType.END, 'ε'));
+        //System.out.println("epsilon: " + epsilon);
+        //System.out.println("last: " + prev);
         return start;
     }
 
@@ -42,7 +45,7 @@ public class NFAConstructor {
                     case ')':
                         //if there is a * or + after this we need to call kleenestar with componentStart as prev
                         if (CharacterClassifier.isRegexCharacter(regex.peekNextChar())) {
-                            return handleRegexSymbol(start, prev, regex, regex.getNextChar());
+                            return handleRegexSymbol(componentStart, prev, regex, regex.getNextChar());
                         }
                         return prev;
                      */
@@ -80,7 +83,7 @@ public class NFAConstructor {
         return prev;
     }
 
-    //buggy doesn't work corretly
+    //buggy doesn't work correctly
     /**
      * @param componentStart first state of the part currently under
      * construction
@@ -94,11 +97,13 @@ public class NFAConstructor {
         componentStart.arrowB = null;
         componentStart.setNext(starFirst);
         componentStart.setNext(starLast);
-        prev.setNext(starFirst);
-        prev.setNext(starLast);
+        if (componentStart != prev) {
+            prev.setNext(starFirst);
+            prev.setNext(starLast);
+        }
         /*
-        prev.name = "prev";
-        componentStart.name = "component start";
+        prev.name = "kleeneStarPrev";
+        componentStart.name = "componentStart";
         starFirst.name = "star first";
         starLast.name = "star last";
         System.out.println("componentStart: " + componentStart);
@@ -143,6 +148,17 @@ public class NFAConstructor {
         NFAState unionLast = new NFAState('ε'); //Link both union sides to a union end state
         prev.setNext(unionLast);
         unionBLast.setNext(unionLast);
+        /*
+        unionA.name = "unionA";
+        unionB.name = "unionB";
+        unionBLast.name = "union B last";
+        unionLast.name = "union last";
+        System.out.println("componentStart: " + componentStart);
+        System.out.println("unionA: " + unionA);
+        System.out.println("unionB: " + unionB);
+        System.out.println("unionBLast: " + unionBLast);
+        System.out.println("unionLast: " + unionLast);
+        */
         return unionLast;
     }
     

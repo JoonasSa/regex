@@ -8,7 +8,7 @@ public class NFAState {
     public NFAState arrowA = null;
     public NFAState arrowB = null;
     public char symbol;
-    public String name = null;
+    public String name = null; //used for debugging, will be removed at some point
     
     public NFAState(StateType t, char s) {
         this.type = t;
