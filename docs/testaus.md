@@ -38,3 +38,7 @@ Niitä on neljänlaisia:
 
 Testille annetaan syötteenä regex ja/tai input, sekä toistojen määrä n. Testi toistetaan n-kertaa ja tuloksena saadaan n-ajon keskiarvo millisekuntteina.
 
+
+
+`Mittauksia en ehtinyt vielä pahemmin tehdä, mutta niitä lisäillään tänne kun niitä valmistuu. Toivottavasti saadaan myös jotain kivoja visualisointeja niistä.`
+
