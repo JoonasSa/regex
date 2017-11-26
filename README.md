@@ -3,7 +3,8 @@
 ## Documentation
 
 [project definition](docs/definition.md)
-
+[program implementation](docs/implementation.md)
+[testaus dokumentti](docs/testaus.md)
 
 
 ![travis](https://travis-ci.org/JoonasSa/regex.svg?branch=master)
