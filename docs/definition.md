@@ -26,9 +26,9 @@ Preprocessing removes all the syntactical sugar from the regex. For example [1-5
 NFA is given the input string for matching. It handles the input by using these rules:
 
 1. To start, enqueue the first state to active states queue Q.
-2. Whenever the machine reads an input character c, dequeue all the states from Q one by one. If a dequeued state X has an outgoing arrow(s) labeled c add the state(s) at the end of the arrow(s) to Q. If there is a blank arrow leading from state X to Y, then whenever X is enqueued to Q, also enqueue Y to Q.
-3. If there are still more characters in the input string return to 2 reading the next char c. 
-4. If one of the dequeued states was the final state and the input string has been read then the input string is matched. Otherwise the string is not matched.
+2. Whenever the machine reads an input character c, dequeue all the states from Q one by one. If a dequeued state X has an outgoing transition(s) labeled c add the state(s) at the end of the transition(s) to Q. If there is a blank (ε) transition leading from state X to Y, then whenever X is enqueued to Q, also enqueue Y to Q. The machined continues enqueuing all subsequent states with blank transition recursively until it can't.   
+3. If there are still more characters in the input string return to 2 and read the next char c. 
+4. When the input string is read. Dequeu all the states from Q if any one of them was the final state then the input string is matched. Otherwise the string is not matched.
 
 ## Data structures
 
