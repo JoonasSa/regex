@@ -24,4 +24,4 @@ Integraatiotesti:
 5. Verrataan oikeasti palautettua totuusarvoa ja haluttua totuusarvoa
 
 Integraatiotesteissä on tarkoitus testata mahdollisimman erilaisia (helppoja ja hankalia) regexejä ja merkkijonoja. 
-Esimerkiksi helppo: `regex: ab, merkkijono: ab`, hankalampi: `regex: a*b*|c*b*, merkkijono: acc`.
+Esimerkiksi helppo: `regex: ab, merkkijono: ab, expect: true`, hankalampi: `regex: a*b*|c*b*, merkkijono: acc, expect: true`.
