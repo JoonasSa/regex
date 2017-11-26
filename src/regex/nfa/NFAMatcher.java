@@ -75,7 +75,7 @@ public class NFAMatcher {
         if (arrow == null) {
             return false;
         }
-        return arrow.symbol == c;
+        return arrow.symbol == c || arrow.symbol == 0; //0 is wild card
     }
     
     /**

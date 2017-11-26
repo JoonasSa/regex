@@ -57,6 +57,38 @@ public class RegexTest {
         assertFalse(runWholeProgram("a", ""));
     }
     
+    //Wild card tests
+    
+    @Test
+    public void wildCardInputTrue1() {
+        assertTrue(runWholeProgram(".", "a"));
+    }
+    
+    @Test
+    public void wildCardInputTrue2() {
+        assertTrue(runWholeProgram(".", "b"));
+    }
+    
+    @Test
+    public void wildCardInputTrue3() {
+        assertTrue(runWholeProgram("..", "ab"));
+    }
+    
+    @Test
+    public void wildCardInputTrue4() {
+        assertTrue(runWholeProgram("a.a", "aba"));
+    }
+    
+    @Test
+    public void wildCardInputFalse1() {
+        assertFalse(runWholeProgram(".", ""));
+    }
+    
+    @Test
+    public void wildCardInputFalse2() {
+        assertFalse(runWholeProgram("..", "a"));
+    }
+    
     //Kleene star tests
     @Test
     public void kleeneStarInputTrue1() {
@@ -176,6 +208,7 @@ public class RegexTest {
         assertTrue(runWholeProgram("a*|b*|c", "c"));
     }
     
+    //FAILS
     @Test
     public void complicatedInputTrue4() {
         assertTrue(runWholeProgram("ab*|c", "abb"));
@@ -183,11 +216,17 @@ public class RegexTest {
     
     @Test
     public void complicatedInputTrue5() {
-        assertTrue(runWholeProgram("a*b*|c*b*", "cbb"));
+        assertTrue(runWholeProgram("a*b*|c*b*", "bbbb"));
+    }
+    
+    //FAILS
+    @Test
+    public void complicatedInputTrue6() {
+        assertTrue(runWholeProgram("a*b*|c*b*", "acc"));
     }
     
     @Test
-    public void complicatedInputTrue6() {
+    public void complicatedInputTrue7() {
         assertTrue(runWholeProgram("a*b*|c*b*", ""));
     }
 

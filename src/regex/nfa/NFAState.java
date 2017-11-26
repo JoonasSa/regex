@@ -44,17 +44,46 @@ public class NFAState {
     }
     
     public String dumpInfo() {
-        return "Type: " + type + ", symbol: " + symbol;
+        String s = "";
+        if (name != null) 
+            s += ", name: " + name;
+        return "Type: " + type + ", symbol: " + symbol + s;
     }
 
-    //could use better logging for debugging
     @Override
     public String toString() {
         String info = "Type: " + type + ", symbol: " + symbol;
+        if (name != null)
+            info += ", name: " + name;
         if (arrowA != null)
-            info += ", A: " + arrowA.dumpInfo();
+            info += " | A: " + arrowA.dumpInfo();
         if (arrowB != null)
-            info += ", B: " + arrowB.dumpInfo();
+            info += " | B: " + arrowB.dumpInfo();
         return info;
     }
+    /*
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj.getClass() != NFAState.class) {
+            return false;
+        }
+        NFAState other = (NFAState) obj;
+        System.out.println("equals: " + this + "  &  " + other);
+        if (this.arrowA != null) {
+            if (this.arrowB != null) {
+                if (!this.arrowA.dumpInfo().equals(this.arrowB.dumpInfo()))
+                    return false;
+            } else {
+                return false;
+            } 
+        } else {
+            if (this.arrowB != null)
+                return false;
+        }
+        return this.type == other.type && this.symbol == other.symbol;
+    }
+    */
 }

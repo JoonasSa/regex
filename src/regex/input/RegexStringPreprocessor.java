@@ -11,12 +11,8 @@ public class RegexStringPreprocessor {
         char[] parsed = new char[regex.length()];
         for (int i = 0; i < regex.length(); i++) {
             switch (regex.charAt(i)) {
-                case '(':
-                    parsed[i] = '.';
-                    break;
-                case ')': //*, + etc
-                    parsed[i] = regex.charAt(++i);
-                    parsed[i] = '.';
+                case '.':
+                    parsed[i] = 0; //metachar for wild card .
                     break;
                 default:
                     parsed[i] = regex.charAt(i);

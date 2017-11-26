@@ -58,7 +58,7 @@ public class NFAStateTest {
     public void toStringTest() {
         NFAState s = new NFAState(StateType.START, 'ε');
         s.setNext(new NFAState('a'));
-        assertEquals("Type: START, symbol: ε, A: Type: NORMAL, symbol: a", s.toString());
+        assertEquals("Type: START, symbol: ε | A: Type: NORMAL, symbol: a", s.toString());
     }
     
 }
