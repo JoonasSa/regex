@@ -35,7 +35,7 @@ public class NFAConstructor {
     private NFAState recursiveBuild(NFAState componentStart, NFAState prev, RegexSubstring regex) {
         while (regex.hasNextChar()) {
             char c = regex.getNextChar();
-            if (CharacterClassifier.isRegexCharacter(c)) {
+            if (CharacterClassifier.isRegexSymbol(c)) {
                 prev = handleRegexSymbol(componentStart, prev, regex, c);
             } else {
                 switch (c) {

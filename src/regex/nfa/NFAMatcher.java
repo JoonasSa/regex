@@ -1,6 +1,7 @@
 package regex.nfa;
 
 import regex.datastructure.Queue;
+import regex.util.CharacterClassifier;
 import regex.util.StateType;
 
 public class NFAMatcher {
@@ -75,7 +76,22 @@ public class NFAMatcher {
         if (arrow == null) {
             return false;
         }
-        return arrow.symbol == c || arrow.symbol == 0; //0 is wild card
+        //transition symbol is of a special character class
+        if (arrow.symbol > 0 && arrow.symbol < 6) {
+            switch (arrow.symbol) {
+                case 1:
+                    return CharacterClassifier.isClassD(c); //digit
+                case 2:
+                    return CharacterClassifier.isClassA(c); //alphabet
+                case 3:
+                    return CharacterClassifier.isClassL(c); //lowercase letter
+                case 4:
+                    return CharacterClassifier.isClassU(c); //uppercase letter
+                case 5:
+                    return CharacterClassifier.isClassW(c); //digit or alphabet or _
+            }
+        }
+        return arrow.symbol == c || arrow.symbol == 0; //0 is wildcard
     }
     
     /**

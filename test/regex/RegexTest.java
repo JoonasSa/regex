@@ -18,18 +18,8 @@ public class RegexTest {
     
     //Simple inputs
     @Test
-    public void simpleInputTrue1() {
-        assertTrue(runWholeProgram("abcde", "abcde"));
-    }
-    
-    @Test
-    public void simpleInputTrue2() {
-        assertTrue(runWholeProgram("lksdfljlsj", "lksdfljlsj"));
-    }
-    
-    @Test
-    public void simpleInputTrue3() {
-        assertTrue(runWholeProgram("isfsafisaof", "isfsafisaof"));
+    public void simpleInputTrue() {
+        assertTrue(runWholeProgram("abcdefghijklmnopqrstuwvxyz", "abcdefghijklmnopqrstuwvxyz"));
     }
     
     @Test
@@ -57,8 +47,7 @@ public class RegexTest {
         assertFalse(runWholeProgram("a", ""));
     }
     
-    //Wild card tests
-    
+    //Special character classes
     @Test
     public void wildCardInputTrue1() {
         assertTrue(runWholeProgram(".", "a"));
@@ -87,6 +76,81 @@ public class RegexTest {
     @Test
     public void wildCardInputFalse2() {
         assertFalse(runWholeProgram("..", "a"));
+    }
+    
+    @Test
+    public void classDInputTrue() {
+        assertTrue(runWholeProgram("a\\da", "a1a"));
+    }
+    
+    @Test
+    public void classDInputFalse() {
+        assertFalse(runWholeProgram("\\d", "a"));
+    }
+    
+    @Test
+    public void classAInputTrue() {
+        assertTrue(runWholeProgram("a\\aa", "aba"));
+    }
+    
+    @Test
+    public void classAInputFalse() {
+        assertFalse(runWholeProgram("\\a", "1"));
+    }
+    
+    @Test
+    public void classLInputTrue() {
+        assertTrue(runWholeProgram("a\\la", "aba"));
+    }
+    
+    @Test
+    public void classLInputFalse1() {
+        assertFalse(runWholeProgram("\\l", "A"));
+    }
+    
+    @Test
+    public void classLInputFalse2() {
+        assertFalse(runWholeProgram("\\l", "1"));
+    }
+    
+    @Test
+    public void classUInputTrue() {
+        assertTrue(runWholeProgram("a\\ua", "aBa"));
+    }
+    
+    @Test
+    public void classUInputFalse1() {
+        assertFalse(runWholeProgram("\\u", "a"));
+    }
+    
+    @Test
+    public void classUInputFalse2() {
+        assertFalse(runWholeProgram("\\u", "1"));
+    }
+    
+    @Test
+    public void classWInputTrue1() {
+        assertTrue(runWholeProgram("a\\wa", "aba"));
+    }
+    
+    @Test
+    public void classWInputTrue2() {
+        assertTrue(runWholeProgram("a\\wa", "a1a"));
+    }
+    
+    @Test
+    public void classWInputTrue3() {
+        assertTrue(runWholeProgram("a\\wa", "a_a"));
+    }
+    
+    @Test
+    public void classWInputTrue4() {
+        assertTrue(runWholeProgram("a\\wa", "aBa"));
+    }
+    
+    @Test
+    public void classWInputFalse() {
+        assertFalse(runWholeProgram("\\w", "-"));
     }
     
     //Kleene star tests
@@ -228,6 +292,11 @@ public class RegexTest {
     @Test
     public void complicatedInputTrue7() {
         assertTrue(runWholeProgram("a*b*|c*b*", ""));
+    }
+    
+    @Test
+    public void complicatedInputTrue8() {
+        assertTrue(runWholeProgram("\\d\\a\\l\\u\\w", "1abC_"));
     }
 
     @Test
