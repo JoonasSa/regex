@@ -298,6 +298,12 @@ public class RegexTest {
         assertTrue(runWholeProgram("(\\d|b)*", "1b2b3bbbbb44"));
     }
     
+    //BUG: Thinks \d\w is a single component like so (\d\w)*
+    @Test
+    public void complicatedInputTrue9() {
+        assertTrue(runWholeProgram("(\\d\\w*|\\a|\\l*)", "1"));
+    }
+    
     @Test
     public void complicatedInputFalse1() {
         assertFalse(runWholeProgram("(a*|b*)", "bba"));
