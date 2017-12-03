@@ -6,8 +6,6 @@ import regex.util.StateType;
 
 public class NFAConstructor {
 
-    private static RegexSubstring regex;
-
     /**
      * @param input regex
      * @return first state of the NFA
@@ -33,25 +31,39 @@ public class NFAConstructor {
      * @return last state of the constructed NFA part
      */
     private NFAState recursiveBuild(NFAState componentStart, NFAState prev, RegexSubstring regex) {
+        System.out.println("regex: " + regex);
+        NFAState current;
         while (regex.hasNextChar()) {
-            char c = regex.getNextChar();
+            char c = regex.peekNextChar();
+            System.out.println("character: " + c);
             if (CharacterClassifier.isRegexSymbol(c)) {
-                prev = handleRegexSymbol(componentStart, prev, regex, c);
+                prev = handleRegexSymbol(componentStart, prev, regex, regex.getNextChar());
             } else {
                 switch (c) {
-                    /*
                     case '(':
-                        current = recursiveBuild(new NFAState(regex.getNextChar()), prev, regex.getExpression());
+                        System.out.println("(");
+                        NFAState substringStart = new NFAState('ε');
+                        current = recursiveBuild(substringStart, substringStart, regex.getExpression());
+                        //prev.setNext(current);
+                        System.out.println("recursive prev: " + prev);
+                        prev = current;
+                        System.out.println("recursive current: " + current);
+                        break;
+                    /*
                     case ')':
+                        System.out.println(")");
                         //if there is a * or + after this we need to call kleenestar with componentStart as prev
-                        if (CharacterClassifier.isRegexCharacter(regex.peekNextChar())) {
+                        if (CharacterClassifier.isRegexSymbol(regex.peekNextChar())) {
                             return handleRegexSymbol(componentStart, prev, regex, regex.getNextChar());
                         }
+                        System.out.println("prev: " + prev);
                         return prev;
-                     */
+                    */
                     default:
-                        NFAState current = new NFAState(c);
+                        System.out.println("default");
+                        current = new NFAState(regex.getNextChar());
                         prev.setNext(current);
+                        System.out.println("prev: " + prev);
                         prev = current;
                         break;
                 }
@@ -91,8 +103,11 @@ public class NFAConstructor {
      * @return last state of the constructed NFA kleene start part
      */
     private NFAState kleeneStar(NFAState componentStart, NFAState prev) {
-        NFAState starFirst = componentStart.getCopy();
+        System.out.println("componentStart before getCopy: " + componentStart); //is epsilon with no connections
+        NFAState starFirst = componentStart.getCopy(); //is right?
         NFAState starLast = new NFAState('ε');
+        System.out.println("componentStart after getCopy: " + componentStart);
+        componentStart.symbol = 'ε';
         componentStart.arrowA = null;
         componentStart.arrowB = null;
         componentStart.setNext(starFirst);
@@ -136,7 +151,33 @@ public class NFAConstructor {
      * @return last state of the constructed NFA union part
      */
     private NFAState union(NFAState componentStart, NFAState prev, RegexSubstring regex) {
-        //Create new union start state
+        System.out.println("union componentStart: " + componentStart);
+        NFAState unionFirst = new NFAState('ε'); //Create new union start state
+        NFAState unionA = componentStart.getLatestArrow();
+        componentStart.removeLatestArrow();
+        componentStart.setNext(unionFirst);
+        unionFirst.setNext(unionA); //Union 1. split
+        NFAState unionB = new NFAState('ε'); //get next char => problems with \char
+        unionFirst.setNext(unionB); //Union 2. split
+        NFAState unionBLast = recursiveBuild(unionB, unionB, regex);
+        NFAState unionLast = new NFAState('ε'); //Link both union sides to a union end state
+        prev.setNext(unionLast);
+        unionBLast.setNext(unionLast);
+        unionA.name = "unionA";
+        unionB.name = "unionB";
+        unionBLast.name = "union B last";
+        unionLast.name = "union last";
+        System.out.println("componentStart: " + componentStart);
+        System.out.println("unionA: " + unionA);
+        System.out.println("unionB: " + unionB);
+        System.out.println("unionBLast: " + unionBLast);
+        System.out.println("unionLast: " + unionLast);
+        System.out.println("union prev " + prev);
+        return unionLast;
+    }
+    
+    /*
+    //Create new union start state
         NFAState unionA = componentStart.getCopy();
         componentStart.symbol = 'ε';
         componentStart.arrowA = null;
@@ -148,7 +189,6 @@ public class NFAConstructor {
         NFAState unionLast = new NFAState('ε'); //Link both union sides to a union end state
         prev.setNext(unionLast);
         unionBLast.setNext(unionLast);
-        /*
         unionA.name = "unionA";
         unionB.name = "unionB";
         unionBLast.name = "union B last";
@@ -158,28 +198,7 @@ public class NFAConstructor {
         System.out.println("unionB: " + unionB);
         System.out.println("unionBLast: " + unionBLast);
         System.out.println("unionLast: " + unionLast);
-        */
-        return unionLast;
-    }
-    
-    /*
-    //OLD
-    //Create new union start state
-        NFAState unionFirst = componentStart.getCopy();
-        //Union 1. split
-        NFAState startA = componentStart.arrowA; //arrowA component is already built
-        componentStart.arrowA = null;
-        NFAState unionA = new NFAState('ε');
-        componentStart.setNext(unionA);
-        unionA.setNext(startA);
-        //Union 2. split
-        NFAState unionB = new NFAState('ε');
-        componentStart.setNext(unionB);
-        NFAState unionBLast = recursiveBuild(unionB, unionB, regex);
-        //Link both union sides to a union end state
-        NFAState unionLast = new NFAState('ε');
-        prev.setNext(unionLast); //link first union part to union end state
-        unionBLast.setNext(unionLast); //link second union part to union end state
+        System.out.println("union prev " + prev);
         return unionLast;
     */
 

@@ -54,4 +54,9 @@ public class RegexSubstring {
         return new RegexSubstring(expression);
     }
 
+    @Override
+    public String toString() {
+        return "input: " + this.input + ", index: " + this.index;
+    }
+    
 }

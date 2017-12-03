@@ -43,6 +43,26 @@ public class NFAState {
         return s;
     }
     
+    /**
+     * @return Deep copy of the latest added NFAState
+     */
+    public NFAState getLatestArrow() {
+        if (this.arrowB != null) {
+            return this.arrowB;
+        } else if (this.arrowA != null) {
+            return this.arrowA;
+        }
+        return null;
+    }
+    
+    public void removeLatestArrow() {
+        if (this.arrowB != null) {
+            this.arrowB = null;
+        } else if (this.arrowA != null) {
+            this.arrowA = null;
+        }
+    }
+    
     public String dumpInfo() {
         String s = "";
         if (name != null) 
@@ -61,29 +81,5 @@ public class NFAState {
             info += " | B: " + arrowB.dumpInfo();
         return info;
     }
-    /*
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj.getClass() != NFAState.class) {
-            return false;
-        }
-        NFAState other = (NFAState) obj;
-        System.out.println("equals: " + this + "  &  " + other);
-        if (this.arrowA != null) {
-            if (this.arrowB != null) {
-                if (!this.arrowA.dumpInfo().equals(this.arrowB.dumpInfo()))
-                    return false;
-            } else {
-                return false;
-            } 
-        } else {
-            if (this.arrowB != null)
-                return false;
-        }
-        return this.type == other.type && this.symbol == other.symbol;
-    }
-    */
+    
 }

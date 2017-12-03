@@ -55,6 +55,61 @@ public class NFAStateTest {
     }
     
     @Test
+    public void getLatestArrow1() {
+        NFAState s = new NFAState('a');
+        NFAState a = s.getLatestArrow();
+        assertEquals(null, a);
+    }
+    
+    @Test
+    public void getLatestArrow2() {
+        NFAState s = new NFAState('a');
+        NFAState b = new NFAState('b');
+        s.setNext(b);
+        NFAState a = s.getLatestArrow();
+        assertEquals(a.symbol, b.symbol);
+    }
+    
+    @Test
+    public void getLatestArrow3() {
+        NFAState s = new NFAState('a');
+        s.setNext(new NFAState('c'));
+        NFAState b = new NFAState('b');
+        s.setNext(b);
+        NFAState a = s.getLatestArrow();
+        assertEquals(a.symbol, b.symbol);
+    }
+    
+    @Test
+    public void removeLatestArrow1() {
+        NFAState s = new NFAState('a');
+        s.setNext(new NFAState('b'));
+        s.removeLatestArrow();
+        assertEquals(null, s.arrowA);
+    }
+    
+    @Test
+    public void removeLatestArrow2() {
+        NFAState s = new NFAState('a');
+        NFAState b = new NFAState('b');
+        s.setNext(b);
+        s.setNext(new NFAState('c'));
+        s.removeLatestArrow();
+        assertEquals(b, s.arrowA);
+    }
+    
+    @Test
+    public void removeLatestArrow3() {
+        NFAState s = new NFAState('a');
+        NFAState b = new NFAState('b');
+        s.setNext(b);
+        s.setNext(new NFAState('c'));
+        s.removeLatestArrow();
+        s.removeLatestArrow();
+        assertEquals(null, s.arrowA);
+    }
+    
+    @Test
     public void toStringTest() {
         NFAState s = new NFAState(StateType.START, 'ε');
         s.setNext(new NFAState('a'));

@@ -23,12 +23,14 @@ public class Regex {
         System.out.println("The input string match was: " + result);
     }
     
-    /*TODO LIST: 
+    /*TODO LIST:
     0. kleene star (toimii nyt nii kuin kaikki ennen * olevat merkit olisi sulkeissa) ja plus
     => ongelma se ettei algo nyt osaa tulkita oikein missä on komponenttien alut millekin erikoismerkille => fix
     1. sulkeet
     2. preprosessointi (lisä syntaksia, kuten [0-9], [a-zA-Z], \*)
-    3. paremmat kommentit nfa konstruktoriin
-    x. NFA -> DFA
+    2.1 muuta regex symbolit vastaamaan lukuja => nyt kaikki \char voidaan esiprosessoida => NFAkonstruktorin ei tarvitse välittää \ merkistä
+    3. komentoriviltä ajettava ohjelma
+    4. testimittaukset ja niiden esittäminen (pandas?)
+    x. paremmat kommentit nfa konstruktoriin + siistiminen
     */
 }
