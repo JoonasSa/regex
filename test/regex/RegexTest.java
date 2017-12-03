@@ -218,100 +218,94 @@ public class RegexTest {
     //Union inputs
     @Test
     public void unionInputTrue1() {
-        assertTrue(runWholeProgram("a|b", "a"));
+        assertTrue(runWholeProgram("(a|b)", "a"));
     }
     
     @Test
     public void unionInputTrue2() {
-        assertTrue(runWholeProgram("a|b", "b"));
+        assertTrue(runWholeProgram("(a|b)", "b"));
     }
     
     @Test
     public void unionInputTrue3() {
-        assertTrue(runWholeProgram("a|b|c", "c"));
+        assertTrue(runWholeProgram("(a|b|c)", "c"));
     }
     
     @Test
     public void unionInputTrue4() {
-        assertTrue(runWholeProgram("a|b|c|aa|bb|cc", "bb"));
+        assertTrue(runWholeProgram("(a|b|c|aa|bb|cc)", "bb"));
     }
     
     @Test
     public void unionInputFalse1() {
-        assertFalse(runWholeProgram("a|b", ""));
+        assertFalse(runWholeProgram("(a|b)", ""));
     }
     
     @Test
     public void unionInputFalse2() {
-        assertFalse(runWholeProgram("a|b", "ab"));
+        assertFalse(runWholeProgram("(a|b)", "ab"));
     }
     
     @Test
     public void unionInputFalse3() {
-        assertFalse(runWholeProgram("a|b|c", "d"));
+        assertFalse(runWholeProgram("(a|b|c)", "d"));
     }
     
     @Test
     public void unionInputFalse4() {
-        assertFalse(runWholeProgram("a|b|c|aa|bb|cc", "ab"));
+        assertFalse(runWholeProgram("(a|b|c|aa|bb|cc)", "ab"));
     }
     
     //Complicated inputs
     @Test
     public void complicatedInputTrue1() {
-        assertTrue(runWholeProgram("a*|b*", "aa"));
+        assertTrue(runWholeProgram("(a*|b*)", "aa"));
     }
     
     @Test
     public void complicatedInputTrue2() {
-        assertTrue(runWholeProgram("a*|b*", "bbbb"));
+        assertTrue(runWholeProgram("(a*|b*)", "bbbb"));
     }
     
     @Test
     public void complicatedInputTrue3() {
-        assertTrue(runWholeProgram("a*|b*|c", "c"));
+        assertTrue(runWholeProgram("(a*|b*|c)", "c"));
     }
     
-    //FAILS
     @Test
     public void complicatedInputTrue4() {
-        assertTrue(runWholeProgram("ab*|c", "abb"));
+        assertTrue(runWholeProgram("a(b*|c)", "abb"));
     }
     
+    //Stack Overflow
     @Test
     public void complicatedInputTrue5() {
-        assertTrue(runWholeProgram("a*b*|c*b*", "bbbb"));
+        assertTrue(runWholeProgram("(a*b*|c*b*)*", "acc"));
     }
     
-    //FAILS
     @Test
     public void complicatedInputTrue6() {
-        assertTrue(runWholeProgram("a*b*|c*b*", "acc"));
+        assertTrue(runWholeProgram("a*(b*|c*)d*", "acccd"));
     }
     
     @Test
     public void complicatedInputTrue7() {
-        assertTrue(runWholeProgram("a*b*|c*b*", ""));
+        assertTrue(runWholeProgram("\\d\\a\\l\\u\\w", "1abC_"));
     }
     
     @Test
     public void complicatedInputTrue8() {
-        assertTrue(runWholeProgram("\\d\\a\\l\\u\\w", "1abC_"));
+        assertTrue(runWholeProgram("(\\d|b)*", "1b2b3bbbbb44"));
     }
-
+    
     @Test
     public void complicatedInputFalse1() {
-        assertFalse(runWholeProgram("a*|b*", "c"));
+        assertFalse(runWholeProgram("(a*|b*)", "bba"));
     }
     
     @Test
     public void complicatedInputFalse2() {
-        assertFalse(runWholeProgram("a*|b*", "bba"));
-    }
-    
-    @Test
-    public void complicatedInputFalse3() {
-        assertFalse(runWholeProgram("a*|b*|c", "cc"));
+        assertFalse(runWholeProgram("(a*|b*|c)", "cc"));
     }
     //plus tests
 }

@@ -11,8 +11,8 @@ public class Regex {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String regex = ".";
-        String input = "a";
+        String regex = "ba*";
+        String input = "baba";
         //preprocess regex string
         regex = RegexStringPreprocessor.parseInput(regex);
         System.out.println("regex: " + regex);
@@ -24,7 +24,7 @@ public class Regex {
     }
     
     /*TODO LIST:
-    0. kleene star (toimii nyt nii kuin kaikki ennen * olevat merkit olisi sulkeissa) ja plus
+    0. kleene star (toimii nyt niin kuin kaikki ennen * olevat merkit olisi sulkeissa) ja plus
     => ongelma se ettei algo nyt osaa tulkita oikein missä on komponenttien alut millekin erikoismerkille => fix
     1. sulkeet
     2. preprosessointi (lisä syntaksia, kuten [0-9], [a-zA-Z], \*)
