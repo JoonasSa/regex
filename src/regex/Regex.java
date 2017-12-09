@@ -11,14 +11,13 @@ public class Regex {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String regex = "ab+";
-        String input = "abbbb";
+        String regex = "(ab|cd)+";
+        String input = "";
         //boolean result = new RegexBenchmark().getBenchmark('a', 10, regex, input);
         //System.out.println("\nThe input string match was: " + result);
         
         //preprocess regex string
         regex = RegexStringPreprocessor.parseInput(regex);
-        System.out.println("regex: " + regex);
         //consruct nfa from processed regex string
         NFAState start = new NFAConstructor().constructNFA(regex); //abcde*|c
         //match input string on the nfa created from regex string

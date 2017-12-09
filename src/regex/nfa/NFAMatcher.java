@@ -30,7 +30,7 @@ public class NFAMatcher {
     public boolean match(String input) {
         System.out.println("input string: " + input);
         for (int i = 0; i < input.length(); i++) {
-            queue.enqueue(new NFAState(StateType.QUEUE_END, 'a'));
+            queue.enqueue(new NFAState(StateType.QUEUE_END, 'ε'));
             while (true) {
                 NFAState current = queue.dequeue();
                 if (current.type == StateType.QUEUE_END) {

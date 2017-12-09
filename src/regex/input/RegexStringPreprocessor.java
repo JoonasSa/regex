@@ -7,6 +7,7 @@ public class RegexStringPreprocessor {
      * @return preprocessed regex
      */
     public static String parseInput(String regex) {
+        regex = convertPlusToStar(regex);
         char[] parsed = new char[regex.length()];
         int index = 0;
         for (int i = 0; i < regex.length(); i++) {
@@ -23,11 +24,7 @@ public class RegexStringPreprocessor {
             }
             index++;
         }
-        char[] correctedForLength = new char[index];
-        for (int i = 0; i < index; i++) {
-            correctedForLength[i] = parsed[i];
-        }
-        return new String(correctedForLength);
+        return new String(removeNulls(index, parsed));
     }
 
     private static int backslash(char c, char[] parsed, int i, int index) {
@@ -55,4 +52,50 @@ public class RegexStringPreprocessor {
         }
         return i;
     }
+    
+    private static char[] removeNulls(int index, char[] parsed) {
+        char[] correctedForLength = new char[index];
+        System.arraycopy(parsed, 0, correctedForLength, 0, index); //remove extra indexes
+        return correctedForLength;
+    }
+    
+    private static String convertPlusToStar(String regex) {
+        String parsed = "";
+        for (int i = regex.length() - 1; i > -1; i--) {
+            if (regex.charAt(i) == '+') {
+                parsed += '*';
+                if (regex.charAt(i - 1) == ')') {
+                    String expression = "";
+                    i--;
+                    int rightParentheses = 1;
+                    while (i > -1) {
+                        char c = regex.charAt(--i);
+                        if (c == '(') {
+                            rightParentheses--;
+                        } else if (c == ')') {
+                            rightParentheses++;
+                        }
+                        if (rightParentheses < 0) {
+                            throw new IllegalStateException("Invalid parentheses.");
+                        }
+                        if (rightParentheses == 0) {
+                            break;
+                        }
+                        expression += c;
+                    }
+                    parsed += ")" + expression + "(" + ")" + expression + "(";
+                } else {
+                    parsed += regex.charAt(i - 1);
+                }
+            } else {
+                parsed += regex.charAt(i);
+            }
+        }
+        String reversed = "";
+        for (int i = parsed.length() - 1; i > -1; i--) {
+            reversed += parsed.charAt(i);
+        }
+        return reversed;
+    }
+    
 }

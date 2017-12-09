@@ -11,7 +11,7 @@ public class NFAConstructor {
      * @return first state of the NFA
      */
     public NFAState constructNFA(String input) {
-        //System.out.println("regex input: " + input);
+        System.out.println("regex input: " + input);
         NFAState start = new NFAState(StateType.START, 'ε');
         NFAState epsilon = new NFAState(StateType.NORMAL, 'ε');
         //epsilon.name = "epsilon";
@@ -81,14 +81,6 @@ public class NFAConstructor {
                     prev = kleeneStar(prev, prev, true);
                 }
                 break;
-            case '+':
-                if (afterParentheses) {
-                    prev = plus(componentStart, prev, false);
-                } else {
-                    prev = plus(prev, prev, true);
-                }
-                //prev = plus(componentStart, prev);
-                break;
         }
         return prev;
     }
@@ -124,26 +116,6 @@ public class NFAConstructor {
         System.out.println("starFirst: " + starFirst);
         System.out.println("starLast: " + starLast);*/
         return starLast;
-    }
-
-    /**
-     * @param componentStart first state of the part currently under
-     * construction
-     * @param prev the previous NFAState
-     * @return last state of the constructed NFA plus part
-     */
-    private NFAState plus(NFAState componentStart, NFAState prev, boolean singleChar) {
-        NFAState plusFirst = componentStart.getCopy();
-        NFAState plusLast = new NFAState('ε');
-        //if (singleChar) { //not a single character plus
-            plusFirst.setNext(plusLast);
-            plusLast.setNext(plusFirst);
-        /*} else {
-            prev.setNext(plusFirst);
-            prev.setNext(plusLast);
-        }*/
-        prev.setNext(plusFirst);
-        return plusLast;
     }
    
     /**

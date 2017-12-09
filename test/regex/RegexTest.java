@@ -323,9 +323,16 @@ public class RegexTest {
         assertTrue(runWholeProgram("(ab)+", "abab"));
     }
     
+    //FAILS
     @Test
     public void complicatedInputTrue11() {
         assertTrue(runWholeProgram("(ab|cd)+", "cd"));
+    }
+    
+    //FAILS
+    @Test
+    public void complicatedInputTrue12() {
+        assertTrue(runWholeProgram("(abcd)*(ab)*", "abcdabcd"));
     }
     
     @Test
@@ -338,6 +345,7 @@ public class RegexTest {
         assertFalse(runWholeProgram("(a*|b*|c)", "cc"));
     }
     
+    //FAILS
     @Test
     public void complicatedInputFalse3() {
         assertFalse(runWholeProgram("(ab|cd)+", ""));
