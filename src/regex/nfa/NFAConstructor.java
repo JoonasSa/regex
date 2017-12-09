@@ -31,29 +31,30 @@ public class NFAConstructor {
      * @return NFAState array [first, last] states of the sub nfa
      */
     private NFAState[] recursiveBuild(NFAState componentStart, NFAState prev, RegexSubstring regex) {
+        boolean afterParentheses = false;
         NFAState current;
         while (regex.hasNextChar()) {
             char c = regex.peekNextChar();
             //System.out.println("character: " + c);
             if (CharacterClassifier.isRegexSymbol(c)) {
-                prev = handleRegexSymbol(componentStart, prev, regex, regex.getNextChar());
+                prev = handleRegexSymbol(componentStart, prev, regex, regex.getNextChar(), afterParentheses);
+                afterParentheses = false;
             } else {
-                switch (c) {
-                    case '(':
+                if (c == '(') {
                         NFAState substringStart = new NFAState('ε');
                         NFAState[] states = recursiveBuild(substringStart, substringStart, regex.getExpression());
                         prev.setNext(states[0]);
                         //System.out.println("recursive prev: " + prev);
                         prev = states[1];
                         //System.out.println("recursive current: " + states[1]);
-                        break;
-                    default:
+                        afterParentheses = true;
+                } else {
                         //System.out.println("default");
                         current = new NFAState(regex.getNextChar());
                         prev.setNext(current);
                         //System.out.println("prev: " + prev);
                         prev = current;
-                        break;
+                        afterParentheses = false;
                 }
             }
         }
@@ -68,16 +69,25 @@ public class NFAConstructor {
      * @param c current character from the input string
      * @return last state of the constructed NFA part
      */
-    private NFAState handleRegexSymbol(NFAState componentStart, NFAState prev, RegexSubstring regex, char c) {
+    private NFAState handleRegexSymbol(NFAState componentStart, NFAState prev, RegexSubstring regex, char c, boolean afterParentheses) {
         switch (c) {
             case '|':
                 prev = union(componentStart, prev, regex);
                 break;
             case '*':
-                prev = kleeneStar(componentStart, prev);
+                if (afterParentheses) {
+                    prev = kleeneStar(componentStart, prev, false);
+                } else {
+                    prev = kleeneStar(prev, prev, true);
+                }
                 break;
             case '+':
-                prev = plus(componentStart, prev);
+                if (afterParentheses) {
+                    prev = plus(componentStart, prev, false);
+                } else {
+                    prev = plus(prev, prev, true);
+                }
+                //prev = plus(componentStart, prev);
                 break;
         }
         return prev;
@@ -87,32 +97,32 @@ public class NFAConstructor {
      * @param componentStart first state of the part currently under
      * construction
      * @param prev the previous NFAState
-     * @return last state of the constructed NFA kleene star part
+     * @return last state of the constructed NFA kleenestar part
      */
-    private NFAState kleeneStar(NFAState componentStart, NFAState prev) {
-        //System.out.println("componentStart before getCopy: " + componentStart); //is epsilon with no connections
-        NFAState starFirst = componentStart.getCopy(); //is right?
+    private NFAState kleeneStar(NFAState componentStart, NFAState prev, boolean singleChar) {
+        //System.out.println("kleenestart start: " + componentStart);
+        NFAState starFirst = componentStart.getCopy();
         NFAState starLast = new NFAState('ε');
-        //System.out.println("componentStart after getCopy: " + componentStart);
         componentStart.symbol = 'ε';
         componentStart.arrowA = null;
         componentStart.arrowB = null;
         componentStart.setNext(starFirst);
         componentStart.setNext(starLast);
-        if (componentStart != prev) {
+        if (singleChar) { //not a single character kleenestar
+            starFirst.setNext(starLast);
+            starLast.setNext(starFirst);
+        } else {
             prev.setNext(starFirst);
             prev.setNext(starLast);
         }
-        /*
-        prev.name = "kleeneStarPrev";
+        /*prev.name = "kleeneStarPrev";
         componentStart.name = "componentStart";
         starFirst.name = "star first";
         starLast.name = "star last";
         System.out.println("componentStart: " + componentStart);
         System.out.println("prev: " + prev);
         System.out.println("starFirst: " + starFirst);
-        System.out.println("starLast: " + starLast);
-        */
+        System.out.println("starLast: " + starLast);*/
         return starLast;
     }
 
@@ -122,38 +132,20 @@ public class NFAConstructor {
      * @param prev the previous NFAState
      * @return last state of the constructed NFA plus part
      */
-    private NFAState plus(NFAState componentStart, NFAState prev) {
-        NFAState starLast = new NFAState('ε');
-        prev.setNext(starLast);
-        prev.setNext(componentStart);
-        return starLast;
-    }
-    /*
-    //System.out.println("componentStart before getCopy: " + componentStart); //is epsilon with no connections
-        NFAState plusFirst = componentStart.getCopy(); //is right?
+    private NFAState plus(NFAState componentStart, NFAState prev, boolean singleChar) {
+        NFAState plusFirst = componentStart.getCopy();
         NFAState plusLast = new NFAState('ε');
-        //System.out.println("componentStart after getCopy: " + componentStart);
-        componentStart.symbol = 'ε';
-        componentStart.arrowA = null;
-        componentStart.arrowB = null;
-        componentStart.setNext(plusFirst);
-        componentStart.setNext(plusLast);
-        if (componentStart != prev) {
+        //if (singleChar) { //not a single character plus
+            plusFirst.setNext(plusLast);
+            plusLast.setNext(plusFirst);
+        /*} else {
             prev.setNext(plusFirst);
             prev.setNext(plusLast);
-        }
-        kleeneStar(plusFirst, plusLast);
-        prev.name = "plusPrev";
-        componentStart.name = "componentStart";
-        plusFirst.name = "plus first";
-        plusLast.name = "plus last";
-        System.out.println("componentStart: " + componentStart);
-        System.out.println("prev: " + prev);
-        System.out.println("plusFirst: " + plusFirst);
-        System.out.println("plusLast: " + plusLast);
+        }*/
+        prev.setNext(plusFirst);
         return plusLast;
-     */
-
+    }
+   
     /**
      * @param componentStart first state of the part currently under
      * construction
@@ -162,7 +154,7 @@ public class NFAConstructor {
      * @return last state of the constructed NFA union part
      */
     private NFAState union(NFAState componentStart, NFAState prev, RegexSubstring regex) {
-        System.out.println("union componentStart: " + componentStart);
+        //System.out.println("union componentStart: " + componentStart);
         NFAState unionFirst = new NFAState('ε'); //Create new union start state
         NFAState unionA = componentStart.getLatestArrow();
         componentStart.removeLatestArrow();

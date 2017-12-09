@@ -206,6 +206,16 @@ public class RegexTest {
     }
     
     @Test
+    public void plusInputTrue3() {
+        assertTrue(runWholeProgram("a+b+", "aaab"));
+    }
+    
+    @Test
+    public void plusInputTrue4() {
+        assertTrue(runWholeProgram("b+a+", "baaa"));
+    }
+    
+    @Test
     public void plusInputFalse1() {
         assertFalse(runWholeProgram("a+", ""));
     }
@@ -213,6 +223,11 @@ public class RegexTest {
     @Test
     public void plusInputFalse2() {
         assertFalse(runWholeProgram("a+", "b"));
+    }
+    
+    @Test
+    public void plusInputFalse3() {
+        assertFalse(runWholeProgram("a+b+", "b"));
     }
     
     //Union inputs
@@ -297,11 +312,20 @@ public class RegexTest {
     public void complicatedInputTrue8() {
         assertTrue(runWholeProgram("(\\d|b)*", "1b2b3bbbbb44"));
     }
-    
-    //BUG: Thinks \d\w is a single component like so (\d\w)*
+
     @Test
     public void complicatedInputTrue9() {
         assertTrue(runWholeProgram("(\\d\\w*|\\a|\\l*)", "1"));
+    }
+    
+    @Test
+    public void complicatedInputTrue10() {
+        assertTrue(runWholeProgram("(ab)+", "abab"));
+    }
+    
+    @Test
+    public void complicatedInputTrue11() {
+        assertTrue(runWholeProgram("(ab|cd)+", "cd"));
     }
     
     @Test
@@ -313,5 +337,9 @@ public class RegexTest {
     public void complicatedInputFalse2() {
         assertFalse(runWholeProgram("(a*|b*|c)", "cc"));
     }
-    //plus tests
+    
+    @Test
+    public void complicatedInputFalse3() {
+        assertFalse(runWholeProgram("(ab|cd)+", ""));
+    }
 }
