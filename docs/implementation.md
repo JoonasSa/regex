@@ -48,34 +48,7 @@ Space complexity: `O(i + r)`. Matching needs input string `i` and queue with `1-
 
 ## Comparisons
 
-#### Whole program
-
-regex: `abcdefghijkl`, input: `abcdefghijkl`
-
-| Runtime (ms) | Times run |
-| ----- | ----- |
-| 119 | 10000 |
-| 276 | 100000 |
-| 1271 | 1000000 |
-| 10743 | 10000000 |
-
-regex: `(ab)*`, input: `abababab`
-
-| Runtime (ms) | Times run |
-| ----- | ----- |
-| 96 | 10000 |
-| 151 | 100000 |
-| 968 | 1000000 |
-| 8922 | 10000000 |
-
-regex: `(abcdefghi|abcdefghij)`, input: `abcdefghij`
-
-| Runtime (ms) | Times run |
-| ----- | ----- |
-| 130 | 10000 |
-| 416 | 100000 |
-| 2593 | 1000000 |
-| 26205 | 10000000 |
+TODO
 
 ## Possible shortcomings & improvement ideas
 

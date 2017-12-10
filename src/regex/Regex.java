@@ -11,11 +11,17 @@ public class Regex {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String regex = "(ab|cd)+";
-        String input = "";
-        //boolean result = new RegexBenchmark().getBenchmark('a', 10, regex, input);
-        //System.out.println("\nThe input string match was: " + result);
+        String regex = "(abcdefghi|abcdefghij)";
+        String input = "abcdefghij";
+
+        //benchmarks
+        runBenchmarkTests('w', 1000, regex, input);
         
+        //program
+        //runProgram(regex, input);
+    }
+    
+    private static void runProgram(String regex, String input) {
         //preprocess regex string
         regex = RegexStringPreprocessor.parseInput(regex);
         //consruct nfa from processed regex string
@@ -23,15 +29,25 @@ public class Regex {
         //match input string on the nfa created from regex string
         boolean result = new NFAMatcher(start).match(input);
         System.out.println("The input string match was: " + result);
-        
+    }
+    
+    private static void runBenchmarkTests(char type, long times, String regex, String input) {
+        int mul = 1;
+        for (int i = 0; i < 5; i++) {
+            boolean result = new RegexBenchmark().getBenchmark(type, times * mul, regex, input);
+            System.out.println("\nThe input string match was: " + result);
+            mul *= 10;
+        }
     }
 
     /*TODO LIST:
-    0. kleene star bugit ja plus
-    2. preprosessointi (lisä syntaksia, kuten [0-9], [a-zA-Z], \*)
-    2.1 muuta regex symbolit vastaamaan lukuja => nyt kaikki \char voidaan esiprosessoida => NFAkonstruktorin ei tarvitse välittää \ merkistä
-    3. komentoriviltä ajettava ohjelma
-    4. testimittaukset ja niiden esittäminen (pandas?)
+    0. BUGIT: 
+    * sulkeet aiheuttaa bugin -> input: "", regex: b+ => false, regex: (b)+ => true 
+    * + ei prosessoida oikein jos niitä nestataan => rekursiivinen funktio tarpeen
+    1. testimittaukset ja niiden esittäminen (pandas?)
+    2. komentoriviltä ajettava ohjelma
+    3. preprosessointi (lisä syntaksia, kuten [0-9], [a-zA-Z], \*)
+    3.1 muuta regex symbolit vastaamaan lukuja => nyt kaikki \char voidaan esiprosessoida => NFAkonstruktorin ei tarvitse välittää \ merkistä
     x. paremmat kommentit nfa konstruktoriin + siistiminen
      */
 }

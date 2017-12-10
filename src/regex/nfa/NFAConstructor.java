@@ -11,7 +11,7 @@ public class NFAConstructor {
      * @return first state of the NFA
      */
     public NFAState constructNFA(String input) {
-        System.out.println("regex input: " + input);
+        //System.out.println("regex input: " + input);
         NFAState start = new NFAState(StateType.START, 'ε');
         NFAState epsilon = new NFAState(StateType.NORMAL, 'ε');
         //epsilon.name = "epsilon";
@@ -107,14 +107,16 @@ public class NFAConstructor {
             prev.setNext(starFirst);
             prev.setNext(starLast);
         }
-        /*prev.name = "kleeneStarPrev";
+        /*
+        prev.name = "kleeneStarPrev";
         componentStart.name = "componentStart";
         starFirst.name = "star first";
         starLast.name = "star last";
         System.out.println("componentStart: " + componentStart);
         System.out.println("prev: " + prev);
         System.out.println("starFirst: " + starFirst);
-        System.out.println("starLast: " + starLast);*/
+        System.out.println("starLast: " + starLast);
+        */
         return starLast;
     }
    
@@ -152,5 +154,5 @@ public class NFAConstructor {
         */
         return unionLast;
     }
-
+    
 }

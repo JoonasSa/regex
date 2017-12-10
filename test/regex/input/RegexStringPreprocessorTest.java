@@ -49,4 +49,30 @@ public class RegexStringPreprocessorTest {
         String regex = RegexStringPreprocessor.parseInput("\\wa\\w");
         assertEquals(new String(new char[]{5, 'a', 5}), regex);
     }
+    
+    @Test
+    public void transformingPlusToStarTest1() {
+        String regex = RegexStringPreprocessor.parseInput("a+");
+        assertEquals("aa*", regex);
+    }
+    
+    @Test
+    public void transformingPlusToStarTest2() {
+        String regex = RegexStringPreprocessor.parseInput("(ab)+");
+        assertEquals("ab(ab)*", regex);
+    }
+    
+    //FAILS
+    @Test
+    public void transformingPlusToStarTest3() {
+        String regex = RegexStringPreprocessor.parseInput("((a)+)+");
+        assertEquals("aa*(aa*)*", regex);
+    }
+    
+    //FAILS
+    @Test
+    public void transformingPlusToStarTest4() {
+        String regex = RegexStringPreprocessor.parseInput("(((a)+)+)+");
+        assertEquals("aa*(aa*)*(aa*(aa*)*)*", regex);
+    }
 }

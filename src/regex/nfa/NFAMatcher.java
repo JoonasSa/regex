@@ -21,6 +21,7 @@ public class NFAMatcher {
     public NFAMatcher(NFAState start) {
         this.queue = new Queue(100); //todo different sizes
         recursiveEpsilonTransition(start);
+        //recursiveDebugNFA(start);
     }
     
     /**
@@ -28,7 +29,7 @@ public class NFAMatcher {
      * @return is the input string a match with the regex
      */
     public boolean match(String input) {
-        System.out.println("input string: " + input);
+        //System.out.println("input string: " + input);
         for (int i = 0; i < input.length(); i++) {
             queue.enqueue(new NFAState(StateType.QUEUE_END, 'ε'));
             while (true) {
@@ -39,7 +40,9 @@ public class NFAMatcher {
                 //System.out.println("current: " + current);
                 handleNFAState(current, input.charAt(i));
             }
+            //System.out.println("queue: " + this.queue);
         }
+        //System.out.println("end queue: " + this.queue);
         while (!queue.isEmpty()) {
             NFAState s = queue.dequeue();
             //System.out.println("dequeue: " + s);
@@ -109,6 +112,19 @@ public class NFAMatcher {
         if (state.arrowB != null && state.arrowB.symbol == 'ε') {
             queue.enqueue(state.arrowB);
             recursiveEpsilonTransition(state.arrowB);
+        }
+    }
+    
+    private void recursiveDebugNFA(NFAState state) {
+        if (state == null) {
+            return;
+        }
+        System.out.println(state);
+        if (state.arrowA != null) {
+            recursiveDebugNFA(state.arrowA);
+        }
+        if (state.arrowB != null) {
+            recursiveDebugNFA(state.arrowB);
         }
     }
 }

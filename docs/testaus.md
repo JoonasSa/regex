@@ -38,7 +38,33 @@ Niitä on neljänlaisia:
 
 Testille annetaan syötteenä regex ja/tai input, sekä toistojen määrä n. Testi toistetaan n-kertaa ja tuloksena saadaan n-ajon keskiarvo millisekuntteina.
 
+## Mittauksia
 
+#### Whole program
 
-`Mittauksia en ehtinyt vielä pahemmin tehdä, mutta niitä lisäillään tänne kun niitä valmistuu. Toivottavasti saadaan myös jotain kivoja visualisointeja niistä.`
+regex: `abcdefghijkl`, input: `abcdefghijkl`
 
+| Runtime (ms) | Times run |
+| ----- | ----- |
+| 119 | 10000 |
+| 276 | 100000 |
+| 1271 | 1000000 |
+| 10743 | 10000000 |
+
+regex: `(ab)*`, input: `abababab`
+
+| Runtime (ms) | Times run |
+| ----- | ----- |
+| 96 | 10000 |
+| 151 | 100000 |
+| 968 | 1000000 |
+| 8922 | 10000000 |
+
+regex: `(abcdefghi|abcdefghij)`, input: `abcdefghij`
+
+| Runtime (ms) | Times run |
+| ----- | ----- |
+| 130 | 10000 |
+| 416 | 100000 |
+| 2593 | 1000000 |
+| 26205 | 10000000 |

@@ -64,7 +64,7 @@ public class RegexStringPreprocessor {
         for (int i = regex.length() - 1; i > -1; i--) {
             if (regex.charAt(i) == '+') {
                 parsed += '*';
-                if (regex.charAt(i - 1) == ')') {
+                if (regex.charAt(i - 1) == ')') { //handle parentheses
                     String expression = "";
                     i--;
                     int rightParentheses = 1;
@@ -83,7 +83,7 @@ public class RegexStringPreprocessor {
                         }
                         expression += c;
                     }
-                    parsed += ")" + expression + "(" + ")" + expression + "(";
+                    parsed += ")" + expression + "(" + expression;
                 } else {
                     parsed += regex.charAt(i - 1);
                 }
