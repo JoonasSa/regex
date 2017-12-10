@@ -68,3 +68,61 @@ regex: `(abcdefghi|abcdefghij)`, input: `abcdefghij`
 | 416 | 100000 |
 | 2593 | 1000000 |
 | 26205 | 10000000 |
+
+## Matching
+
+regex: `abcdefghijkl`, input: `abcdefghijkl`
+
+| Runtime (ms) | Times run |
+| ----- | ----- |
+| 12 | 10000 |
+| 46 | 100000 |
+| 292 | 1000000 |
+| 2379 | 10000000 |
+
+regex: `(ab)*`, input: `abababab`
+
+| Runtime (ms) | Times run |
+| ----- | ----- |
+| 23 | 10000 |
+| 68 | 100000 |
+| 441 | 1000000 |
+| 4312 | 10000000 |
+
+regex: `(abcdefghi|abcdefghij)`, input: `abcdefghij`
+
+| Runtime (ms) | Times run |
+| ----- | ----- |
+| 22 | 10000 |
+| 67 | 100000 |
+| 426 | 1000000 |
+| 3305 | 10000000 |
+
+## Contructing
+
+regex: `abcdefghijkl`
+
+| Runtime (ms) | Times run |
+| ----- | ----- |
+| 15 | 10000 |
+| 27 | 100000 |
+| 130 | 1000000 |
+| 881 | 10000000 |
+
+regex: `(ab)*`
+
+| Runtime (ms) | Times run |
+| ----- | ----- |
+| 16 | 10000 |
+| 62 | 100000 |
+| 158 | 1000000 |
+| 1112 | 10000000 |
+
+regex: `(abcdefghi|abcdefghij)`
+
+| Runtime (ms) | Times run |
+| ----- | ----- |
+| 61 | 10000 |
+| 127 | 100000 |
+| 673 | 1000000 |
+| 6729 | 10000000 |
