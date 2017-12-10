@@ -46,10 +46,21 @@ Time complexity: `O(ir)`. First all states that are accessible from the start st
 
 Space complexity: `O(i + r)`. Matching needs input string `i` and queue with `1-3r` states. Therefore the space complexity is `max(i, r)` or just approximately `i + r`.
 
-## Comparisons    
+## Comparisons
 
-TODO
-    
+#### Whole program
+
+Regex: abcdefghijkl, Input: abcdefghijkl
+
+| Runtime (ms) | Times run |
+| ----- | ----- |
+| 13 | 100 |
+| 34 | 1000 |
+| 119 | 10000 |
+| 276 | 100000 |
+| 1271 | 1000000 |
+| 10743 | 10000000 |
+
 ## Possible shortcomings & improvement ideas
 
 The way the NFA is implemented might be a bit heavy.
