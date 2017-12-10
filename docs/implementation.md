@@ -24,17 +24,27 @@ Matching works as follows:
 
 ## Time and space complexity
 
+Definitions:
+* `r = regex length`
+* `i = input length`
+
 #### Regex preprocessing
 
+Time complexity: `O(r)`. Preprocessor goes over the whole input string 4 times. Changing `+` to `*`, reversing, parsing, and removing empty indexes. When `+` are changed to `*` the length of expression increases. For example `(abc)+` becomes `abc(abc)*` and `(a+)+` becomes `aa*(aa*)*`. This expansion seems to be between 0,5-? times the length of the expression. In general case the time complexity is `4r = r`. In cases where there are multiple nested `+` symbols the time complexity might start to get closer to `O(r²)`. ***tutki***
+
+Space complexity: `O(r)`. Preprocessor uses needs space for input string, and couple structures to manipulate the string in. All of them about  `O(r)` space. ***case + ?*** 
 
 #### Constructing NFA
 
-Time complexity: `O(n)`. The constructor goes over each character in the regex once, eventhough the construction process can go through quite a lot of recursion. All the operations performed by the constructor are performed in constant time O(1). Therefore the construction process takes n * O(1) = O(n) time, where n is the length of the regex.
+Time complexity: `O(r)`. The constructor goes over each character in the preprocessed regex once. All the operations performed by the constructor are performed in constant time O(1). Therefore the construction process takes `r * O(1) = O(r)` time, where `r` is the length of the preprocessed regex. Eventhough the construction process can go through quite a lot of recursion.
 
-Space complexity: `O(n²)`. 
+Space complexity: `O(r²)`. The way the NFA is constructed is not optimal and the worst case can have close to `r²` states, where `r` is the length of the preprocessed regex. ***perusteluja***
 
 #### Matching input
 
+Time complexity: `O(ir)`. First all states that are accessible from the start state are recursively added to a queue. The matcher goes over each character in the input string. Upon reading a character `c` all states in the queue are dequeued from the queue one by one and matched against the character `c`. The number of states in the queue at any time is anywhere between `1` to about `3r` based on empirical test results. ***perusteluja***
+
+Space complexity: `O(i + r)`. Matching needs input string `i` and queue with `1-3r` states. Therefore the space complexity is `max(i, r)` or just approximately `i + r`.
 
 ## Comparisons    
 
