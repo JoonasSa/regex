@@ -20,10 +20,8 @@ public class RegexStringPreprocessorTest {
 
     @Test
     public void classDCharactersAreChangedTest() {
-        String regex = RegexStringPreprocessor.parseInput("\\d");
-        System.out.println(regex.length());
-        System.out.println((int)regex.charAt(0));
-        assertEquals(new String(new char[]{1}), regex);
+        String regex = RegexStringPreprocessor.parseInput("\\da\\d");
+        assertEquals(new String(new char[]{1, 'a', 1}), regex);
     }
     
     @Test

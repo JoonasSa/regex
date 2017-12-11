@@ -43,11 +43,13 @@ public class Regex {
     /*TODO LIST:
     0. BUGIT: 
     * sulkeet aiheuttaa bugin -> input: "", regex: b+ => false, regex: (b)+ => true 
-    * + ei prosessoida oikein jos niitä nestataan => rekursiivinen funktio tarpeen
+    * ab|cd(ab|cd)* => (ab|cd)(ab|cd)*
     1. testimittaukset ja niiden esittäminen (pandas?)
     2. komentoriviltä ajettava ohjelma
-    3. preprosessointi (lisä syntaksia, kuten [0-9], [a-zA-Z], \*)
-    3.1 muuta regex symbolit vastaamaan lukuja => nyt kaikki \char voidaan esiprosessoida => NFAkonstruktorin ei tarvitse välittää \ merkistä
-    x. paremmat kommentit nfa konstruktoriin + siistiminen
+    3. loppu hionta kaikkeen => katso se lista
+    ----------------------------------------------
+    x. preprosessointi (lisä syntaksia, kuten [0-9], [a-zA-Z], \*)
+    x.1 muuta regex symbolit vastaamaan lukuja => nyt kaikki \char voidaan esiprosessoida => NFAkonstruktorin ei tarvitse välittää \ merkistä
+    y. paremmat kommentit nfa konstruktoriin + siistiminen
      */
 }

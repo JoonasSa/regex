@@ -56,7 +56,7 @@ public class RegexSubstring {
 
     @Override
     public String toString() {
-        return "input: " + this.input + ", index: " + this.index;
+        return this.input;
     }
     
 }
