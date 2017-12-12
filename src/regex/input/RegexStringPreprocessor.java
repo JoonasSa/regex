@@ -3,7 +3,7 @@ package regex.input;
 public class RegexStringPreprocessor {
 
     /**
-     * @param regex
+     * @param regex string
      * @return preprocessed regex
      */
     public static String parseInput(String regex) {
@@ -29,6 +29,13 @@ public class RegexStringPreprocessor {
         return new String(correctedForLength);
     }
 
+    /**
+     * @param c character class type
+     * @param parsed array of parsed characters
+     * @param i current index of regex
+     * @param index current index of parsed array
+     * @return current index of regex
+     */
     private static int backslash(char c, char[] parsed, int i, int index) {
         switch (c) {
             case 'd':
@@ -55,6 +62,10 @@ public class RegexStringPreprocessor {
         return i;
     }
 
+    /**
+     * @param raw unprocesssed input string
+     * @return input string where + are transformed to *. For example a+ becomes aa*
+     */
     private static String convertPlusToStar(String raw) {
         String parsed = "";
         RegexSubstring regex = new RegexSubstring(reverseString(raw));
@@ -63,17 +74,7 @@ public class RegexStringPreprocessor {
             if (c == '+') {
                 parsed += '*';
                 if (regex.peekNextChar() == '(') { //handle parentheses
-                    String expression = regex.getExpression().toString();
-                    System.out.println("expression: " + expression);
-                    if (expression.length() == 1) { //no parentheses for single characters
-                        parsed += expression + expression;
-                    } else { //ab|cd(ab|cd)* => (ab|cd)(ab|cd)*
-                        parsed += "(" + expression + ")" + expression;
-                    }
-                    while (regex.hasNextChar()) { //read rest of the string
-                        parsed += regex.getNextChar();
-                    }
-                    regex = new RegexSubstring(parsed);
+                    regex = handleParentheses(regex, parsed);
                     parsed = "";
                 } else {
                     c = regex.getNextChar();
@@ -83,10 +84,33 @@ public class RegexStringPreprocessor {
                 parsed += c;
             }
         }
-        //System.out.println("converted " + parsed);
         return reverseString(parsed);
     }
     
+    /**
+     * @param regex old RegexSubString
+     * @param parsed currently parsed string
+     * @return new RegexSubString containing the currently parsed string
+     */
+    private static RegexSubstring handleParentheses(RegexSubstring regex, String parsed) {
+        String expression = regex.getExpression().toString();
+        if (expression.length() == 1) { //no parentheses for single characters
+            parsed += expression + expression;
+        } else if (stringContainsChar(expression, '|')) {
+            parsed += "(" + expression + ")(" + expression + ")";
+        } else {
+            parsed += "(" + expression + ")" + expression;
+        }
+        while (regex.hasNextChar()) { //read rest of the string
+            parsed += regex.getNextChar();
+        }
+        return new RegexSubstring(parsed);
+    }
+    
+    /**
+     * @param s string to reverse
+     * @return s reversed
+     */
     private static String reverseString(String s) {
         String reversed = "";
         for (int i = s.length() - 1; i > -1; i--) {
@@ -104,6 +128,20 @@ public class RegexStringPreprocessor {
             }
         }
         return reversed;
+    }
+    
+    /**
+     * @param s string to search for character
+     * @param c searched character
+     * @return string s contains character c
+     */
+    private static boolean stringContainsChar(String s, char c) {
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == c) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

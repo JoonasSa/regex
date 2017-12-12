@@ -1,5 +1,6 @@
 package regex.benchmark;
 
+import java.util.regex.Pattern;
 import regex.input.RegexStringPreprocessor;
 import regex.nfa.NFAConstructor;
 import regex.nfa.NFAMatcher;
@@ -26,6 +27,12 @@ public class RegexBenchmark {
                 return benchmarkConstructing(regex, times);
             case 'm':
                 return benchmarkMatching(regex, input, times);
+            case 'r':
+                result = benchmarkWholeProgram(regex, input, times);
+                System.out.println("----------------------------------------------------------------------------------");
+                benchmarkJavaRegex(regex, input, times);
+                System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
+                return result;
             default:
                 System.out.println("Invalid benchmark type. Valid types are: 'w', 'p', 'c' and 'm'.");
         }
@@ -83,4 +90,13 @@ public class RegexBenchmark {
         return result;
     }
     
+    private void benchmarkJavaRegex(String regex, String input, long n) {
+        long timeStart = System.currentTimeMillis();
+        for (int i = 0; i < n; i++) {
+            Pattern.matches(regex, input);
+        }
+        long timeEnd = System.currentTimeMillis();
+        System.out.println("Java regex benchmarks: " + n + " runs of the program with parameters: [ " + regex + ", " + input + " ]\n" +
+                "Total time: " + (timeEnd - timeStart) + "ms. \nAverage time: " + ((double)(timeEnd - timeStart) / n) + "ms.");
+    }
 }

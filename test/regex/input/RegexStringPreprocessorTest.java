@@ -60,17 +60,22 @@ public class RegexStringPreprocessorTest {
         assertEquals("ab(ab)*", regex);
     }
     
-    //FAILS
     @Test
     public void transformingPlusToStarTest3() {
         String regex = RegexStringPreprocessor.parseInput("((a)+)+");
         assertEquals("aa*(aa*)*", regex);
     }
     
-    //FAILS
     @Test
     public void transformingPlusToStarTest4() {
         String regex = RegexStringPreprocessor.parseInput("(((a)+)+)+");
         assertEquals("aa*(aa*)*(aa*(aa*)*)*", regex);
     }
+    
+    @Test
+    public void transformingPlusToStarTest5() {
+        String regex = RegexStringPreprocessor.parseInput("(ab|cd)+");
+        assertEquals("(ab|cd)(ab|cd)*", regex);
+    }
+    
 }

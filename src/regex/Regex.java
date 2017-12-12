@@ -43,7 +43,6 @@ public class Regex {
     /*TODO LIST:
     0. BUGIT: 
     * sulkeet aiheuttaa bugin -> input: "", regex: b+ => false, regex: (b)+ => true 
-    * ab|cd(ab|cd)* => (ab|cd)(ab|cd)*
     1. testimittaukset ja niiden esittäminen (pandas?)
     2. komentoriviltä ajettava ohjelma
     3. loppu hionta kaikkeen => katso se lista

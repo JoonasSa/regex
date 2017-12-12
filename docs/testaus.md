@@ -42,6 +42,8 @@ Testille annetaan syötteenä regex ja/tai input, sekä toistojen määrä n. Te
 
 #### Whole program
 
+OLD !!!!!
+
 regex: `abcdefghijkl`, input: `abcdefghijkl`
 
 | Runtime (ms) | Times run |
@@ -126,3 +128,36 @@ regex: `(abcdefghi|abcdefghij)`
 | 127 | 100000 |
 | 673 | 1000000 |
 | 6729 | 10000000 |
+
+#### Whole process: my implementation vs Java implementation
+
+regex: `abcdefgh`, input: `abcdefgh`
+
+| My implementation runtime (ms) | Java implementation runtime (ms) | Times run |
+| ----- | ----- |
+| 26 | 16 | 1000 |
+| 50 | 24 | 10000 |
+| 139 | 98 | 100000 |
+| 1113 | 314 | 1000000 |
+| 9366 | 3327 | 10000000 |
+
+regex: `(ab)*`, input: `abababab`
+
+| My implementation runtime (ms) | Java implementation runtime (ms) | Times run |
+| ----- | ----- |
+| 44 | 25 | 1000 |
+| 69 | 35 | 10000 |
+| 187 | 135 | 100000 |
+| 1156 | 324 | 1000000 |
+| 9210 | 3367 | 10000000 |
+
+regex: `(abcdefg|abcdefgh)`, input: `abcdefgh`
+
+| My implementation runtime (ms) | Java implementation runtime (ms) | Times run |
+| ----- | ----- |
+| 43 | 24 | 1000 |
+| 109 | 49 | 10000 |
+| 254 | 58 | 100000 |
+| 2259 | 483 | 1000000 |
+| 26921 | 6386 | 10000000 |
+
