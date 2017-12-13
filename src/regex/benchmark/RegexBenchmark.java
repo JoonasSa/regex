@@ -22,19 +22,25 @@ public class RegexBenchmark {
             case 'w':
                 return benchmarkWholeProgram(regex, input, times);
             case 'p':
-                return benchmarkPreprocessing(regex, type);
+                return benchmarkPreprocessing(regex, times);
             case 'c':
                 return benchmarkConstructing(regex, times);
             case 'm':
                 return benchmarkMatching(regex, input, times);
             case 'r':
                 result = benchmarkWholeProgram(regex, input, times);
-                System.out.println("----------------------------------------------------------------------------------");
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 benchmarkJavaRegex(regex, input, times);
-                System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
+                System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
                 return result;
             default:
-                System.out.println("Invalid benchmark type. Valid types are: 'w', 'p', 'c' and 'm'.");
+                System.out.println("Invalid benchmark type. Valid types are:\n"
+                    + "    a: whole process with all prints\n"
+                    + "    w: whole process\n"
+                    + "    p: regex preprocessing\n"
+                    + "    c: nfa construction\n"
+                    + "    m: input string matching\n"
+                    + "    r: comparisons against Java Patter.match()");
         }
         return false;
     }
