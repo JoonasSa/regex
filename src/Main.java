@@ -91,10 +91,12 @@ public class Main {
                 + "(Empty string can be input like this '')\n\n"
                 + "Regex argument supports:\n"
                 + "  Symbols:\n"
-                + "    kleenestar: *\n"
-                + "    plus: +\n"
-                + "    union: |\n"
-                + "  Character classes:\n"
+                + "    parentheses: (), for example (ab)\n"
+                + "    kleenestar: *, for example a*\n"
+                + "    plus: +, for example a+\n"
+                + "    union: |, for example (a|b) (IMPORTANT! Expects parentheses.)\n"
+                + "  Character classes (match certain type of character):\n"
+                + "    any character - .\n"
                 + "    digit - \\\\d\n"
                 + "    alphabet - \\\\a\n"
                 + "    lowercase character - \\\\l\n"
@@ -104,12 +106,12 @@ public class Main {
                 + "Optional 4th argument: run times can be provided to run the tests a specific number of times\n"
                 + "Without 4th parameter the default mode with multiple runs is done\n"
                 + "  Test types:\n"
-                + "    a: whole process with all prints\n"
-                + "    w: whole process\n"
-                + "    p: regex preprocessing\n"
-                + "    c: nfa construction\n"
-                + "    m: input string matching\n"
-                + "    r: comparisons against Java Patter.match()");
+                + "    a: benchmark whole process with all prints\n"
+                + "    w: benchmark whole process\n"
+                + "    p: benchmark regex preprocessing\n"
+                + "    c: benchmark nfa construction\n"
+                + "    m: benchmark input string matching\n"
+                + "    r: benchmark comparisons against Java Patter.match()");
         System.exit(1);
     }
 
