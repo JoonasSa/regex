@@ -3,7 +3,7 @@
 ## How to use the program
 
 The program is used for trying to match an inputs with some regex. 
-The program uses Java like regexes. 
+The program uses Java like _anchored_ regexes.
 If you do not know how these kinds of regexes work you can read about them following links: [Java docs](https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html), [Java Tutorials](https://docs.oracle.com/javase/tutorial/essential/regex/pre_char_classes.html) and [Regeone](https://regexone.com/). Note that this program doesn't support all of the operations defined in the linked pages.
 The repository contains a jar file which can be ran from the terminal. 
 It can be given multiple arguments such as the regex and input.
@@ -23,6 +23,9 @@ Below is the complete list of different arguments with some examples to get you 
     
 Give arguments in form:  `regex input`  or `regex 'input'`
 Empty string can be input like this `''`.
+_By default the program treats regexes as if they were anchored from left and right.
+Add .* expressions at beginning and end of your regex to match inputs without anchoring.
+For example `.*a.*` matches any a character in the input string._
 
 #### Program argument list
 
