@@ -8,31 +8,41 @@ import regex.nfa.NFAState;
 
 public class RegexBenchmark {
     
-    public boolean getBenchmark(char type, long times, String regex, String input) {
+    /**
+     * @param type test type
+     * @param times how many times the test is run
+     * @param regex
+     * @param input
+     */
+    public static void getBenchmark(char type, long times, String regex, String input) {
         switch (type) {
             case 'a':
-                boolean result = benchmarkWholeProgram(regex, input, times);
+                benchmarkWholeProgram(regex, input, times);
                 System.out.println("----------------------------------------------------------------------------------");
                 benchmarkPreprocessing(regex, times);
                 System.out.println("----------------------------------------------------------------------------------");
                 benchmarkConstructing(regex, times);
                 System.out.println("----------------------------------------------------------------------------------");
                 benchmarkMatching(regex, input, times);
-                return result;
+                return;
             case 'w':
-                return benchmarkWholeProgram(regex, input, times);
+                benchmarkWholeProgram(regex, input, times);
+                return;
             case 'p':
-                return benchmarkPreprocessing(regex, times);
+                benchmarkPreprocessing(regex, times);
+                return;
             case 'c':
-                return benchmarkConstructing(regex, times);
+                benchmarkConstructing(regex, times);
+                return;
             case 'm':
-                return benchmarkMatching(regex, input, times);
+                benchmarkMatching(regex, input, times);
+                return;
             case 'r':
-                result = benchmarkWholeProgram(regex, input, times);
+                benchmarkWholeProgram(regex, input, times);
                 System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 benchmarkJavaRegex(regex, input, times);
                 System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
-                return result;
+                return;
             default:
                 System.out.println("Invalid benchmark type. Valid types are:\n"
                     + "    a: whole process with all prints\n"
@@ -42,24 +52,21 @@ public class RegexBenchmark {
                     + "    m: input string matching\n"
                     + "    r: comparisons against Java Patter.match()");
         }
-        return false;
     }
 
-    private boolean benchmarkWholeProgram(String regex, String input, long n) {
-        boolean result = false;
+    private static void benchmarkWholeProgram(String regex, String input, long n) {
         long timeStart = System.currentTimeMillis();
         for (int i = 0; i < n; i++) {
             String parsed = RegexStringPreprocessor.parseInput(regex);
             NFAState start = new NFAConstructor().constructNFA(parsed);
-            result = new NFAMatcher(start).match(input);
+            new NFAMatcher(start).match(input);
         }
         long timeEnd = System.currentTimeMillis();
         System.out.println("Integration benchmarks: " + n + " runs of the program with parameters: [ " + regex + ", " + input + " ]\n" +
                 "Total time: " + (timeEnd - timeStart) + "ms. \nAverage time: " + ((double)(timeEnd - timeStart) / n) + "ms.");
-        return result;
     }
     
-    private boolean benchmarkPreprocessing(String regex, long n) {
+    private static void benchmarkPreprocessing(String regex, long n) {
         long timeStart = System.currentTimeMillis();
         for (int i = 0; i < n; i++) {
             RegexStringPreprocessor.parseInput(regex);
@@ -67,10 +74,9 @@ public class RegexBenchmark {
         long timeEnd = System.currentTimeMillis();
         System.out.println("Preprocessing benchmarks: " + n + " runs of the program with parameters: [ " + regex + " ]\n" +
                 "Total time: " + (timeEnd - timeStart) + "ms. \nAverage time: " + ((double)(timeEnd - timeStart) / n) + "ms.");
-        return true;
     }
     
-    private boolean benchmarkConstructing(String regex, long n) {
+    private static void benchmarkConstructing(String regex, long n) {
         regex = RegexStringPreprocessor.parseInput(regex);
         long timeStart = System.currentTimeMillis();
         for (int i = 0; i < n; i++) {
@@ -79,24 +85,21 @@ public class RegexBenchmark {
         long timeEnd = System.currentTimeMillis();
         System.out.println("Constructing benchmarks: " + n + " runs of the program with parameters: [ " + regex + " ]\n" +
                 "Total time: " + (timeEnd - timeStart) + "ms. \nAverage time: " + ((double)(timeEnd - timeStart) / n) + "ms.");
-        return true;
     }
      
-    private boolean benchmarkMatching(String regex, String input, long n) {
-        boolean result = false;
+    private static void benchmarkMatching(String regex, String input, long n) {
         String parsed = RegexStringPreprocessor.parseInput(regex);
         NFAState start = new NFAConstructor().constructNFA(parsed);
         long timeStart = System.currentTimeMillis();
         for (int i = 0; i < n; i++) {
-            result = new NFAMatcher(start).match(input);
+            new NFAMatcher(start).match(input);
         }
         long timeEnd = System.currentTimeMillis();
         System.out.println("Matching benchmarks: " + n + " runs of the program with parameters: [ " + regex + ", " + input + " ]\n" +
                 "Total time: " + (timeEnd - timeStart) + "ms. \nAverage time: " + ((double)(timeEnd - timeStart) / n) + "ms.");
-        return result;
     }
     
-    private void benchmarkJavaRegex(String regex, String input, long n) {
+    private static void benchmarkJavaRegex(String regex, String input, long n) {
         long timeStart = System.currentTimeMillis();
         for (int i = 0; i < n; i++) {
             Pattern.matches(regex, input);

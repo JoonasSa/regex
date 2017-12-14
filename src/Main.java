@@ -11,41 +11,25 @@ public class Main {
      */
     public static void main(String[] args) {
         if (args.length == 0) {
-            System.out.println("No arguments received.\nGive arguments in form: 'regex input' without the ''.\nType --help to see info.");
-            System.exit(1);
+            warnAndExit("No arguments received!");
         }
-        if (args[0] == null) {
-            System.out.println("Missing regex.");
-            System.exit(1);
-        } else if (args[0].equals("--help")) {
-            System.out.println("Give arguments in form: 'regex input' without the ''\n"
-                    + "Regex argument supports:\n"
-                    + "  Symbols:\n"
-                    + "    *,+,|\n"
-                    + "  Character classes:\n"
-                    + "    digit (\\d)\n"
-                    + "    alphabet (\\a)\n"
-                    + "    lowercase character (\\l)\n"
-                    + "    uppercase character (\\u)\n"
-                    + "    alphabet, digit and _ (\\w)\n\n"
-                    + "Optional test flag can be given after regex and input arguments\n"
-                    + "Fourth optional paramater can be provided to run the tests a specific number of times\n"
-                    + "Without 4. parameter the default mode with different runs is made\n"
-                    + "  Test flags:\n"
-                    + "    a: whole process with all prints\n"
-                    + "    w: whole process\n"
-                    + "    p: regex preprocessing\n"
-                    + "    c: nfa construction\n"
-                    + "    m: input string matching\n"
-                    + "    r: comparisons against Java Patter.match()");
-            System.exit(1);
+        if (args[0].equals("--help")) {
+            helpAndExit();
         }
-        if (args[1] == null) {
-            System.out.println("Missing input string.");
-            System.exit(1);
+        if (args.length < 2) {
+            warnAndExit("Regex and input string required!");
         }
+        
         String regex = args[0];
         String input = args[1];
+        
+        //UNNECESSARY?
+        if (input.length() != 0) {
+            if ((input.charAt(0) == '\'' && input.charAt(input.length() - 1) != '\'') ||
+                    (input.charAt(0) != '\'' && input.charAt(input.length() - 1) == '\'')) {
+                warnAndExit("Input string required!");
+            }
+        }
         
         switch (args.length) {
             case 2: //no test flag set
@@ -54,47 +38,90 @@ public class Main {
             case 3: //no specific run times argument set
                 int mul = 1;
                 for (int i = 0; i < 5; i++) {
-                    runBenchmarkTests(args[2].charAt(0), 100, regex, input, mul);
+                    runBenchmarkTests(args[2].charAt(0), 100 * mul, regex, input);
                     mul *= 10;
-                }   break;
+                }
+                break;
             default:
                 try {
-                    runBenchmarkTests(args[2].charAt(0), Long.parseLong(args[3]), regex, input, 1);
+                    runBenchmarkTests(args[2].charAt(0), Long.parseLong(args[3]), regex, input);
                 } catch (Exception e) {
-                    System.out.println("Fourth argument must be a integer");
+                    System.out.println("Fourth argument must be an integer!");
                     System.exit(1);
-                }   break;
+                }
         }
     }
-    /*
-    true: 'abab', 'abcd', 'cdabcdab'
-    false: '', 'ab', 'cd'
-    */
-    //String regex = "(ab|cd)+"; //b*a* toimii
-    //String input = "cdabcdabcdab";
 
+    /**
+     * @param regex
+     * @param input
+     */
     private static void runProgram(String regex, String input) {
-        //preprocess regex string
-        regex = RegexStringPreprocessor.parseInput(regex);
-        System.out.println(regex);
-        //consruct nfa from processed regex string
-        NFAState start = new NFAConstructor().constructNFA(regex); //abcde*|c
-        //match input string on the nfa created from regex string
+        String preprocessed = RegexStringPreprocessor.parseInput(regex);
+        NFAState start = new NFAConstructor().constructNFA(preprocessed);
         boolean result = new NFAMatcher(start).match(input);
-        System.out.println("The input string match was: " + result);
+        System.out.println("Matching result with\n"
+                + "  regex: '" + regex + "'\n"
+                + "  input: '" + input + "'\n"
+                + "  result: " + result);
     }
 
-    private static void runBenchmarkTests(char type, long times, String regex, String input, int mul) {
-        boolean result = new RegexBenchmark().getBenchmark(type, times * mul, regex, input);
-        System.out.println("\nThe input string match was: " + result);
+    /**
+     * @param type test type
+     * @param times how many times the test is preformed
+     * @param regex
+     * @param input
+     */
+    private static void runBenchmarkTests(char type, long times, String regex, String input) {
+        RegexBenchmark.getBenchmark(type, times, regex, input);
+    }
+
+    /**
+     * @param message warning message
+     */
+    private static void warnAndExit(String message) {
+        System.out.println(message + "\n"
+                + "Give arguments in form: \" regex input \" or \" regex 'input' \" without the \" characters.\n"
+                + "Type --help to see info.");
+        System.exit(1);
+    }
+
+    private static void helpAndExit() {
+        System.out.println("Give arguments in form: \" regex input \" or \" regex 'input' \" without the \" characters.\n"
+                + "(Empty string can be input like this '')\n\n"
+                + "Regex argument supports:\n"
+                + "  Symbols:\n"
+                + "    kleenestar: *\n"
+                + "    plus: +\n"
+                + "    union: |\n"
+                + "  Character classes:\n"
+                + "    digit - \\\\d\n"
+                + "    alphabet - \\\\a\n"
+                + "    lowercase character - \\\\l\n"
+                + "    uppercase character - \\\\u\n"
+                + "    alphabet, digit and _ - \\\\w\n\n"
+                + "Optional 3rd argument: test type can be provided after regex and input arguments\n"
+                + "Optional 4th argument: run times can be provided to run the tests a specific number of times\n"
+                + "Without 4th parameter the default mode with multiple runs is done\n"
+                + "  Test types:\n"
+                + "    a: whole process with all prints\n"
+                + "    w: whole process\n"
+                + "    p: regex preprocessing\n"
+                + "    c: nfa construction\n"
+                + "    m: input string matching\n"
+                + "    r: comparisons against Java Patter.match()");
+        System.exit(1);
     }
 
     /*TODO LIST:
     0. BUGIT: 
+    true: 'abab', 'abcd', 'cdabcdab'
+    false: '', 'ab', 'cd'
+    //String regex = "(ab|cd)+"; //b*a* toimii
+    //String input = "cdabcdabcdab";
     * sulkeet aiheuttaa bugin -> input: "", regex: b+ => false, regex: (b)+ => true 
     1. testimittaukset ja niiden esittäminen (pandas?)
-    2. komentoriviltä ajettava ohjelma
-    3. loppu hionta kaikkeen => katso se lista
+    2. loppu hionta kaikkeen => katso se lista
     ----------------------------------------------
     x. preprosessointi (lisä syntaksia, kuten [0-9], [a-zA-Z], \*)
     x.1 muuta regex symbolit vastaamaan lukuja => nyt kaikki \char voidaan esiprosessoida => NFAkonstruktorin ei tarvitse välittää \ merkistä
