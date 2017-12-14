@@ -111,7 +111,12 @@ public class Main {
                 + "    p: benchmark regex preprocessing\n"
                 + "    c: benchmark nfa construction\n"
                 + "    m: benchmark input string matching\n"
-                + "    r: benchmark comparisons against Java Patter.match()");
+                + "    r: benchmark comparisons against Java Patter.match()\n\n"
+                + "Examples:"
+                + "  \"java -jar regex.jar a+ aa\" - Normal run, regex a+ with input aa. \n"
+                + "  \"java -jar regex.jar a* ''\" - Normal run, regex a* with input  .\n"
+                + "  \"java -jar regex.jar (a|b)* aaaaabba w\" - Benchmark the whole program, regex (a|b)* with input aaaaabba.\n"
+                + "  \"java -jar regex.jar \\\\a*. abcd_ m\" - Benchmark matching, regex \\\\a*. with input abcd_.");
         System.exit(1);
     }
 
@@ -122,8 +127,10 @@ public class Main {
     //String regex = "(ab|cd)+"; //b*a* toimii
     //String input = "cdabcdabcdab";
     * sulkeet aiheuttaa bugin -> input: "", regex: b+ => false, regex: (b)+ => true 
-    1. testimittaukset ja niiden esittäminen (pandas?)
-    2. loppu hionta kaikkeen => katso se lista
+    1. file reading mittaukset (vs java regex) 
+    2. testimittaukset ja niiden esittäminen (pandas?)
+    3. dokumentaatio
+    4. loppu hionta kaikkeen => katso se lista
     ----------------------------------------------
     x. preprosessointi (lisä syntaksia, kuten [0-9], [a-zA-Z], \*)
     x.1 muuta regex symbolit vastaamaan lukuja => nyt kaikki \char voidaan esiprosessoida => NFAkonstruktorin ei tarvitse välittää \ merkistä

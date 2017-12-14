@@ -2,6 +2,8 @@
 
 ## Documentation
 
+[usage instructions](docs/usage.md)
+
 [project definition](docs/definition.md)
 
 [program implementation](docs/implementation.md)

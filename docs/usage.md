@@ -56,8 +56,8 @@ Test types:
 
 * `java -jar regex.jar a+ aa` - Normal run, regex `a+` with input `aa`. 
 * `java -jar regex.jar a* ''` - Normal run, regex `a*` with input ` `.
-* `java -jar regex.jar (a|b)* aaaaabba w` - Benchmark the whole program, match input `aaaaabba` with regex `(a|b)*`.
-* `java -jar regex.jar \\a*. abcd_ m` - Benchmark matching, match input `abcd_ ` with regex `\\a*.`.
+* `java -jar regex.jar (a|b)* aaaaabba w` - Benchmark the whole program, regex `(a|b)*` with input `aaaaabba`.
+* `java -jar regex.jar \\a*. abcd_ m` - Benchmark matching, regex `\\a*.` with input `abcd_`.
 
 ## Testing
 

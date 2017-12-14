@@ -17,10 +17,10 @@ public class NFAMatcher {
     */
     
     private Queue queue;
+    private NFAState start;
     
     public NFAMatcher(NFAState start) {
-        this.queue = new Queue(100); //todo different sizes
-        recursiveEpsilonTransition(start);
+        this.start = start;
         //recursiveDebugNFA(start);
     }
     
@@ -29,6 +29,8 @@ public class NFAMatcher {
      * @return is the input string a match with the regex
      */
     public boolean match(String input) {
+        this.queue = new Queue(100); //todo different sizes
+        recursiveEpsilonTransition(start);
         //System.out.println("input string: " + input);
         for (int i = 0; i < input.length(); i++) {
             queue.enqueue(new NFAState(StateType.QUEUE_END, 'ε'));
