@@ -19,7 +19,7 @@ After the base command give regex and input string arguments like so `a* aa` or 
 Optional test type and times to run arguments can be provided for benchmarking.
 Below is the complete list of different arguments with some examples to get you going.
     
-## Arguments
+## Program arguments
     
 Give arguments in form:  `regex input`  or `regex 'input'`
 Empty string can be input like this `''`.
@@ -54,10 +54,10 @@ Test types:
 
 #### Examples
 
-* `java -jar regex.jar a+ aa` - Normal run, match input `aa` with regex `a+`
-* `java -jar regex.jar a* ''` - Normal run, match input ` ` with regex `a*`
-* `java -jar regex.jar (a|b)* aaaaabba w` - Benchmark the whole program, match input `aaaaabba` with regex `(a|b)*`
-* `java -jar regex.jar \\a*. abcd_ m` - Benchmark matching, match input `abcd_ ` with regex `\\a*.`
+* `java -jar regex.jar a+ aa` - Normal run, regex `a+` with input `aa`. 
+* `java -jar regex.jar a* ''` - Normal run, regex `a*` with input ` `.
+* `java -jar regex.jar (a|b)* aaaaabba w` - Benchmark the whole program, match input `aaaaabba` with regex `(a|b)*`.
+* `java -jar regex.jar \\a*. abcd_ m` - Benchmark matching, match input `abcd_ ` with regex `\\a*.`.
 
 ## Testing
 
