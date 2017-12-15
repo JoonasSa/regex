@@ -19,36 +19,49 @@ public class Main {
         if (args.length < 2) {
             warnAndExit("Regex and input string required!");
         }
-        
+
         String regex = args[0];
         String input = args[1];
-        
+
         //UNNECESSARY?
-        if (input.length() != 0) {
+        /*if (input.length() != 0) {
             if ((input.charAt(0) == '\'' && input.charAt(input.length() - 1) != '\'') ||
                     (input.charAt(0) != '\'' && input.charAt(input.length() - 1) == '\'')) {
                 warnAndExit("Input string required!");
             }
-        }
-        
+        }*/
         switch (args.length) {
             case 2: //no test flag set
                 runProgram(regex, input);
                 break;
             case 3: //no specific run times argument set
                 int mul = 1;
-                for (int i = 0; i < 5; i++) {
-                    runBenchmarkTests(args[2].charAt(0), 100 * mul, regex, input);
+                for (int i = 0; i < 3; i++) {
+                    long timeStart = System.currentTimeMillis();
+                    int n = 10 * mul;
+                    if (!RegexBenchmark.getBenchmark(args[2].charAt(0), n, regex, input)) {
+                        break;
+                    }
                     mul *= 10;
+                    long timeEnd = System.currentTimeMillis();
+                    System.out.println(n + " runs of the program with parameters: [ " + regex + ", " + input + " ]\n"
+                            + "Total time: " + (timeEnd - timeStart) + "ms. \nAverage time: " + ((double) (timeEnd - timeStart) / n) + "ms.");
                 }
                 break;
-            default:
+            case 4:
                 try {
-                    runBenchmarkTests(args[2].charAt(0), Long.parseLong(args[3]), regex, input);
+                    long timeStart = System.currentTimeMillis();
+                    RegexBenchmark.getBenchmark(args[2].charAt(0), Long.parseLong(args[3]), regex, input);
+                    long timeEnd = System.currentTimeMillis();
+                    System.out.println("1 run of the program with parameters: [ " + regex + ", " + input + " ]\n"
+                            + "Total time: " + (timeEnd - timeStart) + "ms.");
                 } catch (Exception e) {
                     System.out.println("Fourth argument must be an integer!");
                     System.exit(1);
                 }
+                break;
+            default:
+                warnAndExit("Too many arguments provided!");
         }
     }
 
@@ -64,16 +77,6 @@ public class Main {
                 + "  regex: '" + regex + "'\n"
                 + "  input: '" + input + "'\n"
                 + "  result: " + result);
-    }
-
-    /**
-     * @param type test type
-     * @param times how many times the test is preformed
-     * @param regex
-     * @param input
-     */
-    private static void runBenchmarkTests(char type, long times, String regex, String input) {
-        RegexBenchmark.getBenchmark(type, times, regex, input);
     }
 
     /**
@@ -111,6 +114,7 @@ public class Main {
                 + "    p: benchmark regex preprocessing\n"
                 + "    c: benchmark nfa construction\n"
                 + "    m: benchmark input string matching\n"
+                + "    f: benchmark matching words from a file (provide file location as the input string)\n"
                 + "    r: benchmark comparisons against Java Patter.match()\n\n"
                 + "Examples:"
                 + "  \"java -jar regex.jar a+ aa\" - Normal run, regex a+ with input aa. \n"
