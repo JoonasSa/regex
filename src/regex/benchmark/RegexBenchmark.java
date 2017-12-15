@@ -2,6 +2,7 @@ package regex.benchmark;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import regex.input.RegexStringPreprocessor;
 import regex.nfa.NFAConstructor;
@@ -41,13 +42,13 @@ public class RegexBenchmark {
                 benchmarkMatching(regex, input, times);
                 return true;
             case 'r':
-                benchmarkWholeProgram(regex, input, times);
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                benchmarkJavaRegex(regex, input, times);
-                System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+                regexVersusJava(regex, input, times);
                 return true;
             case 'f':
-                benchmarkFileReading(regex, input);
+                benchmarkFileRegex(regex, input);
+                return true;
+            case 'v':
+                fileRegexVersusJava(regex, input);
                 return true;
             default:
                 System.out.println("Invalid benchmark type. Valid types are:\n"
@@ -97,7 +98,7 @@ public class RegexBenchmark {
         }
     }
 
-    private static void benchmarkFileReading(String regex, String filePath) {
+    private static void benchmarkFileRegex(String regex, String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine();
 
@@ -119,10 +120,61 @@ public class RegexBenchmark {
         } catch (Exception e) {
             System.out.println(e);
         }
-        /*
-            matches() always acts as if the regex were anchored at both ends. 
-            To get the traditional behavior, which is to match any substring of the target, 
-            you have to use find() (as others have already pointed out).
-         */
+    }
+
+    private static void benchmarkJavaFileRegex(String regex, String filePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line = br.readLine();
+
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher;
+
+            int wordCount = 0;
+            while (line != null) {
+                for (String word : line.split(" ")) {
+                    matcher = pattern.matcher(word);
+                    if (matcher.find()) {
+                        wordCount++;
+                    }
+                }
+                line = br.readLine();
+            }
+
+            System.out.println(wordCount + " words matching regex found.");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private static void regexVersusJava(String regex, String input, long times) {
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<MY REGEX<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        long timeStart = System.currentTimeMillis();
+        benchmarkWholeProgram(regex, input, times);
+        long timeEnd = System.currentTimeMillis();
+        System.out.println("1 run of the program with parameters: [ " + regex + ", " + input + " ]\n"
+                + "Total time: " + (timeEnd - timeStart) + "ms.");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>JAVA REGEX>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        timeStart = System.currentTimeMillis();
+        benchmarkJavaRegex(regex, input, times);
+        timeEnd = System.currentTimeMillis();
+        System.out.println("1 run of the program with parameters: [ " + regex + ", " + input + " ]\n"
+                + "Total time: " + (timeEnd - timeStart) + "ms.");
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+    }
+
+    private static void fileRegexVersusJava(String regex, String input) {
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<MY REGEX<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        long timeStart = System.currentTimeMillis();
+        benchmarkFileRegex(regex, input);
+        long timeEnd = System.currentTimeMillis();
+        System.out.println("1 run of the program with parameters: [ " + regex + ", " + input + " ]\n"
+                + "Total time: " + (timeEnd - timeStart) + "ms.");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>JAVA REGEX>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        timeStart = System.currentTimeMillis();
+        benchmarkJavaFileRegex(regex, input);
+        timeEnd = System.currentTimeMillis();
+        System.out.println("1 run of the program with parameters: [ " + regex + ", " + input + " ]\n"
+                + "Total time: " + (timeEnd - timeStart) + "ms.");
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
     }
 }

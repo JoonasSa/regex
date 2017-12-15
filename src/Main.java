@@ -30,17 +30,26 @@ public class Main {
                 warnAndExit("Input string required!");
             }
         }*/
+        char type;
         switch (args.length) {
             case 2: //no test flag set
                 runProgram(regex, input);
                 break;
+            //REFAKTOROI => ei type check toistoa, testaa java regexillä onko valid (ei tarte palauttaa testeiltä)
             case 3: //no specific run times argument set
+                type = args[2].charAt(0);
+                if (type == 'r' || type == 'v') { //my regex versus java regex
+                    if (!RegexBenchmark.getBenchmark(type, 1, regex, input)) {
+                        warnAndExit("Input string didn't match the regex!");
+                    }
+                    break;
+                }
                 int mul = 1;
                 for (int i = 0; i < 3; i++) {
                     long timeStart = System.currentTimeMillis();
                     int n = 10 * mul;
-                    if (!RegexBenchmark.getBenchmark(args[2].charAt(0), n, regex, input)) {
-                        break;
+                    if (!RegexBenchmark.getBenchmark(type, n, regex, input)) {
+                        warnAndExit("Input string didn't match the regex!");
                     }
                     mul *= 10;
                     long timeEnd = System.currentTimeMillis();
@@ -50,8 +59,17 @@ public class Main {
                 break;
             case 4:
                 try {
+                    type = args[2].charAt(0);
+                    if (type == 'r' || type == 'v') { //my regex versus java regex
+                        if (!RegexBenchmark.getBenchmark(type, 1, regex, input)) {
+                            warnAndExit("Input string didn't match the regex!");
+                        }
+                        break;
+                    }
                     long timeStart = System.currentTimeMillis();
-                    RegexBenchmark.getBenchmark(args[2].charAt(0), Long.parseLong(args[3]), regex, input);
+                    if (!RegexBenchmark.getBenchmark(type, Long.parseLong(args[3]), regex, input)) {
+                        warnAndExit("Input string didn't match the regex!");
+                    }
                     long timeEnd = System.currentTimeMillis();
                     System.out.println("1 run of the program with parameters: [ " + regex + ", " + input + " ]\n"
                             + "Total time: " + (timeEnd - timeStart) + "ms.");
@@ -115,6 +133,7 @@ public class Main {
                 + "    c: benchmark nfa construction\n"
                 + "    m: benchmark input string matching\n"
                 + "    f: benchmark matching words from a file (provide file location as the input string)\n"
+                + "    v: benchmark comparisons against Java Matcher.find() from a file (provide file location as the input string)\n"
                 + "    r: benchmark comparisons against Java Patter.match()\n\n"
                 + "Examples:"
                 + "  \"java -jar regex.jar a+ aa\" - Normal run, regex a+ with input aa. \n"
