@@ -24,8 +24,11 @@ public class RegexStringPreprocessor {
             }
             index++;
         }
+        //remove extra space from char[]
         char[] correctedForLength = new char[index];
-        System.arraycopy(parsed, 0, correctedForLength, 0, index); //remove extra indexes
+        for (int i = 0; i < index; i++) {
+            correctedForLength[i] = parsed[i];
+        }
         return new String(correctedForLength);
     }
 

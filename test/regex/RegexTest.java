@@ -1,4 +1,3 @@
-
 package regex;
 
 import org.junit.Test;

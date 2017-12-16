@@ -70,6 +70,9 @@ public class NFAState {
         return "Type: " + type + ", symbol: " + symbol + s;
     }
 
+    /**
+     * @return information about this state and the states it has connections to
+     */
     @Override
     public String toString() {
         String info = "Type: " + type + ", symbol: " + symbol;

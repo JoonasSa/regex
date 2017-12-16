@@ -38,8 +38,6 @@ The states created during construction of a NFA are their own data structure. Th
 
 A queue is used to store the active states during the runtime of the program.
 
-If functionality to have multiple NFAs constructed at the same time is implemented then some sort of data structure will be created to store them. A basic list perhaps.
-
 Other data structures might be added as needs arise.
 
 ## The problems and solutions
@@ -52,7 +50,7 @@ The data structures used here seemed to make the most sense. A state as a struct
 
 ## Using the program
 
-The program takes a regex and/or a string as an input. The regexes are used to contruct NFA's. The input string is matched against a regex (the last one constructed or any older regex if I have the time to implement this). The program outputs a boolean telling if the string was matched and the run times for all of the different parts of the process.
+The program takes a regex and a string as an input. The regexes are used to contruct NFA's. The input string is matched against a regex. The program outputs a boolean value telling whether the string was matched or not.
 
 ## Target time and space complexity
 

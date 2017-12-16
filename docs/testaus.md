@@ -6,6 +6,8 @@ Projektia on testattu JUnit yksikkö-, integraatio- ja suorituskykytesteillä. Y
 
 Tein kehittämisen avuksi NFAState luokalle muutamia ylimääräisiä ominaisuuksia, joilla saan niistä tietoja ulos. Esimerkiksi NFAState oliolle voi antaa nimen, mikä on yllättävän hyödyllistä debugatessa koodia tulostein. Nämä ominaisuudet poistetaan valmiista ohjelmasta viimeisessä palautuksessa, mutta nyt ne toimivat hyödyllisenä empiirisen testaamisen työvälineenä.
 
+Testit saa toistettua ajamalla kaikki `Test Packages` kansiossa olevat java-tiedostot. 
+
 ## Yksikkötestit
 
 Ohjelmassa on aika vähän suoria riippuvuussuhteita luokkien välillä, joten yksikkötestien tekeminen oli varsin mielekästä. Siispä lähes joka luokalla on joitakin yksikkötestejä, missä on pyritty kattavasti testaamaan lähes kaikki toiminnallisuus. 
@@ -30,17 +32,20 @@ Esimerkiksi helppo: `regex: ab, merkkijono: ab, expect: true`, hankalampi: `rege
 
 Suorituskykytestit löytyvät tiedostosta `RegexBenchmarkTest.java`. 
 
-Niitä on neljänlaisia: 
+Niitä on monenlaisia: 
 1. Koko ohjelman integraatiotesti
 2. RegexPreprocessor testi
 3. NFAConstructor testi
 4. NFAMatcher testi
+5. Minun implementaationa vastaan Javan regex (syötteenä joko merkkijono tai tiedoston sijainti)
 
-Testille annetaan syötteenä regex ja/tai input, sekä toistojen määrä n. Testi toistetaan n-kertaa ja tuloksena saadaan n-ajon keskiarvo millisekuntteina.
+Testille annetaan syötteenä regex ja/tai input, sekä mahdollisesti toistojen määrä n. Testi toistetaan n-kertaa ja tuloksena saadaan n-ajon keskiarvo millisekuntteina. ***korjaa ja täydennä tämä***
 
-## Measurements
+## Benchmark measurements
 
-All the measurements were made with my computer which is old. Therefore the relative time differences between different regex runtimes are the interesting results. 
+All the measurements were made on my computer which is old, therefore the relative time differences between different regex runtimes are the interesting results (not the exact runtimes).
+
+You can read from [here](usage.md) how to run the benchmark tests.
 
 #### Whole program
 
@@ -163,14 +168,14 @@ regex: `(abcdefg|abcdefgh)`, input: `abcdefgh`
 
 #### Matching substrings from file
 
-I used a file with [10000](loremipsum1k.txt) and 100000 lines of lorem ipsum as the input. 
+I used a file with [10000](../loremipsum1k.txt) and 100000 lines of lorem ipsum as the input. 
 
 Word by word with 100k line file
 
 | Regex | My implementation runtime (ms) | Java implementation runtime (ms) |
 | ----- | ----- | ----- |
 | `lorem` | 922 | 506 |
-| `(lorem|ipsum)` | 1024 | 577 |
+| `(lorem\|ipsum)` | 1024 | 577 |
 | `.*a.*` | 2222 | 829 |
 
 Line by line with variable file sizes _(non-anchored)_
@@ -180,3 +185,5 @@ Line by line with variable file sizes _(non-anchored)_
 | `lorem` | 100k | 1339 | 138 |
 | `ean tortor ips` | 100k | 2465 | 114 |
 | `(lorem)*` | 10k | 3072 | 95 |
+
+***lisää mittauksia, grafiikkaa?***

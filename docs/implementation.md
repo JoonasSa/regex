@@ -6,12 +6,11 @@ The program consist of three parts: preprocessing the regex, building the NFA an
 
 1. Preprocessor `RegexStringPreprocessor` manipulates the input regex by adding meta characters and parsing regex syntax into a form understood by the rest of the program.
 * For example the wild card character `.` is changed into unicode character with the value of 0.    
-* Special regex syntax like `[0-2]` is parsed into a general form `(0|1|2)`.
 * Expressions with regex symbol `+` is transformed into expressions with regex symbol `*`. For example expression `(ab)+` is transformed into expression `ab(ab)*` as they are equivalent.
 
 2. `NFAConstructor` builds the NFA based on the preprocessed regex with the help of `RegexSubstring`.
 * `NFAConstructor` builds the NFA based on the values returned by `RegexSubstring` which goes over the regex one character at a time.
-* `NFAState` is an object containing all of the data of a single state in the NFA. The data consist of state's: `type, transition symbol, and possibly two children states`. 
+* `NFAState` is an object containing all of the data of a single state in the NFA. The data consist of state's: `type, transition symbol, and possibly two child states`. 
 * `NFAConstructor` has its own functions for handling special regex character `|` and `*`.
 
 3. `NFAMatcher` simulates the built NFA trying to recognize given input string with the help a `Queue`.
@@ -48,13 +47,16 @@ Space complexity: `O(i + r)`. Matching needs input string `i` and queue with `1-
 
 ## Comparisons
 
-TODO (O-notaatio javalle?)
+Comparisons between my and Java's regex implementation can be found in the benchmark measurements section [here](testaus.md).
+TODO (O-notaatio javalle?)	
 
 ## Possible shortcomings & improvement ideas
 
-The way the NFA is implemented might be a bit heavy.
-Trying to match an input string with a NFA is by far the slowest part of the process. NFA to DFA transformation with powerset construction might make this part a lot faster.
+* The way the NFA is implemented might be a bit heavy.
+* Richer regex syntax could be implemented for example `[1-5]` which would be preprocessed to `(1|2|3|4|5)`.
+* The program most likely still contains some bugs with trickier regexes.
+* Trying to match an input string with a NFA is by far the slowest part of the process. NFA to DFA transformation with powerset construction might make this part a lot faster.
    
 ## Sources
 
-Empirical test results and reasoning about the algorithms.
+Empirical test results and reasoning about the algorithms. ***better?***
