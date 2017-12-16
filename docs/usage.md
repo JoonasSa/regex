@@ -12,7 +12,7 @@ On benchmark run the program returns benchmark data of the program with the give
 
 #### Running the program
 
-***The runnable jar file can be found in the dist directory.*** 
+***The runnable jar file can be found in the dist directory or can be compiled in the repository root by running `./gradlew build`.*** 
 
 To run the program use command `java -jar regex.jar` in the jar directory dist.
 Get instructions how to use the program with command `java -jar regex.jar --help` or from the argument list and examples below.
