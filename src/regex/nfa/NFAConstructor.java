@@ -31,33 +31,34 @@ public class NFAConstructor {
      * @return NFAState array [first, last] states of the sub nfa
      */
     private NFAState[] recursiveBuild(NFAState componentStart, NFAState prev, RegexSubstring regex) {
-        boolean afterParentheses = false;
         NFAState current;
         while (regex.hasNextChar()) {
             char c = regex.peekNextChar();
-            //System.out.println("character: " + c);
             if (CharacterClassifier.isRegexSymbol(c)) {
-                prev = handleRegexSymbol(componentStart, prev, regex, regex.getNextChar(), afterParentheses);
-                afterParentheses = false;
-            } else {
-                if (c == '(') {
-                        NFAState substringStart = new NFAState('ε');
-                        NFAState[] states = recursiveBuild(substringStart, substringStart, regex.getExpression());
-                        prev.setNext(states[0]);
-                        //System.out.println("recursive prev: " + prev);
-                        prev = states[1];
-                        //System.out.println("recursive current: " + states[1]);
-                        afterParentheses = true;
-                } else {
-                        //System.out.println("default");
-                        current = new NFAState(regex.getNextChar());
-                        prev.setNext(current);
-                        //System.out.println("prev: " + prev);
-                        prev = current;
-                        afterParentheses = false;
+                prev = handleRegexSymbol(componentStart, prev, regex, regex.getNextChar(), false);
+            } else if (c == '(') {
+                NFAState substringStart = new NFAState('ε');
+                substringStart.name = "parenthesesFirst";
+                NFAState[] states = recursiveBuild(substringStart, substringStart, regex.getExpression());
+                prev.setNext(states[0]);
+                //System.out.println("recursive prev: " + prev);
+                prev = states[1];
+                //System.out.println("recursive current: " + states[1]);
+                //check if there is a special character after the parentheses
+                if (regex.hasNextChar()) {
+                    if (CharacterClassifier.isRegexSymbol(regex.peekNextChar())) {
+                        prev = handleRegexSymbol(substringStart, prev, regex, regex.getNextChar(), true);
+                    }
                 }
+            } else {
+                current = new NFAState(regex.getNextChar());
+                prev.setNext(current);
+                //System.out.println("prev: " + prev);
+                prev = current;
             }
         }
+        //System.out.println("recursion return component start: " + componentStart);
+        //System.out.println("recursion return component prev: " + prev);
         return new NFAState[]{componentStart, prev};
     }
 
