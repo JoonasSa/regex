@@ -1,4 +1,5 @@
 
+import java.util.regex.Pattern;
 import regex.benchmark.RegexBenchmark;
 import regex.nfa.*;
 import regex.input.RegexStringPreprocessor;
@@ -22,64 +23,49 @@ public class Main {
 
         String regex = args[0];
         String input = args[1];
+        
+        //no test flag set
+        if (args.length == 2) { 
+            runProgram(regex, input);
+            return;
+        } else if (args.length > 4) {
+            warnAndExit("Too many arguments provided!");
+        }
+        
+        char type = args[2].charAt(0);
+        
+        //Only run once
+        if (type == 'v' || type == 'r' || type == 'l') {
+            RegexBenchmark.getBenchmark(type, 1, regex, input);   
+            return;
+        }
+        
+        //Use Java regex just in case mine has bugs
+        if (!Pattern.matches(regex, input)) {
+            warnAndExit("Input string doesn't match the regex!");
+        }
 
-        //UNNECESSARY?
-        /*if (input.length() != 0) {
-            if ((input.charAt(0) == '\'' && input.charAt(input.length() - 1) != '\'') ||
-                    (input.charAt(0) != '\'' && input.charAt(input.length() - 1) == '\'')) {
-                warnAndExit("Input string required!");
+        if (args.length == 3) {
+            int mul = 1;
+            for (int i = 0; i < 3; i++) {
+                long timeStart = System.currentTimeMillis();
+                int n = 10 * mul;
+                RegexBenchmark.getBenchmark(args[2].charAt(0), n, regex, input);
+                mul *= 10;
+                long timeEnd = System.currentTimeMillis();
+                System.out.println(n + " runs of the program with parameters: [ " + regex + ", " + input + " ]\n"
+                        + "Total time: " + (timeEnd - timeStart) + "ms. \nAverage time: " + ((double) (timeEnd - timeStart) / n) + "ms.");
             }
-        }*/
-        char type;
-        switch (args.length) {
-            case 2: //no test flag set
-                runProgram(regex, input);
-                break;
-            //REFAKTOROI => ei type check toistoa, testaa java regexillä onko valid (ei tarte palauttaa testeiltä)
-            case 3: //no specific run times argument set
-                type = args[2].charAt(0);
-                if (type == 'r' || type == 'v') { //my regex versus java regex
-                    if (!RegexBenchmark.getBenchmark(type, 1, regex, input)) {
-                        warnAndExit("Input string didn't match the regex!");
-                    }
-                    break;
-                }
-                int mul = 1;
-                for (int i = 0; i < 3; i++) {
-                    long timeStart = System.currentTimeMillis();
-                    int n = 10 * mul;
-                    if (!RegexBenchmark.getBenchmark(type, n, regex, input)) {
-                        warnAndExit("Input string didn't match the regex!");
-                    }
-                    mul *= 10;
-                    long timeEnd = System.currentTimeMillis();
-                    System.out.println(n + " runs of the program with parameters: [ " + regex + ", " + input + " ]\n"
-                            + "Total time: " + (timeEnd - timeStart) + "ms. \nAverage time: " + ((double) (timeEnd - timeStart) / n) + "ms.");
-                }
-                break;
-            case 4:
-                try {
-                    type = args[2].charAt(0);
-                    if (type == 'r' || type == 'v') { //my regex versus java regex
-                        if (!RegexBenchmark.getBenchmark(type, 1, regex, input)) {
-                            warnAndExit("Input string didn't match the regex!");
-                        }
-                        break;
-                    }
-                    long timeStart = System.currentTimeMillis();
-                    if (!RegexBenchmark.getBenchmark(type, Long.parseLong(args[3]), regex, input)) {
-                        warnAndExit("Input string didn't match the regex!");
-                    }
-                    long timeEnd = System.currentTimeMillis();
-                    System.out.println("1 run of the program with parameters: [ " + regex + ", " + input + " ]\n"
-                            + "Total time: " + (timeEnd - timeStart) + "ms.");
-                } catch (Exception e) {
-                    System.out.println("Fourth argument must be an integer!");
-                    System.exit(1);
-                }
-                break;
-            default:
-                warnAndExit("Too many arguments provided!");
+        } else {
+            try {
+                long timeStart = System.currentTimeMillis();
+                RegexBenchmark.getBenchmark(args[2].charAt(0), Long.parseLong(args[3]), regex, input);
+                long timeEnd = System.currentTimeMillis();
+                System.out.println("1 run of the program with parameters: [ " + regex + ", " + input + " ]\n"
+                        + "Total time: " + (timeEnd - timeStart) + "ms.");
+            } catch (Exception e) {
+                System.out.println("Fourth argument must be an integer!");
+            }
         }
     }
 
@@ -102,14 +88,15 @@ public class Main {
      */
     private static void warnAndExit(String message) {
         System.out.println(message + "\n"
-                + "Give arguments in form: \" regex input \" or \" regex 'input' \" without the \" characters.\n"
+                + "Give arguments in form: \" regex input \" or \" 'regex' 'input' \" without the \" characters.\n"
                 + "Type --help to see info.");
-        System.exit(1);
+        System.exit(0);
     }
 
     private static void helpAndExit() {
-        System.out.println("Give arguments in form: \" regex input \" or \" regex 'input' \" without the \" characters.\n"
-                + "(Empty string can be input like this '')\n\n"
+        System.out.println("Give arguments in form: \" regex input \" or \" 'regex' 'input' \" without the \" characters.\n"
+                + "(Empty string can be input like this '')\n"
+                + "\n"
                 + "Regex argument supports:\n"
                 + "  Symbols:\n"
                 + "    parentheses: (), for example (ab)\n"
@@ -122,25 +109,28 @@ public class Main {
                 + "    alphabet - \\\\a\n"
                 + "    lowercase character - \\\\l\n"
                 + "    uppercase character - \\\\u\n"
-                + "    alphabet, digit and _ - \\\\w\n\n"
+                + "    alphabet, digit and _ - \\\\w\n"
+                + "\n"
                 + "Optional 3rd argument: test type can be provided after regex and input arguments\n"
                 + "Optional 4th argument: run times can be provided to run the tests a specific number of times\n"
                 + "Without 4th parameter the default mode with multiple runs is done\n"
-                + "  Test types:\n"
+                + "  Benchmarks:\n"
                 + "    a: benchmark whole process with all prints\n"
                 + "    w: benchmark whole process\n"
                 + "    p: benchmark regex preprocessing\n"
                 + "    c: benchmark nfa construction\n"
                 + "    m: benchmark input string matching\n"
+                + "  Benchmarks vs Java (important to keep in mind that my regex and Java's regex are not 100% the same):\n"
                 + "    f: benchmark matching words from a file (provide file location as the input string)\n"
                 + "    v: benchmark comparisons against Java Matcher.find() from a file (provide file location as the input string)\n"
-                + "    r: benchmark comparisons against Java Patter.match()\n\n"
+                + "    r: benchmark comparisons against Java Patter.match()\n"
+                + "\n"
                 + "Examples:"
                 + "  \"java -jar regex.jar a+ aa\" - Normal run, regex a+ with input aa. \n"
                 + "  \"java -jar regex.jar a* ''\" - Normal run, regex a* with input  .\n"
                 + "  \"java -jar regex.jar (a|b)* aaaaabba w\" - Benchmark the whole program, regex (a|b)* with input aaaaabba.\n"
-                + "  \"java -jar regex.jar \\\\a*. abcd_ m\" - Benchmark matching, regex \\\\a*. with input abcd_.");
-        System.exit(1);
+                + "  \"java -jar regex.jar \\\\a*. abcd_ m\" - Benchmark matching, regex \\\\a*. with input abcd_.\n");
+        System.exit(0);
     }
 
     /*TODO LIST:

@@ -69,6 +69,16 @@ public class RegexTest {
     }
     
     @Test
+    public void wildCardInputTrue5() {
+        assertTrue(runWholeProgram(".*a.*", "a"));
+    }
+    
+    @Test
+    public void wildCardInputTrue6() {
+        assertTrue(runWholeProgram(".*a.*", "zxcxzczczxccxac"));
+    }
+    
+    @Test
     public void wildCardInputFalse1() {
         assertFalse(runWholeProgram(".", ""));
     }
@@ -76,6 +86,16 @@ public class RegexTest {
     @Test
     public void wildCardInputFalse2() {
         assertFalse(runWholeProgram("..", "a"));
+    }
+    
+    @Test
+    public void wildCardInputFalse3() {
+        assertFalse(runWholeProgram(".*a.*", "kxcjsdfjslf"));
+    }
+    
+    @Test
+    public void wildCardInputFalse4() {
+        assertFalse(runWholeProgram(".*a.*", ""));
     }
     
     @Test

@@ -78,4 +78,9 @@ public class RegexStringPreprocessorTest {
         assertEquals("(ab|cd)(ab|cd)*", regex);
     }
     
+    public void transformingPlusToStarTest6() {
+        String regex = RegexStringPreprocessor.parseInput("abcdefg");
+        assertEquals("abcdefg", regex);
+    }
+    
 }

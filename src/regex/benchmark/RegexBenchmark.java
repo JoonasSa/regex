@@ -16,9 +16,8 @@ public class RegexBenchmark {
      * @param times how many times the test is run
      * @param regex
      * @param input
-     * @return was viable benchmark type
      */
-    public static boolean getBenchmark(char type, long times, String regex, String input) {
+    public static void getBenchmark(char type, long times, String regex, String input) {
         switch (type) {
             case 'a':
                 benchmarkWholeProgram(regex, input, times);
@@ -28,28 +27,31 @@ public class RegexBenchmark {
                 benchmarkConstructing(regex, times);
                 System.out.println("----------------------------------------------------------------------------------");
                 benchmarkMatching(regex, input, times);
-                return true;
+                break;
             case 'w':
                 benchmarkWholeProgram(regex, input, times);
-                return true;
+                break;
             case 'p':
                 benchmarkPreprocessing(regex, times);
-                return true;
+                break;
             case 'c':
                 benchmarkConstructing(regex, times);
-                return true;
+                break;
             case 'm':
                 benchmarkMatching(regex, input, times);
-                return true;
+                break;
             case 'r':
                 regexVersusJava(regex, input, times);
-                return true;
+                break;
             case 'f':
-                benchmarkFileRegex(regex, input);
-                return true;
+                benchmarkFileRegex(regex, input, true);
+                break;
             case 'v':
-                fileRegexVersusJava(regex, input);
-                return true;
+                fileRegexVersusJava(regex, input, true);
+                break;
+            case 'l':
+                fileRegexVersusJava(regex, input, false);
+                break;
             default:
                 System.out.println("Invalid benchmark type. Valid types are:\n"
                         + "    a: whole process with all prints\n"
@@ -59,7 +61,7 @@ public class RegexBenchmark {
                         + "    m: input string matching\n"
                         + "    f: find instances of regex in input file"
                         + "    r: comparisons against Java Patter.match()");
-                return false;
+                break;
         }
     }
 
@@ -98,49 +100,70 @@ public class RegexBenchmark {
         }
     }
 
-    private static void benchmarkFileRegex(String regex, String filePath) {
+    private static void benchmarkFileRegex(String regex, String filePath, boolean wordByWord) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine();
 
-            String parsed = RegexStringPreprocessor.parseInput(".*" + regex + ".*"); //not anchored
-            NFAState start = new NFAConstructor().constructNFA(parsed);
-            NFAMatcher matcher = new NFAMatcher(start);
-
-            int wordCount = 0;
-            while (line != null) {
-                for (String word : line.split(" ")) {
-                    if (matcher.match(word)) {
-                        wordCount++;
+            if (wordByWord) {
+                String parsed = RegexStringPreprocessor.parseInput(regex);
+                NFAState start = new NFAConstructor().constructNFA(parsed);
+                NFAMatcher matcher = new NFAMatcher(start);
+                int wordCount = 0;
+                while (line != null) {
+                    for (String word : line.split(" ")) {
+                        if (matcher.match(word)) {
+                            wordCount++;
+                        }
                     }
+                    line = br.readLine();
                 }
-                line = br.readLine();
+                System.out.println(wordCount + " words matching regex found.");
+            } else {
+                String parsed = RegexStringPreprocessor.parseInput(".*" + regex + ".*"); //non-anchored
+                NFAState start = new NFAConstructor().constructNFA(parsed);
+                NFAMatcher matcher = new NFAMatcher(start);
+                int lineCount = 0;
+                while (line != null) {
+                    if (matcher.match(line)) {
+                        lineCount++;
+                    }
+                    line = br.readLine();
+                }
+                System.out.println(lineCount + " lines containing a match for the regex.");
             }
-
-            System.out.println(wordCount + " words matching regex found.");
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    private static void benchmarkJavaFileRegex(String regex, String filePath) {
+    private static void benchmarkJavaFileRegex(String regex, String filePath, boolean wordByWord) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine();
-
             Pattern pattern = Pattern.compile(regex);
-            Matcher matcher;
 
-            int wordCount = 0;
-            while (line != null) {
-                for (String word : line.split(" ")) {
-                    matcher = pattern.matcher(word);
-                    if (matcher.find()) {
-                        wordCount++;
+            if (wordByWord) {
+                int wordCount = 0;
+                while (line != null) {
+                    for (String word : line.split(" ")) {
+                        if (pattern.matcher(word).matches()) {
+                            wordCount++;
+                        }
                     }
+                    line = br.readLine();
                 }
-                line = br.readLine();
+                System.out.println(wordCount + " words matching regex found.");
+            } else {
+                Matcher matcher;
+                int lineCount = 0;
+                while (line != null) {
+                    matcher = pattern.matcher(line);
+                    if (matcher.find()) {
+                        lineCount++;
+                    }
+                    line = br.readLine();
+                }
+                System.out.println(lineCount + " lines containing a match for the regex.");
             }
-
-            System.out.println(wordCount + " words matching regex found.");
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -151,27 +174,27 @@ public class RegexBenchmark {
         long timeStart = System.currentTimeMillis();
         benchmarkWholeProgram(regex, input, times);
         long timeEnd = System.currentTimeMillis();
-        System.out.println("1 run of the program with parameters: [ " + regex + ", " + input + " ]\n"
+        System.out.println(times + " runs of the program with parameters: [ " + regex + ", " + input + " ]\n"
                 + "Total time: " + (timeEnd - timeStart) + "ms.");
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>JAVA REGEX>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         timeStart = System.currentTimeMillis();
         benchmarkJavaRegex(regex, input, times);
         timeEnd = System.currentTimeMillis();
-        System.out.println("1 run of the program with parameters: [ " + regex + ", " + input + " ]\n"
+        System.out.println(times + " runs of the program with parameters: [ " + regex + ", " + input + " ]\n"
                 + "Total time: " + (timeEnd - timeStart) + "ms.");
         System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
     }
 
-    private static void fileRegexVersusJava(String regex, String input) {
+    private static void fileRegexVersusJava(String regex, String input, boolean wordByWord) {
         System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<MY REGEX<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         long timeStart = System.currentTimeMillis();
-        benchmarkFileRegex(regex, input);
+        benchmarkFileRegex(regex, input, wordByWord);
         long timeEnd = System.currentTimeMillis();
         System.out.println("1 run of the program with parameters: [ " + regex + ", " + input + " ]\n"
                 + "Total time: " + (timeEnd - timeStart) + "ms.");
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>JAVA REGEX>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         timeStart = System.currentTimeMillis();
-        benchmarkJavaFileRegex(regex, input);
+        benchmarkJavaFileRegex(regex, input, wordByWord);
         timeEnd = System.currentTimeMillis();
         System.out.println("1 run of the program with parameters: [ " + regex + ", " + input + " ]\n"
                 + "Total time: " + (timeEnd - timeStart) + "ms.");

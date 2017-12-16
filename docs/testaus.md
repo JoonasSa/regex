@@ -38,11 +38,11 @@ Niitä on neljänlaisia:
 
 Testille annetaan syötteenä regex ja/tai input, sekä toistojen määrä n. Testi toistetaan n-kertaa ja tuloksena saadaan n-ajon keskiarvo millisekuntteina.
 
-## Mittauksia
+## Measurements
+
+All the measurements were made with my computer which is old. Therefore the relative time differences between different regex runtimes are the interesting results. 
 
 #### Whole program
-
-OLD !!!!!
 
 regex: `abcdefghijkl`, input: `abcdefghijkl`
 
@@ -134,7 +134,7 @@ regex: `(abcdefghi|abcdefghij)`
 regex: `abcdefgh`, input: `abcdefgh`
 
 | My implementation runtime (ms) | Java implementation runtime (ms) | Times run |
-| ----- | ----- |
+| ----- | ----- | ----- |
 | 26 | 16 | 1000 |
 | 50 | 24 | 10000 |
 | 139 | 98 | 100000 |
@@ -144,7 +144,7 @@ regex: `abcdefgh`, input: `abcdefgh`
 regex: `(ab)*`, input: `abababab`
 
 | My implementation runtime (ms) | Java implementation runtime (ms) | Times run |
-| ----- | ----- |
+| ----- | ----- | ----- |
 | 44 | 25 | 1000 |
 | 69 | 35 | 10000 |
 | 187 | 135 | 100000 |
@@ -154,10 +154,29 @@ regex: `(ab)*`, input: `abababab`
 regex: `(abcdefg|abcdefgh)`, input: `abcdefgh`
 
 | My implementation runtime (ms) | Java implementation runtime (ms) | Times run |
-| ----- | ----- |
+| ----- | ----- | ----- |
 | 43 | 24 | 1000 |
 | 109 | 49 | 10000 |
 | 254 | 58 | 100000 |
 | 2259 | 483 | 1000000 |
 | 26921 | 6386 | 10000000 |
 
+#### Matching substrings from file
+
+I used a file with [10000](loremipsum.txt) and 100000 lines of lorem ipsum as the input. 
+
+Word by word with 100k line file
+
+| Regex | My implementation runtime (ms) | Java implementation runtime (ms) |
+| ----- | ----- | ----- |
+| `lorem` | 922 | 506 |
+| `(lorem|ipsum)` | 1024 | 577 |
+| `.*a.*` | 2222 | 829 |
+
+Line by line with variable file sizes _(non-anchored)_
+
+| Regex | Input size | My implementation runtime (ms) | Java implementation runtime (ms) |
+| ----- | ----- | ----- | ----- |
+| `lorem` | 100k | 1339 | 138 |
+| `ean tortor ips` | 100k | 2465 | 114 |
+| `(lorem)*` | 10k | 3072 | 95 |
