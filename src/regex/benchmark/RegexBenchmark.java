@@ -14,8 +14,8 @@ public class RegexBenchmark {
     /**
      * @param type test type
      * @param times how many times the test is run
-     * @param regex
-     * @param input
+     * @param regex string
+     * @param input string
      */
     public static void getBenchmark(char type, long times, String regex, String input) {
         switch (type) {
@@ -65,6 +65,11 @@ public class RegexBenchmark {
         }
     }
 
+    /**
+     * @param regex string
+     * @param input string
+     * @param n how many times the test is run
+     */
     private static void benchmarkWholeProgram(String regex, String input, long n) {
         for (int i = 0; i < n; i++) {
             String parsed = RegexStringPreprocessor.parseInput(regex);
@@ -73,12 +78,20 @@ public class RegexBenchmark {
         }
     }
 
+    /**
+     * @param regex string
+     * @param n how many times the test is run
+     */
     private static void benchmarkPreprocessing(String regex, long n) {
         for (int i = 0; i < n; i++) {
             RegexStringPreprocessor.parseInput(regex);
         }
     }
 
+    /**
+     * @param regex string
+     * @param n how many times the test is run
+     */
     private static void benchmarkConstructing(String regex, long n) {
         regex = RegexStringPreprocessor.parseInput(regex);
         for (int i = 0; i < n; i++) {
@@ -86,6 +99,11 @@ public class RegexBenchmark {
         }
     }
 
+    /**
+     * @param regex string
+     * @param input string
+     * @param n how many times the test is run
+     */
     private static void benchmarkMatching(String regex, String input, long n) {
         String parsed = RegexStringPreprocessor.parseInput(regex);
         NFAState start = new NFAConstructor().constructNFA(parsed);
@@ -94,12 +112,22 @@ public class RegexBenchmark {
         }
     }
 
+    /**
+     * @param regex string
+     * @param input string
+     * @param n how many times the test is run
+     */
     private static void benchmarkJavaRegex(String regex, String input, long n) {
         for (int i = 0; i < n; i++) {
             Pattern.matches(regex, input);
         }
     }
 
+    /**
+     * @param regex string
+     * @param filePath path to file to read input from
+     * @param wordByWord read file content word or line at a time
+     */
     private static void benchmarkFileRegex(String regex, String filePath, boolean wordByWord) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine();
@@ -135,7 +163,12 @@ public class RegexBenchmark {
             System.out.println(e);
         }
     }
-
+    
+    /**
+     * @param regex string
+     * @param filePath path to file to read input from
+     * @param wordByWord read file content word or line at a time
+     */
     private static void benchmarkJavaFileRegex(String regex, String filePath, boolean wordByWord) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine();
@@ -169,6 +202,11 @@ public class RegexBenchmark {
         }
     }
 
+    /**
+     * @param regex string
+     * @param input string
+     * @param times how many times the test is run
+     */
     private static void regexVersusJava(String regex, String input, long times) {
         System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<MY REGEX<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         long timeStart = System.currentTimeMillis();
@@ -185,6 +223,11 @@ public class RegexBenchmark {
         System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
     }
 
+    /**
+     * @param regex string
+     * @param filePath path to file to read input from
+     * @param wordByWord read file content word or line at a time
+     */
     private static void fileRegexVersusJava(String regex, String input, boolean wordByWord) {
         System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<MY REGEX<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         long timeStart = System.currentTimeMillis();

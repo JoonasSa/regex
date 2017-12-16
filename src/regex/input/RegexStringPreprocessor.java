@@ -69,11 +69,11 @@ public class RegexStringPreprocessor {
     private static String convertPlusToStar(String raw) {
         String parsed = "";
         RegexSubstring regex = new RegexSubstring(reverseString(raw));
-        while (regex.hasNextChar()) { //transform + to * one at a time
+        while (regex.hasNextChar()) {
             char c = regex.getNextChar();
             if (c == '+') {
                 parsed += '*';
-                if (regex.peekNextChar() == '(') { //handle parentheses
+                if (regex.peekNextChar() == '(') {
                     regex = handleParentheses(regex, parsed);
                     parsed = "";
                 } else {
@@ -94,14 +94,16 @@ public class RegexStringPreprocessor {
      */
     private static RegexSubstring handleParentheses(RegexSubstring regex, String parsed) {
         String expression = regex.getExpression().toString();
-        if (expression.length() == 1) { //no parentheses for single characters
+        //no parentheses for single characters
+        if (expression.length() == 1) {
             parsed += expression + expression;
         } else if (stringContainsChar(expression, '|')) {
             parsed += "(" + expression + ")(" + expression + ")";
         } else {
             parsed += "(" + expression + ")" + expression;
         }
-        while (regex.hasNextChar()) { //read rest of the string
+        //read rest of the string
+        while (regex.hasNextChar()) { 
             parsed += regex.getNextChar();
         }
         return new RegexSubstring(parsed);

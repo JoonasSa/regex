@@ -337,35 +337,32 @@ public class RegexTest {
     public void complicatedInputTrue9() {
         assertTrue(runWholeProgram("(\\d\\w*|\\a|\\l*)", "1"));
     }
-    
+
     @Test
     public void complicatedInputTrue10() {
         assertTrue(runWholeProgram("(ab)+", "abab"));
     }
-    
-    //FAILS
+
     @Test
     public void complicatedInputTrue11() {
         assertTrue(runWholeProgram("(ab|cd)+", "cd"));
     }
-    
-    //FAILS
+
     @Test
     public void complicatedInputTrue12() {
         assertTrue(runWholeProgram("(abcd)*(ab)*", "abcdabcd"));
     }
-    
+
     @Test
     public void complicatedInputFalse1() {
         assertFalse(runWholeProgram("(a*|b*)", "bba"));
     }
-    
+
     @Test
     public void complicatedInputFalse2() {
         assertFalse(runWholeProgram("(a*|b*|c)", "cc"));
     }
     
-    //FAILS
     @Test
     public void complicatedInputFalse3() {
         assertFalse(runWholeProgram("(ab|cd)+", ""));

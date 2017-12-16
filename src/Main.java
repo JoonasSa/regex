@@ -34,13 +34,13 @@ public class Main {
         
         char type = args[2].charAt(0);
         
-        //Only run once
+        //ran only once
         if (type == 'v' || type == 'r' || type == 'l') {
             RegexBenchmark.getBenchmark(type, 1, regex, input);   
             return;
         }
         
-        //Use Java regex just in case mine has bugs
+        //check with Java regex just in case mine has bugs
         if (!Pattern.matches(regex, input)) {
             warnAndExit("Input string doesn't match the regex!");
         }
@@ -93,6 +93,9 @@ public class Main {
         System.exit(0);
     }
 
+    /**
+     * dump usage instructions
+     */
     private static void helpAndExit() {
         System.out.println("Give arguments in form: \" regex input \" or \" 'regex' 'input' \" without the \" characters.\n"
                 + "(Empty string can be input like this '')\n"

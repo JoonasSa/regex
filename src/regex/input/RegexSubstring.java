@@ -10,16 +10,25 @@ public class RegexSubstring {
         this.index = 0;
     }
     
+    /**
+     * @return input string still has more characters
+     */
     public boolean hasNextChar() {
         return index < input.length();
     }
     
+    /**
+     * @return next character in input string moves index to next character
+     */
     public char getNextChar() {
         if (index == input.length())
             throw new IllegalStateException("Trying to get index out of bounds");
         return input.charAt(index++);
     }
     
+    /**
+     * @return next character in input string
+     */
     public char peekNextChar() {
         if (index == input.length())
             throw new IllegalStateException("Trying to peek index out of bounds");
@@ -31,8 +40,10 @@ public class RegexSubstring {
      */
     public RegexSubstring getExpression() {
         String expression = "";
-        this.index++; //move past first parentheses
-        int leftParentheses = 1; //therefore increase leftParentheses by one
+        //move past first parentheses
+        this.index++; 
+        //therefore increase leftParentheses by one
+        int leftParentheses = 1; 
         while (this.hasNextChar()) {
             char c = this.getNextChar();
             if (c == '(') {
@@ -54,6 +65,9 @@ public class RegexSubstring {
         return new RegexSubstring(expression);
     }
 
+    /**
+     * @return input string
+     */
     @Override
     public String toString() {
         return this.input;
