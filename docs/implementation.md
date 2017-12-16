@@ -30,25 +30,25 @@ Definitions:
 
 #### Regex preprocessing
 
-Time complexity: `O(r)`. Preprocessor goes over the whole input string 4 times. Changing `+` to `*`, reversing, parsing, and removing empty indexes. When `+` are changed to `*` the length of expression increases. For example `(abc)+` becomes `abc(abc)*` and `(a+)+` becomes `aa*(aa*)*`. This expansion seems to be between 0,5-? times the length of the expression. In general case the time complexity is `4r = r`. In cases where there are multiple nested `+` symbols the time complexity might start to get closer to `O(r²)`. ***tutki***
+Time complexity: `O(r²)`. Preprocessor goes over the whole input string 4 times. Changing `+` to `*`, reversing, parsing, and removing empty indexes. When `+` are changed to `*` the length of expression increases. For example `(abc)+` becomes `abc(abc)*` and `(a+)+` becomes `aa*(aa*)*`. This expansion seems to be about 0,5 times the length of the expression. In general case the time complexity is `4r = r`. In cases where there are multiple nested `+` symbols the time complexity might start to get closer to `O(r²)`.
 
-Space complexity: `O(r)`. Preprocessor uses needs space for input string, and couple structures to manipulate the string in. All of them about  `O(r)` space. ***case + ?*** 
+Space complexity: `O(r²)`. Preprocessor needs space for input string, and couple structures to manipulate the string in. All of them about `O(r)` space. In cases where there are multiple nested `+` symbols the space complexity might start to get closer to `O(r²)`.
 
 #### Constructing NFA
 
-Time complexity: `O(r)`. The constructor goes over each character in the preprocessed regex once. All the operations performed by the constructor are performed in constant time O(1). Therefore the construction process takes `r * O(1) = O(r)` time, where `r` is the length of the preprocessed regex. Eventhough the construction process can go through quite a lot of recursion.
+Time complexity: `O(r)`. Eventhough the construction process can go through quite a lot of recursion the constructor goes over each character in the preprocessed regex once. All the operations performed by the constructor are performed in constant time O(1). Therefore the construction process takes `r * O(1) = O(r)` time, where `r` is the length of the preprocessed regex.
 
-Space complexity: `O(r²)`. The way the NFA is constructed is not optimal and the worst case can have close to `r²` states, where `r` is the length of the preprocessed regex. ***perusteluja***
+Space complexity: `O(r²)`. Based on empirical test results the worst case can have close to `r²` states, where `r` is the length of the preprocessed regex. 
 
 #### Matching input
 
-Time complexity: `O(ir)`. First all states that are accessible from the start state are recursively added to a queue. The matcher goes over each character in the input string. Upon reading a character `c` all states in the queue are dequeued from the queue one by one and matched against the character `c`. The number of states in the queue at any time is anywhere between `1` to about `3r` based on empirical test results. ***perusteluja***
+Time complexity: `O(ir)`. First all states that are accessible from the start state are recursively added to a queue. The matcher goes over each character in the input string. Upon reading a character `c` all states in the queue are dequeued from the queue one by one and matched against the character `c`. The number of states in the queue at any time is anywhere between `1` to about `3r` based on empirical test results.
 
-Space complexity: `O(i + r)`. Matching needs input string `i` and queue with `1-3r` states. Therefore the space complexity is `max(i, r)` or just approximately `i + r`.
+Space complexity: `O(i + r)`. Matching needs input string `i` and queue with `1-3r` states. Therefore the space complexity is `O(i + r)`.
 
 ## Comparisons
 
-TODO
+TODO (O-notaatio javalle?)
 
 ## Possible shortcomings & improvement ideas
 
@@ -57,4 +57,4 @@ Trying to match an input string with a NFA is by far the slowest part of the pro
    
 ## Sources
 
-TODO
+Empirical test results and reasoning about the algorithms.

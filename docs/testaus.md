@@ -163,7 +163,7 @@ regex: `(abcdefg|abcdefgh)`, input: `abcdefgh`
 
 #### Matching substrings from file
 
-I used a file with [10000](loremipsum.txt) and 100000 lines of lorem ipsum as the input. 
+I used a file with [10000](loremipsum1k.txt) and 100000 lines of lorem ipsum as the input. 
 
 Word by word with 100k line file
 

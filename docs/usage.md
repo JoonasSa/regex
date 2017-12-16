@@ -12,12 +12,11 @@ On bencmark run the program returns benchmark data of the program with the given
 
 #### Running the program  
 
-***missä hakemistossa on jar??***
-
-To run the program run the base command `java -jar regex.jar`.
+The runnable jar file can be found in the dist directory. 
+To run the program use command `java -jar regex.jar` in the jar directory dist.
+Get instructions how to use the program with command `java -jar regex.jar --help` or from the argument list and examples below.
 After the base command give regex and input string arguments like so `a* aa` or `a* 'aa'`. 
 Optional test type and times to run arguments can be provided for benchmarking.
-Below is the complete list of different arguments with some examples to get you going.
     
 ## Program arguments
     
@@ -61,6 +60,7 @@ Test types:
 * `java -jar regex.jar a* ''` - Normal run, regex `a*` with input ` `.
 * `java -jar regex.jar (a|b)* aaaaabba w` - Benchmark the whole program, regex `(a|b)*` with input `aaaaabba`.
 * `java -jar regex.jar \\a*. abcd_ m` - Benchmark matching, regex `\\a*.` with input `abcd_`.
+* `java -jar regex.jar 'lorem' ../loremipsum1k.txt v` - Benchmark matching words versus Java regex with loremipsum1k.txt file, regex `lorem` with input file `loremipsum1k.txt`.
 
 ## Testing
 
