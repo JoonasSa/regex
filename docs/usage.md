@@ -4,17 +4,17 @@
 
 The program is used for trying to match an inputs with some regex. 
 The program uses Java like _anchored_ regexes.
-If you do not know how these kinds of regexes work you can read about them following links: [Java docs](https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html), [Java Tutorials](https://docs.oracle.com/javase/tutorial/essential/regex/pre_char_classes.html) and [Regeone](https://regexone.com/). Note that this program doesn't support all of the operations defined in the linked pages.
-The repository [contains a jar file](../dist) which can be ran from the terminal. 
+If you do not know how these kinds of regexes work you can read about them following links: [Java docs](https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html), [Java Tutorials](https://docs.oracle.com/javase/tutorial/essential/regex/pre_char_classes.html) and [Regexone](https://regexone.com/). Note that this program doesn't support all of the operations defined in the linked pages.
+The repository [contains a jar file](../dist/) which can be ran from the terminal. 
 It can be given multiple arguments such as the regex and input.
 On normal run the program returns true or false depending on whether the input string matched the regex.
 On benchmark run the program returns benchmark data of the program with the given arguments.
 
 #### Running the program
 
-***The runnable jar file can be found in the dist directory or can be compiled in the repository root by running `./gradlew build`.*** 
+***The runnable jar file can be found in the dist directory.*** 
 
-To run the program use command `java -jar regex.jar` in the jar directory dist.
+To run the program either download [the runnable jar file](../dist/regex.jar) or clone the repository and use command `java -jar regex.jar` in the jar directory dist.
 Get instructions how to use the program with command `java -jar regex.jar --help` or from the argument list and examples below.
 After the base command give regex and input string arguments like so `a* aa` or `a* 'aa'`. 
 
