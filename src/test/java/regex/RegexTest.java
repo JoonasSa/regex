@@ -1,11 +1,13 @@
 package regex;
 
+import main.java.regex.input.RegexStringPreprocessor;
+import main.java.regex.nfa.NFAConstructor;
+import main.java.regex.nfa.NFAMatcher;
+import main.java.regex.nfa.NFAState;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import regex.input.RegexStringPreprocessor;
-import regex.nfa.NFAConstructor;
-import regex.nfa.NFAMatcher;
-import regex.nfa.NFAState;
+
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class RegexTest {
 

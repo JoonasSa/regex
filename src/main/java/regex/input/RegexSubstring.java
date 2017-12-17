@@ -1,5 +1,4 @@
-
-package regex.input;
+package main.java.regex.input;
 
 public class RegexSubstring {
     private final String input;

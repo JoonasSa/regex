@@ -1,6 +1,6 @@
-package regex.datastructure;
+package main.java.regex.datastructure;
 
-import regex.nfa.NFAState;
+import main.java.regex.nfa.NFAState;
 
 public class Queue {
 

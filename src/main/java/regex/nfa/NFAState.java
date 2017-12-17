@@ -1,7 +1,7 @@
+package main.java.regex.nfa;
 
-package regex.nfa;
 
-import regex.util.StateType;
+import main.java.regex.util.StateType;
 
 public class NFAState {
     public StateType type;

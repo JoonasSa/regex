@@ -1,8 +1,9 @@
-package regex.nfa;
+package main.java.regex.nfa;
 
-import regex.input.RegexSubstring;
-import regex.util.CharacterClassifier;
-import regex.util.StateType;
+
+import main.java.regex.input.RegexSubstring;
+import main.java.regex.util.CharacterClassifier;
+import main.java.regex.util.StateType;
 
 public class NFAConstructor {
 

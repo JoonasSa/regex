@@ -1,9 +1,12 @@
-
 package regex.nfa;
 
+import main.java.regex.nfa.NFAState;
+import main.java.regex.util.StateType;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import regex.util.StateType;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 
 public class NFAStateTest {
 
@@ -25,7 +28,7 @@ public class NFAStateTest {
         NFAState a = s.getCopy();
         assertNotEquals(s, a);
     }
-    
+
     @Test
     public void getCopyTest2() {
         NFAState s = new NFAState('a');

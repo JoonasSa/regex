@@ -1,11 +1,11 @@
-
 package regex.nfa;
 
-import java.lang.reflect.Method;
+import main.java.regex.nfa.NFAConstructor;
+import main.java.regex.nfa.NFAMatcher;
+import main.java.regex.nfa.NFAState;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
-import regex.util.StateType;
 
 public class NFAMatcherTest {
 

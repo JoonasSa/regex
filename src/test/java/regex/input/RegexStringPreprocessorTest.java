@@ -1,6 +1,7 @@
 
 package regex.input;
 
+import main.java.regex.input.RegexStringPreprocessor;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
