@@ -5,16 +5,16 @@
 The program is used for trying to match an inputs with some regex. 
 The program uses Java like _anchored_ regexes.
 If you do not know how these kinds of regexes work you can read about them following links: [Java docs](https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html), [Java Tutorials](https://docs.oracle.com/javase/tutorial/essential/regex/pre_char_classes.html) and [Regexone](https://regexone.com/). Note that this program doesn't support all of the operations defined in the linked pages.
-The repository [contains a jar file](../build/lib/) which can be ran from the terminal. 
+The repository [contains a jar file](../build/libs/) which can be ran from the terminal. 
 It can be given multiple arguments such as the regex and input.
 On normal run the program returns true or false depending on whether the input string matched the regex.
 On benchmark run the program returns benchmark data of the program with the given arguments.
 
 #### Running the program
 
-***The runnable jar file can be found in the build/lib/ directory.*** 
+***The runnable jar file can be found in the build/libs/ directory.*** 
 
-To run the program either download [the runnable jar file](../build/lib/regex.jar) or clone the repository and use command `java -jar regex.jar` in the jar directory /build/lib.
+To run the program either download [the runnable jar file](../build/libs/regex.jar) or clone the repository and use command `java -jar regex.jar` in the jar directory /build/libs.
 Get instructions how to use the program with command `java -jar regex.jar --help` or from the argument list and examples below.
 After the base command give regex and input string arguments like so `a* aa` or `a* 'aa'`. 
 
