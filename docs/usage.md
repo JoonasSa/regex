@@ -36,7 +36,7 @@ Symbols:
 * parentheses: `()`
 * kleenestar: `*`
 * plus: `+`
-* union: `|` (It is important to )
+* union: `|` (It is important to use parentheses with union to specify where the expression start and ends)
 
 Character classes (match certain type of character):
 * any character - `.`
