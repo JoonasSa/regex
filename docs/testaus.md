@@ -6,7 +6,7 @@ Projektia on testattu JUnit yksikkö-, integraatio- ja suorituskykytesteillä. Y
 
 Tein kehittämisen avuksi NFAState luokalle muutamia ylimääräisiä ominaisuuksia, joilla saan niistä tietoja ulos. Esimerkiksi NFAState oliolle voi antaa nimen, mikä on yllättävän hyödyllistä debugatessa koodia tulostein. Nämä ominaisuudet poistetaan valmiista ohjelmasta viimeisessä palautuksessa, mutta nyt ne toimivat hyödyllisenä empiirisen testaamisen työvälineenä.
 
-Testit saa toistettua ajamalla kaikki `Test Packages` kansiossa olevat java-tiedostot. 
+Testit saa toistettua ajamalla kaikki `src/test` kansiossa olevat java-tiedostot. 
 
 ## Yksikkötestit
 
