@@ -1,4 +1,4 @@
-package regex.util;
+package test.java.regex.util;
 
 import main.java.regex.util.CharacterClassifier;
 import org.junit.Test;

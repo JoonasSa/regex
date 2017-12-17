@@ -1,5 +1,4 @@
-
-package regex.nfa;
+package test.java.regex.nfa;
 
 import main.java.regex.nfa.NFAConstructor;
 import main.java.regex.nfa.NFAState;

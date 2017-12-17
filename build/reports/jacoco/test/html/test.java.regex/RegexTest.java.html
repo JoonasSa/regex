@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RegexTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">regex</a> &gt; <a href="index.source.html" class="el_package">test.java.regex</a> &gt; <span class="el_source">RegexTest.java</span></div><h1>RegexTest.java</h1><pre class="source lang-java linenums">package test.java.regex;
+
+import main.java.regex.input.RegexStringPreprocessor;
+import main.java.regex.nfa.NFAConstructor;
+import main.java.regex.nfa.NFAMatcher;
+import main.java.regex.nfa.NFAState;
+import org.junit.Test;
+
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
+
+<span class="fc" id="L12">public class RegexTest {</span>
+
+    private boolean runWholeProgram(String regex, String input) {
+<span class="fc" id="L15">        regex = RegexStringPreprocessor.parseInput(regex);</span>
+<span class="fc" id="L16">        NFAState start = new NFAConstructor().constructNFA(regex);</span>
+<span class="fc" id="L17">        return new NFAMatcher(start).match(input);</span>
+    }
+
+    //Simple inputs
+    @Test
+    public void simpleInputTrue() {
+<span class="fc" id="L23">        assertTrue(runWholeProgram(&quot;abcdefghijklmnopqrstuwvxyz&quot;, &quot;abcdefghijklmnopqrstuwvxyz&quot;));</span>
+<span class="fc" id="L24">    }</span>
+
+    @Test
+    public void simpleInputTrue4() {
+<span class="fc" id="L28">        assertTrue(runWholeProgram(&quot; &quot;, &quot; &quot;));</span>
+<span class="fc" id="L29">    }</span>
+
+    @Test
+    public void simpleInputFalse1() {
+<span class="fc" id="L33">        assertFalse(runWholeProgram(&quot;abcd&quot;, &quot;abcde&quot;));</span>
+<span class="fc" id="L34">    }</span>
+
+    @Test
+    public void simpleInputFalse2() {
+<span class="fc" id="L38">        assertFalse(runWholeProgram(&quot;lksdjlsj&quot;, &quot;lksdfljlsj&quot;));</span>
+<span class="fc" id="L39">    }</span>
+
+    @Test
+    public void simpleInputFalse3() {
+<span class="fc" id="L43">        assertFalse(runWholeProgram(&quot;isfsafiösaoh&quot;, &quot;isfsafiösaof&quot;));</span>
+<span class="fc" id="L44">    }</span>
+
+    @Test
+    public void simpleInputFalse4() {
+<span class="fc" id="L48">        assertFalse(runWholeProgram(&quot;a&quot;, &quot;&quot;));</span>
+<span class="fc" id="L49">    }</span>
+
+    //Special character classes
+    @Test
+    public void wildCardInputTrue1() {
+<span class="fc" id="L54">        assertTrue(runWholeProgram(&quot;.&quot;, &quot;a&quot;));</span>
+<span class="fc" id="L55">    }</span>
+
+    @Test
+    public void wildCardInputTrue2() {
+<span class="fc" id="L59">        assertTrue(runWholeProgram(&quot;.&quot;, &quot;b&quot;));</span>
+<span class="fc" id="L60">    }</span>
+
+    @Test
+    public void wildCardInputTrue3() {
+<span class="fc" id="L64">        assertTrue(runWholeProgram(&quot;..&quot;, &quot;ab&quot;));</span>
+<span class="fc" id="L65">    }</span>
+
+    @Test
+    public void wildCardInputTrue4() {
+<span class="fc" id="L69">        assertTrue(runWholeProgram(&quot;a.a&quot;, &quot;aba&quot;));</span>
+<span class="fc" id="L70">    }</span>
+
+    @Test
+    public void wildCardInputTrue5() {
+<span class="fc" id="L74">        assertTrue(runWholeProgram(&quot;.*a.*&quot;, &quot;a&quot;));</span>
+<span class="fc" id="L75">    }</span>
+
+    @Test
+    public void wildCardInputTrue6() {
+<span class="fc" id="L79">        assertTrue(runWholeProgram(&quot;.*a.*&quot;, &quot;zxcxzczczxccxac&quot;));</span>
+<span class="fc" id="L80">    }</span>
+
+    @Test
+    public void wildCardInputFalse1() {
+<span class="fc" id="L84">        assertFalse(runWholeProgram(&quot;.&quot;, &quot;&quot;));</span>
+<span class="fc" id="L85">    }</span>
+
+    @Test
+    public void wildCardInputFalse2() {
+<span class="fc" id="L89">        assertFalse(runWholeProgram(&quot;..&quot;, &quot;a&quot;));</span>
+<span class="fc" id="L90">    }</span>
+
+    @Test
+    public void wildCardInputFalse3() {
+<span class="fc" id="L94">        assertFalse(runWholeProgram(&quot;.*a.*&quot;, &quot;kxcjsdfjslf&quot;));</span>
+<span class="fc" id="L95">    }</span>
+
+    @Test
+    public void wildCardInputFalse4() {
+<span class="fc" id="L99">        assertFalse(runWholeProgram(&quot;.*a.*&quot;, &quot;&quot;));</span>
+<span class="fc" id="L100">    }</span>
+
+    @Test
+    public void classDInputTrue() {
+<span class="fc" id="L104">        assertTrue(runWholeProgram(&quot;a\\da&quot;, &quot;a1a&quot;));</span>
+<span class="fc" id="L105">    }</span>
+
+    @Test
+    public void classDInputFalse() {
+<span class="fc" id="L109">        assertFalse(runWholeProgram(&quot;\\d&quot;, &quot;a&quot;));</span>
+<span class="fc" id="L110">    }</span>
+
+    @Test
+    public void classAInputTrue() {
+<span class="fc" id="L114">        assertTrue(runWholeProgram(&quot;a\\aa&quot;, &quot;aba&quot;));</span>
+<span class="fc" id="L115">    }</span>
+
+    @Test
+    public void classAInputFalse() {
+<span class="fc" id="L119">        assertFalse(runWholeProgram(&quot;\\a&quot;, &quot;1&quot;));</span>
+<span class="fc" id="L120">    }</span>
+
+    @Test
+    public void classLInputTrue() {
+<span class="fc" id="L124">        assertTrue(runWholeProgram(&quot;a\\la&quot;, &quot;aba&quot;));</span>
+<span class="fc" id="L125">    }</span>
+
+    @Test
+    public void classLInputFalse1() {
+<span class="fc" id="L129">        assertFalse(runWholeProgram(&quot;\\l&quot;, &quot;A&quot;));</span>
+<span class="fc" id="L130">    }</span>
+
+    @Test
+    public void classLInputFalse2() {
+<span class="fc" id="L134">        assertFalse(runWholeProgram(&quot;\\l&quot;, &quot;1&quot;));</span>
+<span class="fc" id="L135">    }</span>
+
+    @Test
+    public void classUInputTrue() {
+<span class="fc" id="L139">        assertTrue(runWholeProgram(&quot;a\\ua&quot;, &quot;aBa&quot;));</span>
+<span class="fc" id="L140">    }</span>
+
+    @Test
+    public void classUInputFalse1() {
+<span class="fc" id="L144">        assertFalse(runWholeProgram(&quot;\\u&quot;, &quot;a&quot;));</span>
+<span class="fc" id="L145">    }</span>
+
+    @Test
+    public void classUInputFalse2() {
+<span class="fc" id="L149">        assertFalse(runWholeProgram(&quot;\\u&quot;, &quot;1&quot;));</span>
+<span class="fc" id="L150">    }</span>
+
+    @Test
+    public void classWInputTrue1() {
+<span class="fc" id="L154">        assertTrue(runWholeProgram(&quot;a\\wa&quot;, &quot;aba&quot;));</span>
+<span class="fc" id="L155">    }</span>
+
+    @Test
+    public void classWInputTrue2() {
+<span class="fc" id="L159">        assertTrue(runWholeProgram(&quot;a\\wa&quot;, &quot;a1a&quot;));</span>
+<span class="fc" id="L160">    }</span>
+
+    @Test
+    public void classWInputTrue3() {
+<span class="fc" id="L164">        assertTrue(runWholeProgram(&quot;a\\wa&quot;, &quot;a_a&quot;));</span>
+<span class="fc" id="L165">    }</span>
+
+    @Test
+    public void classWInputTrue4() {
+<span class="fc" id="L169">        assertTrue(runWholeProgram(&quot;a\\wa&quot;, &quot;aBa&quot;));</span>
+<span class="fc" id="L170">    }</span>
+
+    @Test
+    public void classWInputFalse() {
+<span class="fc" id="L174">        assertFalse(runWholeProgram(&quot;\\w&quot;, &quot;-&quot;));</span>
+<span class="fc" id="L175">    }</span>
+
+    //Kleene star tests
+    @Test
+    public void kleeneStarInputTrue1() {
+<span class="fc" id="L180">        assertTrue(runWholeProgram(&quot;a*&quot;, &quot;a&quot;));</span>
+<span class="fc" id="L181">    }</span>
+
+    @Test
+    public void kleeneStarInputTrue2() {
+<span class="fc" id="L185">        assertTrue(runWholeProgram(&quot;a*&quot;, &quot;aaa&quot;));</span>
+<span class="fc" id="L186">    }</span>
+
+    @Test
+    public void kleeneStarInputTrue3() {
+<span class="fc" id="L190">        assertTrue(runWholeProgram(&quot;a*&quot;, &quot;&quot;));</span>
+<span class="fc" id="L191">    }</span>
+
+    @Test
+    public void kleeneStarInputTrue4() {
+<span class="fc" id="L195">        assertTrue(runWholeProgram(&quot;a*b*&quot;, &quot;aabbb&quot;));</span>
+<span class="fc" id="L196">    }</span>
+
+    @Test
+    public void kleeneStarInputTrue5() {
+<span class="fc" id="L200">        assertTrue(runWholeProgram(&quot;b*a*&quot;, &quot;aa&quot;));</span>
+<span class="fc" id="L201">    }</span>
+
+    @Test
+    public void kleeneStarInputFalse1() {
+<span class="fc" id="L205">        assertFalse(runWholeProgram(&quot;a*&quot;, &quot;b&quot;));</span>
+<span class="fc" id="L206">    }</span>
+
+    @Test
+    public void kleeneStarInputFalse2() {
+<span class="fc" id="L210">        assertFalse(runWholeProgram(&quot;a*b*&quot;, &quot;ba&quot;));</span>
+<span class="fc" id="L211">    }</span>
+
+    @Test
+    public void kleeneStarInputFalse3() {
+<span class="fc" id="L215">        assertFalse(runWholeProgram(&quot;a*b*&quot;, &quot;aba&quot;));</span>
+<span class="fc" id="L216">    }</span>
+
+    //Plus tests
+    @Test
+    public void plusInputTrue1() {
+<span class="fc" id="L221">        assertTrue(runWholeProgram(&quot;a+&quot;, &quot;a&quot;));</span>
+<span class="fc" id="L222">    }</span>
+
+    @Test
+    public void plusInputTrue2() {
+<span class="fc" id="L226">        assertTrue(runWholeProgram(&quot;a+&quot;, &quot;aaa&quot;));</span>
+<span class="fc" id="L227">    }</span>
+
+    @Test
+    public void plusInputTrue3() {
+<span class="fc" id="L231">        assertTrue(runWholeProgram(&quot;a+b+&quot;, &quot;aaab&quot;));</span>
+<span class="fc" id="L232">    }</span>
+
+    @Test
+    public void plusInputTrue4() {
+<span class="fc" id="L236">        assertTrue(runWholeProgram(&quot;b+a+&quot;, &quot;baaa&quot;));</span>
+<span class="fc" id="L237">    }</span>
+
+    @Test
+    public void plusInputFalse1() {
+<span class="fc" id="L241">        assertFalse(runWholeProgram(&quot;a+&quot;, &quot;&quot;));</span>
+<span class="fc" id="L242">    }</span>
+
+    @Test
+    public void plusInputFalse2() {
+<span class="fc" id="L246">        assertFalse(runWholeProgram(&quot;a+&quot;, &quot;b&quot;));</span>
+<span class="fc" id="L247">    }</span>
+
+    @Test
+    public void plusInputFalse3() {
+<span class="fc" id="L251">        assertFalse(runWholeProgram(&quot;a+b+&quot;, &quot;b&quot;));</span>
+<span class="fc" id="L252">    }</span>
+
+    @Test
+    public void plusInputFalse4() {
+<span class="fc" id="L256">        assertFalse(runWholeProgram(&quot;(a)+&quot;, &quot;&quot;));</span>
+<span class="fc" id="L257">    }</span>
+
+    //Union inputs
+    @Test
+    public void unionInputTrue1() {
+<span class="fc" id="L262">        assertTrue(runWholeProgram(&quot;(a|b)&quot;, &quot;a&quot;));</span>
+<span class="fc" id="L263">    }</span>
+
+    @Test
+    public void unionInputTrue2() {
+<span class="fc" id="L267">        assertTrue(runWholeProgram(&quot;(a|b)&quot;, &quot;b&quot;));</span>
+<span class="fc" id="L268">    }</span>
+
+    @Test
+    public void unionInputTrue3() {
+<span class="fc" id="L272">        assertTrue(runWholeProgram(&quot;(a|b|c)&quot;, &quot;c&quot;));</span>
+<span class="fc" id="L273">    }</span>
+
+    @Test
+    public void unionInputTrue4() {
+<span class="fc" id="L277">        assertTrue(runWholeProgram(&quot;(a|b|c|aa|bb|cc)&quot;, &quot;bb&quot;));</span>
+<span class="fc" id="L278">    }</span>
+
+    @Test
+    public void unionInputFalse1() {
+<span class="fc" id="L282">        assertFalse(runWholeProgram(&quot;(a|b)&quot;, &quot;&quot;));</span>
+<span class="fc" id="L283">    }</span>
+
+    @Test
+    public void unionInputFalse2() {
+<span class="fc" id="L287">        assertFalse(runWholeProgram(&quot;(a|b)&quot;, &quot;ab&quot;));</span>
+<span class="fc" id="L288">    }</span>
+
+    @Test
+    public void unionInputFalse3() {
+<span class="fc" id="L292">        assertFalse(runWholeProgram(&quot;(a|b|c)&quot;, &quot;d&quot;));</span>
+<span class="fc" id="L293">    }</span>
+
+    @Test
+    public void unionInputFalse4() {
+<span class="fc" id="L297">        assertFalse(runWholeProgram(&quot;(a|b|c|aa|bb|cc)&quot;, &quot;ab&quot;));</span>
+<span class="fc" id="L298">    }</span>
+
+    //Complicated inputs
+    @Test
+    public void complicatedInputTrue1() {
+<span class="fc" id="L303">        assertTrue(runWholeProgram(&quot;(a*|b*)&quot;, &quot;aa&quot;));</span>
+<span class="fc" id="L304">    }</span>
+
+    @Test
+    public void complicatedInputTrue2() {
+<span class="fc" id="L308">        assertTrue(runWholeProgram(&quot;(a*|b*)&quot;, &quot;bbbb&quot;));</span>
+<span class="fc" id="L309">    }</span>
+
+    @Test
+    public void complicatedInputTrue3() {
+<span class="fc" id="L313">        assertTrue(runWholeProgram(&quot;(a*|b*|c)&quot;, &quot;c&quot;));</span>
+<span class="fc" id="L314">    }</span>
+
+    @Test
+    public void complicatedInputTrue4() {
+<span class="fc" id="L318">        assertTrue(runWholeProgram(&quot;a(b*|c)&quot;, &quot;abb&quot;));</span>
+<span class="fc" id="L319">    }</span>
+
+    //Stack Overflow
+    /*@Test
+    public void complicatedInputTrue5() {
+        assertTrue(runWholeProgram(&quot;(a*b*|c*b*)*&quot;, &quot;acc&quot;));
+    }*/
+
+    @Test
+    public void complicatedInputTrue6() {
+<span class="fc" id="L329">        assertTrue(runWholeProgram(&quot;a*(b*|c*)d*&quot;, &quot;acccd&quot;));</span>
+<span class="fc" id="L330">    }</span>
+
+    @Test
+    public void complicatedInputTrue7() {
+<span class="fc" id="L334">        assertTrue(runWholeProgram(&quot;\\d\\a\\l\\u\\w&quot;, &quot;1abC_&quot;));</span>
+<span class="fc" id="L335">    }</span>
+
+    @Test
+    public void complicatedInputTrue8() {
+<span class="fc" id="L339">        assertTrue(runWholeProgram(&quot;(\\d|b)*&quot;, &quot;1b2b3bbbbb44&quot;));</span>
+<span class="fc" id="L340">    }</span>
+
+    @Test
+    public void complicatedInputTrue9() {
+<span class="fc" id="L344">        assertTrue(runWholeProgram(&quot;(\\d\\w*|\\a|\\l*)&quot;, &quot;1&quot;));</span>
+<span class="fc" id="L345">    }</span>
+
+    @Test
+    public void complicatedInputTrue10() {
+<span class="fc" id="L349">        assertTrue(runWholeProgram(&quot;(ab)+&quot;, &quot;abab&quot;));</span>
+<span class="fc" id="L350">    }</span>
+
+    @Test
+    public void complicatedInputTrue11() {
+<span class="fc" id="L354">        assertTrue(runWholeProgram(&quot;(ab|cd)+&quot;, &quot;cd&quot;));</span>
+<span class="fc" id="L355">    }</span>
+
+    @Test
+    public void complicatedInputTrue12() {
+<span class="fc" id="L359">        assertTrue(runWholeProgram(&quot;(abcd)*(ab)*&quot;, &quot;abcdabcd&quot;));</span>
+<span class="fc" id="L360">    }</span>
+
+    @Test
+    public void complicatedInputFalse1() {
+<span class="fc" id="L364">        assertFalse(runWholeProgram(&quot;(a*|b*)&quot;, &quot;bba&quot;));</span>
+<span class="fc" id="L365">    }</span>
+
+    @Test
+    public void complicatedInputFalse2() {
+<span class="fc" id="L369">        assertFalse(runWholeProgram(&quot;(a*|b*|c)&quot;, &quot;cc&quot;));</span>
+<span class="fc" id="L370">    }</span>
+    
+    @Test
+    public void complicatedInputFalse3() {
+<span class="fc" id="L374">        assertFalse(runWholeProgram(&quot;(ab|cd)+&quot;, &quot;&quot;));</span>
+<span class="fc" id="L375">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.java.regex.input.RegexSubstringTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2017-12-17T18:31:41" hostname="joonas-SVE1512T1ESI" time="0.023">
+  <properties/>
+  <testcase name="getExpressionException1" classname="test.java.regex.input.RegexSubstringTest" time="0.004"/>
+  <testcase name="getExpressionException2" classname="test.java.regex.input.RegexSubstringTest" time="0.003"/>
+  <testcase name="getExpressionException3" classname="test.java.regex.input.RegexSubstringTest" time="0.001"/>
+  <testcase name="getNextCharTest1" classname="test.java.regex.input.RegexSubstringTest" time="0.0"/>
+  <testcase name="getNextCharTest2" classname="test.java.regex.input.RegexSubstringTest" time="0.001"/>
+  <testcase name="getNextCharTest3" classname="test.java.regex.input.RegexSubstringTest" time="0.0"/>
+  <testcase name="getNextCharThrowsExceptionTest" classname="test.java.regex.input.RegexSubstringTest" time="0.0"/>
+  <testcase name="getExpression1" classname="test.java.regex.input.RegexSubstringTest" time="0.0"/>
+  <testcase name="getExpression2" classname="test.java.regex.input.RegexSubstringTest" time="0.0"/>
+  <testcase name="getExpression3" classname="test.java.regex.input.RegexSubstringTest" time="0.001"/>
+  <testcase name="peekNextCharTest" classname="test.java.regex.input.RegexSubstringTest" time="0.001"/>
+  <testcase name="hasNextCharTest1" classname="test.java.regex.input.RegexSubstringTest" time="0.002"/>
+  <testcase name="hasNextCharTest2" classname="test.java.regex.input.RegexSubstringTest" time="0.001"/>
+  <testcase name="peekNextCharThrowsExceptionTest" classname="test.java.regex.input.RegexSubstringTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Queue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">regex</a> &gt; <a href="index.source.html" class="el_package">main.java.regex.datastructure</a> &gt; <span class="el_source">Queue.java</span></div><h1>Queue.java</h1><pre class="source lang-java linenums">package main.java.regex.datastructure;
+
+import main.java.regex.nfa.NFAState;
+
+public class Queue {
+
+    private NFAState[] queue;
+    private int head;
+    private int tail;
+
+<span class="fc" id="L11">    public Queue(int n) {</span>
+<span class="fc" id="L12">        queue = new NFAState[n];</span>
+<span class="fc" id="L13">        head = 0;</span>
+<span class="fc" id="L14">        tail = 0;</span>
+<span class="fc" id="L15">    }</span>
+
+    /**
+     * @param s NFAState to enqueue to the queue
+     */
+    public void enqueue(NFAState s) {
+<span class="fc" id="L21">        queue[head] = s;</span>
+<span class="fc" id="L22">        head++;</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (isFull()) {</span>
+<span class="fc" id="L24">            increaseSize();</span>
+        }
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (head == queue.length) {</span>
+<span class="fc" id="L27">            head = 0;</span>
+        }
+<span class="fc" id="L29">    }</span>
+
+    /**
+     * @return the oldest NFAState in the queue
+     */
+    public NFAState dequeue() {
+<span class="fc" id="L35">        NFAState s = queue[tail];</span>
+<span class="fc" id="L36">        tail++;</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (tail == queue.length) {</span>
+<span class="fc" id="L38">            tail = 0;</span>
+        }
+<span class="fc" id="L40">        return s;</span>
+    }
+
+    /**
+     * @return is the queue empty
+     */
+    public boolean isEmpty() {
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        return head == tail;</span>
+    }
+
+    /**
+     * @return is the queue full
+     */
+    private boolean isFull() {
+<span class="pc bpc" id="L54" title="1 of 6 branches missed.">        return (tail - 1 == head || (head == queue.length &amp;&amp; tail == 0));</span>
+    }
+
+    /**
+     * replace current queue with bigger one with same contents
+     */
+    private void increaseSize() {
+<span class="fc" id="L61">        NFAState[] biggerQueue = new NFAState[queue.length * 2];</span>
+<span class="fc" id="L62">        biggerQueue[0] = queue[tail];</span>
+<span class="fc" id="L63">        int index = 1;</span>
+<span class="fc" id="L64">        for (int i = tail + 1;;i++) {</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            if (i == queue.length) {</span>
+<span class="fc" id="L66">                i = 0;</span>
+            }
+<span class="fc" id="L68">            biggerQueue[index] = queue[i];</span>
+<span class="fc" id="L69">              index++;</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            if (i == tail) {</span>
+<span class="fc" id="L71">                break;</span>
+            }
+        }
+<span class="fc" id="L74">        tail = 0;</span>
+<span class="fc" id="L75">        head = queue.length;</span>
+<span class="fc" id="L76">        this.queue = biggerQueue;</span>
+<span class="fc" id="L77">    }</span>
+
+    /**
+     * @return queue head, tail, size
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L84">        return &quot;head: &quot; + head + &quot;, tail: &quot; + tail + &quot;, size: &quot; + queue.length;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

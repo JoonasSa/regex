@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.java.regex.util.CharacterClassifierTest" tests="20" skipped="0" failures="0" errors="0" timestamp="2017-12-17T18:31:41" hostname="joonas-SVE1512T1ESI" time="0.02">
+  <properties/>
+  <testcase name="isClassWTest1" classname="test.java.regex.util.CharacterClassifierTest" time="0.0"/>
+  <testcase name="isClassWTest2" classname="test.java.regex.util.CharacterClassifierTest" time="0.0"/>
+  <testcase name="isClassWTest3" classname="test.java.regex.util.CharacterClassifierTest" time="0.001"/>
+  <testcase name="isNotClassLTest1" classname="test.java.regex.util.CharacterClassifierTest" time="0.001"/>
+  <testcase name="isNotClassLTest2" classname="test.java.regex.util.CharacterClassifierTest" time="0.001"/>
+  <testcase name="isNotClassUTest1" classname="test.java.regex.util.CharacterClassifierTest" time="0.001"/>
+  <testcase name="isNotClassUTest2" classname="test.java.regex.util.CharacterClassifierTest" time="0.001"/>
+  <testcase name="isNotClassATest" classname="test.java.regex.util.CharacterClassifierTest" time="0.001"/>
+  <testcase name="isNotClassDTest" classname="test.java.regex.util.CharacterClassifierTest" time="0.001"/>
+  <testcase name="isNotClassWTest" classname="test.java.regex.util.CharacterClassifierTest" time="0.0"/>
+  <testcase name="isNotRegexSymbolTest1" classname="test.java.regex.util.CharacterClassifierTest" time="0.0"/>
+  <testcase name="isClassATest1" classname="test.java.regex.util.CharacterClassifierTest" time="0.001"/>
+  <testcase name="isClassATest2" classname="test.java.regex.util.CharacterClassifierTest" time="0.001"/>
+  <testcase name="isClassDTest" classname="test.java.regex.util.CharacterClassifierTest" time="0.003"/>
+  <testcase name="isClassLTest" classname="test.java.regex.util.CharacterClassifierTest" time="0.0"/>
+  <testcase name="isClassUTest" classname="test.java.regex.util.CharacterClassifierTest" time="0.001"/>
+  <testcase name="isClassWTest" classname="test.java.regex.util.CharacterClassifierTest" time="0.0"/>
+  <testcase name="isRegexSymbolTest1" classname="test.java.regex.util.CharacterClassifierTest" time="0.0"/>
+  <testcase name="isRegexSymbolTest2" classname="test.java.regex.util.CharacterClassifierTest" time="0.0"/>
+  <testcase name="isRegexSymbolTest3" classname="test.java.regex.util.CharacterClassifierTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

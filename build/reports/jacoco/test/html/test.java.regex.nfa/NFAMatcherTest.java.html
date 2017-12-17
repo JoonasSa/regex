@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NFAMatcherTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">regex</a> &gt; <a href="index.source.html" class="el_package">test.java.regex.nfa</a> &gt; <span class="el_source">NFAMatcherTest.java</span></div><h1>NFAMatcherTest.java</h1><pre class="source lang-java linenums">package test.java.regex.nfa;
+
+import main.java.regex.nfa.NFAConstructor;
+import main.java.regex.nfa.NFAMatcher;
+import main.java.regex.nfa.NFAState;
+import org.junit.Test;
+import org.junit.Before;
+import static org.junit.Assert.*;
+
+<span class="fc" id="L10">public class NFAMatcherTest {</span>
+
+    public NFAMatcher matcher;
+    
+    @Before
+    public void beforeClass() {
+<span class="fc" id="L16">        NFAState start = new NFAConstructor().constructNFA(&quot;abc&quot;);</span>
+<span class="fc" id="L17">        matcher = new NFAMatcher(start);</span>
+<span class="fc" id="L18">    }</span>
+    
+    @Test
+    public void matchesCorrectInput() {
+<span class="fc" id="L22">        assertTrue(matcher.match(&quot;abc&quot;));</span>
+<span class="fc" id="L23">    }</span>
+    
+    @Test
+    public void doesNotmatchIncorrectInput() {
+<span class="fc" id="L27">        assertFalse(matcher.match(&quot;cba&quot;));</span>
+<span class="fc" id="L28">    }</span>
+    
+    //TODO Test private methods with reflection
+    /*@Test
+    public void transitionSymbolTest() {
+        Method method = NFAMatcher.getDeclaredMethod(new Method(NFAMatcher.class.getMethod(&quot;transitionSymbol&quot;, new NFAState(StateType.NORMAL, 'a'))), NFAMatcher.class);
+        method.setAccessible(true);
+        assertEquals(method.invoke(targetObject, argObjects));
+    }*/
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

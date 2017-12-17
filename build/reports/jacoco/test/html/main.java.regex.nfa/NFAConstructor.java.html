@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NFAConstructor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">regex</a> &gt; <a href="index.source.html" class="el_package">main.java.regex.nfa</a> &gt; <span class="el_source">NFAConstructor.java</span></div><h1>NFAConstructor.java</h1><pre class="source lang-java linenums">package main.java.regex.nfa;
+
+
+import main.java.regex.input.RegexSubstring;
+import main.java.regex.util.CharacterClassifier;
+import main.java.regex.util.StateType;
+
+<span class="fc" id="L8">public class NFAConstructor {</span>
+
+    /**
+     * @param input regex
+     * @return first state of the NFA
+     */
+    public NFAState constructNFA(String input) {
+<span class="fc" id="L15">        NFAState start = new NFAState(StateType.START, 'ε');</span>
+<span class="fc" id="L16">        NFAState epsilon = new NFAState(StateType.NORMAL, 'ε');</span>
+<span class="fc" id="L17">        start.setNext(epsilon);</span>
+<span class="fc" id="L18">        NFAState prev = recursiveBuild(epsilon, epsilon, new RegexSubstring(input))[1];</span>
+<span class="fc" id="L19">        prev.setNext(new NFAState(StateType.END, 'ε'));</span>
+<span class="fc" id="L20">        return start;</span>
+    }
+
+    /**
+     * @param componentStart first state of the part currently under
+     * construction
+     * @param prev the previous NFAState
+     * @param regex the input regex
+     * @return NFAState array [first, last] states of the sub nfa
+     */
+    private NFAState[] recursiveBuild(NFAState componentStart, NFAState prev, RegexSubstring regex) {
+        NFAState current;
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        while (regex.hasNextChar()) {</span>
+<span class="fc" id="L33">            char c = regex.peekNextChar();</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">            if (CharacterClassifier.isRegexSymbol(c)) {</span>
+<span class="fc" id="L35">                prev = handleRegexSymbol(componentStart, prev, regex, regex.getNextChar(), false);</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            } else if (c == '(') {</span>
+<span class="fc" id="L37">                NFAState substringStart = new NFAState('ε');</span>
+<span class="fc" id="L38">                NFAState[] states = recursiveBuild(substringStart, substringStart, regex.getExpression());</span>
+<span class="fc" id="L39">                prev.setNext(states[0]);</span>
+<span class="fc" id="L40">                prev = states[1];</span>
+                //check if there is a special character after the parentheses
+<span class="fc bfc" id="L42" title="All 2 branches covered.">                if (regex.hasNextChar()) {</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">                    if (CharacterClassifier.isRegexSymbol(regex.peekNextChar())) {</span>
+<span class="fc" id="L44">                        prev = handleRegexSymbol(substringStart, prev, regex, regex.getNextChar(), true);</span>
+                    }
+                }
+<span class="fc" id="L47">            } else {</span>
+<span class="fc" id="L48">                current = new NFAState(regex.getNextChar());</span>
+<span class="fc" id="L49">                prev.setNext(current);</span>
+<span class="fc" id="L50">                prev = current;</span>
+            }
+<span class="fc" id="L52">        }</span>
+<span class="fc" id="L53">        return new NFAState[]{componentStart, prev};</span>
+    }
+
+    /**
+     * @param componentStart first state of the part currently under
+     * construction
+     * @param prev the previous NFAState
+     * @param regex the input regex
+     * @param c current character from the input string
+     * @return last state of the constructed NFA part
+     */
+    private NFAState handleRegexSymbol(NFAState componentStart, NFAState prev, RegexSubstring regex, char c, boolean afterParentheses) {
+<span class="pc bpc" id="L65" title="1 of 3 branches missed.">        switch (c) {</span>
+            case '|':
+<span class="fc" id="L67">                prev = union(componentStart, prev, regex);</span>
+<span class="fc" id="L68">                break;</span>
+            case '*':
+<span class="fc bfc" id="L70" title="All 2 branches covered.">                if (afterParentheses) {</span>
+<span class="fc" id="L71">                    prev = kleeneStar(componentStart, prev, false);</span>
+                } else {
+<span class="fc" id="L73">                    prev = kleeneStar(prev, prev, true);</span>
+                }
+                break;
+        }
+<span class="fc" id="L77">        return prev;</span>
+    }
+
+    /**
+     * @param componentStart first state of the part currently under
+     * construction
+     * @param prev the previous NFAState
+     * @return last state of the constructed NFA kleenestar part
+     */
+    private NFAState kleeneStar(NFAState componentStart, NFAState prev, boolean singleChar) {
+<span class="fc" id="L87">        NFAState starFirst = componentStart.getCopy();</span>
+<span class="fc" id="L88">        NFAState starLast = new NFAState('ε');</span>
+<span class="fc" id="L89">        componentStart.symbol = 'ε';</span>
+<span class="fc" id="L90">        componentStart.arrowA = null;</span>
+<span class="fc" id="L91">        componentStart.arrowB = null;</span>
+<span class="fc" id="L92">        componentStart.setNext(starFirst);</span>
+<span class="fc" id="L93">        componentStart.setNext(starLast);</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (singleChar) {</span>
+<span class="fc" id="L95">            starFirst.setNext(starLast);</span>
+<span class="fc" id="L96">            starLast.setNext(starFirst);</span>
+        } else {
+<span class="fc" id="L98">            NFAState extra = new NFAState('ε');</span>
+<span class="fc" id="L99">            extra.setNext(starFirst);</span>
+<span class="fc" id="L100">            extra.setNext(starLast);</span>
+<span class="fc" id="L101">            prev.setNext(extra);</span>
+        }
+<span class="fc" id="L103">        return starLast;</span>
+    }
+
+    /**
+     * @param componentStart first state of the part currently under
+     * construction
+     * @param prev the previous NFAState
+     * @param regex the input regex
+     * @return last state of the constructed NFA union part
+     */
+    private NFAState union(NFAState componentStart, NFAState prev, RegexSubstring regex) {
+<span class="fc" id="L114">        NFAState unionFirst = new NFAState('ε');</span>
+<span class="fc" id="L115">        NFAState unionA = componentStart.getLatestArrow();</span>
+<span class="fc" id="L116">        componentStart.removeLatestArrow();</span>
+<span class="fc" id="L117">        componentStart.setNext(unionFirst);</span>
+        //Union 1. split
+<span class="fc" id="L119">        unionFirst.setNext(unionA);</span>
+<span class="fc" id="L120">        NFAState unionB = new NFAState('ε');</span>
+        //Union 2. split
+<span class="fc" id="L122">        unionFirst.setNext(unionB);</span>
+<span class="fc" id="L123">        NFAState unionBLast = recursiveBuild(unionB, unionB, regex)[1];</span>
+        //Link both union sides to a union end state
+<span class="fc" id="L125">        NFAState unionLast = new NFAState('ε');</span>
+<span class="fc" id="L126">        prev.setNext(unionLast);</span>
+<span class="fc" id="L127">        unionBLast.setNext(unionLast);</span>
+<span class="fc" id="L128">        return unionLast;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

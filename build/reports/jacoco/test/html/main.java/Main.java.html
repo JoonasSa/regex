@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">regex</a> &gt; <a href="index.source.html" class="el_package">main.java</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package main.java;
+
+import main.java.regex.benchmark.RegexBenchmark;
+import main.java.regex.input.RegexStringPreprocessor;
+import main.java.regex.nfa.NFAConstructor;
+import main.java.regex.nfa.NFAMatcher;
+import main.java.regex.nfa.NFAState;
+
+import java.util.regex.Pattern;
+
+<span class="nc" id="L11">public class Main {</span>
+
+    /**
+     * @author Joonas Sarapalo
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        if (args.length == 0) {</span>
+<span class="nc" id="L19">            warnAndExit(&quot;No arguments received!&quot;);</span>
+        }
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        if (args[0].equals(&quot;--help&quot;)) {</span>
+<span class="nc" id="L22">            helpAndExit();</span>
+        }
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (args.length &lt; 2) {</span>
+<span class="nc" id="L25">            warnAndExit(&quot;Regex and input string required!&quot;);</span>
+        }
+
+<span class="nc" id="L28">        String regex = args[0];</span>
+<span class="nc" id="L29">        String input = args[1];</span>
+        
+        //no test flag set
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (args.length == 2) { </span>
+<span class="nc" id="L33">            runProgram(regex, input);</span>
+<span class="nc" id="L34">            return;</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        } else if (args.length &gt; 4) {</span>
+<span class="nc" id="L36">            warnAndExit(&quot;Too many arguments provided!&quot;);</span>
+        }
+        
+<span class="nc" id="L39">        char type = args[2].charAt(0);</span>
+        
+        //ran only once
+<span class="nc bnc" id="L42" title="All 6 branches missed.">        if (type == 'v' || type == 'r' || type == 'l') {</span>
+<span class="nc" id="L43">            RegexBenchmark.getBenchmark(type, 1, regex, input);</span>
+<span class="nc" id="L44">            return;</span>
+        }
+        
+        //check with Java regex just in case mine has bugs
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (!Pattern.matches(regex, input)) {</span>
+<span class="nc" id="L49">            warnAndExit(&quot;Input string doesn't match the regex!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (args.length == 3) {</span>
+<span class="nc" id="L53">            int mul = 1;</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            for (int i = 0; i &lt; 3; i++) {</span>
+<span class="nc" id="L55">                long timeStart = System.currentTimeMillis();</span>
+<span class="nc" id="L56">                int n = 10 * mul;</span>
+<span class="nc" id="L57">                RegexBenchmark.getBenchmark(args[2].charAt(0), n, regex, input);</span>
+<span class="nc" id="L58">                mul *= 10;</span>
+<span class="nc" id="L59">                long timeEnd = System.currentTimeMillis();</span>
+<span class="nc" id="L60">                System.out.println(n + &quot; runs of the program with parameters: [ &quot; + regex + &quot;, &quot; + input + &quot; ]\n&quot;</span>
+                        + &quot;Total time: &quot; + (timeEnd - timeStart) + &quot;ms. \nAverage time: &quot; + ((double) (timeEnd - timeStart) / n) + &quot;ms.&quot;);
+            }
+<span class="nc" id="L63">        } else {</span>
+            try {
+<span class="nc" id="L65">                long timeStart = System.currentTimeMillis();</span>
+<span class="nc" id="L66">                RegexBenchmark.getBenchmark(args[2].charAt(0), Long.parseLong(args[3]), regex, input);</span>
+<span class="nc" id="L67">                long timeEnd = System.currentTimeMillis();</span>
+<span class="nc" id="L68">                System.out.println(&quot;1 run of the program with parameters: [ &quot; + regex + &quot;, &quot; + input + &quot; ]\n&quot;</span>
+                        + &quot;Total time: &quot; + (timeEnd - timeStart) + &quot;ms.&quot;);
+<span class="nc" id="L70">            } catch (Exception e) {</span>
+<span class="nc" id="L71">                System.out.println(&quot;Fourth argument must be an integer!&quot;);</span>
+<span class="nc" id="L72">            }</span>
+        }
+<span class="nc" id="L74">    }</span>
+
+    /**
+     * @param regex
+     * @param input
+     */
+    private static void runProgram(String regex, String input) {
+<span class="nc" id="L81">        String preprocessed = RegexStringPreprocessor.parseInput(regex);</span>
+<span class="nc" id="L82">        NFAState start = new NFAConstructor().constructNFA(preprocessed);</span>
+<span class="nc" id="L83">        boolean result = new NFAMatcher(start).match(input);</span>
+<span class="nc" id="L84">        System.out.println(&quot;Matching result with\n&quot;</span>
+                + &quot;  regex: '&quot; + regex + &quot;'\n&quot;
+                + &quot;  input: '&quot; + input + &quot;'\n&quot;
+                + &quot;  result: &quot; + result);
+<span class="nc" id="L88">    }</span>
+
+    /**
+     * @param message warning message
+     */
+    private static void warnAndExit(String message) {
+<span class="nc" id="L94">        System.out.println(message + &quot;\n&quot;</span>
+                + &quot;Give arguments in form: \&quot; regex input \&quot; or \&quot; 'regex' 'input' \&quot; without the \&quot; characters.\n&quot;
+                + &quot;Type --help to see info.&quot;);
+<span class="nc" id="L97">        System.exit(0);</span>
+<span class="nc" id="L98">    }</span>
+
+    /**
+     * dump usage instructions
+     */
+    private static void helpAndExit() {
+<span class="nc" id="L104">        System.out.println(&quot;Give arguments in form: \&quot; regex input \&quot; or \&quot; 'regex' 'input' \&quot; without the \&quot; characters.\n&quot;</span>
+                + &quot;(Empty string can be input like this '')\n&quot;
+                + &quot;\n&quot;
+                + &quot;Regex argument supports:\n&quot;
+                + &quot;  Symbols:\n&quot;
+                + &quot;    parentheses: (), for example (ab)\n&quot;
+                + &quot;    kleenestar: *, for example a*\n&quot;
+                + &quot;    plus: +, for example a+\n&quot;
+                + &quot;    union: |, for example (a|b) (IMPORTANT! Expects parentheses.)\n&quot;
+                + &quot;  Character classes (match certain type of character):\n&quot;
+                + &quot;    any character - .\n&quot;
+                + &quot;    digit - \\d\n&quot;
+                + &quot;    alphabet - \\a\n&quot;
+                + &quot;    lowercase character - \\l\n&quot;
+                + &quot;    uppercase character - \\u\n&quot;
+                + &quot;    alphabet, digit and _ - \\w\n&quot;
+                + &quot;\n&quot;
+                + &quot;Optional 3rd argument: test type can be provided after regex and input arguments\n&quot;
+                + &quot;Optional 4th argument: run times can be provided to run the tests a specific number of times\n&quot;
+                + &quot;Without 4th parameter the default mode with multiple runs is done\n&quot;
+                + &quot;  Benchmarks:\n&quot;
+                + &quot;    a: benchmark whole process with all prints\n&quot;
+                + &quot;    w: benchmark whole process\n&quot;
+                + &quot;    p: benchmark regex preprocessing\n&quot;
+                + &quot;    c: benchmark nfa construction\n&quot;
+                + &quot;    m: benchmark input string matching\n&quot;
+                + &quot;  Benchmarks vs Java (important to keep in mind that my regex and Java's regex are not 100% the same):\n&quot;
+                + &quot;    f: benchmark matching words from a file (provide file location as the input string)\n&quot;
+                + &quot;    v: benchmark comparisons against Java Matcher.find() from a file (provide file location as the input string)\n&quot;
+                + &quot;    r: benchmark comparisons against Java Patter.match()\n&quot;
+                + &quot;\n&quot;
+                + &quot;Examples:&quot;
+                + &quot;  \&quot;java -jar regex.jar a+ aa\&quot; - Normal run, regex a+ with input aa. \n&quot;
+                + &quot;  \&quot;java -jar regex.jar a* ''\&quot; - Normal run, regex a* with input  .\n&quot;
+                + &quot;  \&quot;java -jar regex.jar (a|b)* aaaaabba w\&quot; - Benchmark the whole program, regex (a|b)* with input aaaaabba.\n&quot;
+                + &quot;  \&quot;java -jar regex.jar \\w*. abcd_ m\&quot; - Benchmark matching, regex \\w*. with input abcd_.\n&quot;);
+<span class="nc" id="L140">        System.exit(0);</span>
+<span class="nc" id="L141">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

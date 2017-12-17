@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.java.regex.datastructure.QueueTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2017-12-17T18:31:41" hostname="joonas-SVE1512T1ESI" time="0.002">
+  <properties/>
+  <testcase name="dynamicallyIncreaseSizeTest1" classname="test.java.regex.datastructure.QueueTest" time="0.0"/>
+  <testcase name="dynamicallyIncreaseSizeTest2" classname="test.java.regex.datastructure.QueueTest" time="0.0"/>
+  <testcase name="dynamicallyIncreaseSizeTest3" classname="test.java.regex.datastructure.QueueTest" time="0.0"/>
+  <testcase name="dynamicallyIncreaseSizeTest4" classname="test.java.regex.datastructure.QueueTest" time="0.001"/>
+  <testcase name="isEmptyTest1" classname="test.java.regex.datastructure.QueueTest" time="0.0"/>
+  <testcase name="isEmptyTest2" classname="test.java.regex.datastructure.QueueTest" time="0.0"/>
+  <testcase name="queueTest1" classname="test.java.regex.datastructure.QueueTest" time="0.0"/>
+  <testcase name="queueTest2" classname="test.java.regex.datastructure.QueueTest" time="0.0"/>
+  <testcase name="queueTest3" classname="test.java.regex.datastructure.QueueTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

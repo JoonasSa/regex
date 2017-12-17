@@ -1,4 +1,4 @@
-package regex.datastructure;
+package test.java.regex.datastructure;
 
 import main.java.regex.datastructure.Queue;
 import main.java.regex.nfa.NFAState;

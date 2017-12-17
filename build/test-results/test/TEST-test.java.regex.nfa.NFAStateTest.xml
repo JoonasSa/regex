@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.java.regex.nfa.NFAStateTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2017-12-17T18:31:41" hostname="joonas-SVE1512T1ESI" time="0.021">
+  <properties/>
+  <testcase name="removeLatestArrow1" classname="test.java.regex.nfa.NFAStateTest" time="0.001"/>
+  <testcase name="removeLatestArrow2" classname="test.java.regex.nfa.NFAStateTest" time="0.001"/>
+  <testcase name="removeLatestArrow3" classname="test.java.regex.nfa.NFAStateTest" time="0.001"/>
+  <testcase name="constructorTest1" classname="test.java.regex.nfa.NFAStateTest" time="0.0"/>
+  <testcase name="constructorTest2" classname="test.java.regex.nfa.NFAStateTest" time="0.001"/>
+  <testcase name="toStringTest" classname="test.java.regex.nfa.NFAStateTest" time="0.001"/>
+  <testcase name="getLatestArrow1" classname="test.java.regex.nfa.NFAStateTest" time="0.0"/>
+  <testcase name="getLatestArrow2" classname="test.java.regex.nfa.NFAStateTest" time="0.001"/>
+  <testcase name="getLatestArrow3" classname="test.java.regex.nfa.NFAStateTest" time="0.001"/>
+  <testcase name="getCopyTest1" classname="test.java.regex.nfa.NFAStateTest" time="0.001"/>
+  <testcase name="getCopyTest2" classname="test.java.regex.nfa.NFAStateTest" time="0.0"/>
+  <testcase name="getCopyTest3" classname="test.java.regex.nfa.NFAStateTest" time="0.0"/>
+  <testcase name="getCopyTest4" classname="test.java.regex.nfa.NFAStateTest" time="0.001"/>
+  <testcase name="getCopyTest5" classname="test.java.regex.nfa.NFAStateTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

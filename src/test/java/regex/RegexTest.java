@@ -1,4 +1,4 @@
-package regex;
+package test.java.regex;
 
 import main.java.regex.input.RegexStringPreprocessor;
 import main.java.regex.nfa.NFAConstructor;

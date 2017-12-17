@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RegexBenchmark.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">regex</a> &gt; <a href="index.source.html" class="el_package">main.java.regex.benchmark</a> &gt; <span class="el_source">RegexBenchmark.java</span></div><h1>RegexBenchmark.java</h1><pre class="source lang-java linenums">package main.java.regex.benchmark;
+
+import main.java.regex.input.RegexStringPreprocessor;
+import main.java.regex.nfa.NFAConstructor;
+import main.java.regex.nfa.NFAMatcher;
+import main.java.regex.nfa.NFAState;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+<span class="nc" id="L14">public class RegexBenchmark {</span>
+
+    /**
+     * @param type test type
+     * @param times how many times the test is run
+     * @param regex string
+     * @param input string
+     */
+    public static void getBenchmark(char type, long times, String regex, String input) {
+<span class="nc bnc" id="L23" title="All 10 branches missed.">        switch (type) {</span>
+            case 'a':
+<span class="nc" id="L25">                benchmarkWholeProgram(regex, input, times);</span>
+<span class="nc" id="L26">                System.out.println(&quot;----------------------------------------------------------------------------------&quot;);</span>
+<span class="nc" id="L27">                benchmarkPreprocessing(regex, times);</span>
+<span class="nc" id="L28">                System.out.println(&quot;----------------------------------------------------------------------------------&quot;);</span>
+<span class="nc" id="L29">                benchmarkConstructing(regex, times);</span>
+<span class="nc" id="L30">                System.out.println(&quot;----------------------------------------------------------------------------------&quot;);</span>
+<span class="nc" id="L31">                benchmarkMatching(regex, input, times);</span>
+<span class="nc" id="L32">                break;</span>
+            case 'w':
+<span class="nc" id="L34">                benchmarkWholeProgram(regex, input, times);</span>
+<span class="nc" id="L35">                break;</span>
+            case 'p':
+<span class="nc" id="L37">                benchmarkPreprocessing(regex, times);</span>
+<span class="nc" id="L38">                break;</span>
+            case 'c':
+<span class="nc" id="L40">                benchmarkConstructing(regex, times);</span>
+<span class="nc" id="L41">                break;</span>
+            case 'm':
+<span class="nc" id="L43">                benchmarkMatching(regex, input, times);</span>
+<span class="nc" id="L44">                break;</span>
+            case 'r':
+<span class="nc" id="L46">                regexVersusJava(regex, input, times);</span>
+<span class="nc" id="L47">                break;</span>
+            case 'f':
+<span class="nc" id="L49">                benchmarkFileRegex(regex, input, true);</span>
+<span class="nc" id="L50">                break;</span>
+            case 'v':
+<span class="nc" id="L52">                fileRegexVersusJava(regex, input, true);</span>
+<span class="nc" id="L53">                break;</span>
+            case 'l':
+<span class="nc" id="L55">                fileRegexVersusJava(regex, input, false);</span>
+<span class="nc" id="L56">                break;</span>
+            default:
+<span class="nc" id="L58">                System.out.println(&quot;Invalid benchmark type. Valid types are:\n&quot;</span>
+                        + &quot;    a: whole process with all prints\n&quot;
+                        + &quot;    w: whole process\n&quot;
+                        + &quot;    p: regex preprocessing\n&quot;
+                        + &quot;    c: nfa construction\n&quot;
+                        + &quot;    m: input string matching\n&quot;
+                        + &quot;    f: find instances of regex in input file&quot;
+                        + &quot;    r: comparisons against Java Patter.match()&quot;);
+                break;
+        }
+<span class="nc" id="L68">    }</span>
+
+    /**
+     * @param regex string
+     * @param input string
+     * @param n how many times the test is run
+     */
+    private static void benchmarkWholeProgram(String regex, String input, long n) {
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L77">            String parsed = RegexStringPreprocessor.parseInput(regex);</span>
+<span class="nc" id="L78">            NFAState start = new NFAConstructor().constructNFA(parsed);</span>
+<span class="nc" id="L79">            new NFAMatcher(start).match(input);</span>
+        }
+<span class="nc" id="L81">    }</span>
+
+    /**
+     * @param regex string
+     * @param n how many times the test is run
+     */
+    private static void benchmarkPreprocessing(String regex, long n) {
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L89">            RegexStringPreprocessor.parseInput(regex);</span>
+        }
+<span class="nc" id="L91">    }</span>
+
+    /**
+     * @param regex string
+     * @param n how many times the test is run
+     */
+    private static void benchmarkConstructing(String regex, long n) {
+<span class="nc" id="L98">        regex = RegexStringPreprocessor.parseInput(regex);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L100">            new NFAConstructor().constructNFA(regex);</span>
+        }
+<span class="nc" id="L102">    }</span>
+
+    /**
+     * @param regex string
+     * @param input string
+     * @param n how many times the test is run
+     */
+    private static void benchmarkMatching(String regex, String input, long n) {
+<span class="nc" id="L110">        String parsed = RegexStringPreprocessor.parseInput(regex);</span>
+<span class="nc" id="L111">        NFAState start = new NFAConstructor().constructNFA(parsed);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L113">            new NFAMatcher(start).match(input);</span>
+        }
+<span class="nc" id="L115">    }</span>
+
+    /**
+     * @param regex string
+     * @param input string
+     * @param n how many times the test is run
+     */
+    private static void benchmarkJavaRegex(String regex, String input, long n) {
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L124">            Pattern.matches(regex, input);</span>
+        }
+<span class="nc" id="L126">    }</span>
+
+    /**
+     * @param regex string
+     * @param filePath path to file to read input from
+     * @param wordByWord read file content word or line at a time
+     */
+    private static void benchmarkFileRegex(String regex, String filePath, boolean wordByWord) {
+<span class="nc" id="L134">        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {</span>
+<span class="nc" id="L135">            String line = br.readLine();</span>
+
+<span class="nc bnc" id="L137" title="All 2 branches missed.">            if (wordByWord) {</span>
+<span class="nc" id="L138">                String parsed = RegexStringPreprocessor.parseInput(regex);</span>
+<span class="nc" id="L139">                NFAState start = new NFAConstructor().constructNFA(parsed);</span>
+<span class="nc" id="L140">                NFAMatcher matcher = new NFAMatcher(start);</span>
+<span class="nc" id="L141">                int wordCount = 0;</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">                while (line != null) {</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">                    for (String word : line.split(&quot; &quot;)) {</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">                        if (matcher.match(word)) {</span>
+<span class="nc" id="L145">                            wordCount++;</span>
+                        }
+                    }
+<span class="nc" id="L148">                    line = br.readLine();</span>
+                }
+<span class="nc" id="L150">                System.out.println(wordCount + &quot; words matching regex found.&quot;);</span>
+<span class="nc" id="L151">            } else {</span>
+<span class="nc" id="L152">                String parsed = RegexStringPreprocessor.parseInput(&quot;.*&quot; + regex + &quot;.*&quot;); //non-anchored</span>
+<span class="nc" id="L153">                NFAState start = new NFAConstructor().constructNFA(parsed);</span>
+<span class="nc" id="L154">                NFAMatcher matcher = new NFAMatcher(start);</span>
+<span class="nc" id="L155">                int lineCount = 0;</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">                while (line != null) {</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">                    if (matcher.match(line)) {</span>
+<span class="nc" id="L158">                        lineCount++;</span>
+                    }
+<span class="nc" id="L160">                    line = br.readLine();</span>
+                }
+<span class="nc" id="L162">                System.out.println(lineCount + &quot; lines containing a match for the regex.&quot;);</span>
+            }
+<span class="nc bnc" id="L164" title="All 8 branches missed.">        } catch (Exception e) {</span>
+<span class="nc" id="L165">            System.out.println(e);</span>
+<span class="nc" id="L166">        }</span>
+<span class="nc" id="L167">    }</span>
+    
+    /**
+     * @param regex string
+     * @param filePath path to file to read input from
+     * @param wordByWord read file content word or line at a time
+     */
+    private static void benchmarkJavaFileRegex(String regex, String filePath, boolean wordByWord) {
+<span class="nc" id="L175">        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {</span>
+<span class="nc" id="L176">            String line = br.readLine();</span>
+<span class="nc" id="L177">            Pattern pattern = Pattern.compile(regex);</span>
+
+<span class="nc bnc" id="L179" title="All 2 branches missed.">            if (wordByWord) {</span>
+<span class="nc" id="L180">                int wordCount = 0;</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">                while (line != null) {</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">                    for (String word : line.split(&quot; &quot;)) {</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">                        if (pattern.matcher(word).matches()) {</span>
+<span class="nc" id="L184">                            wordCount++;</span>
+                        }
+                    }
+<span class="nc" id="L187">                    line = br.readLine();</span>
+                }
+<span class="nc" id="L189">                System.out.println(wordCount + &quot; words matching regex found.&quot;);</span>
+<span class="nc" id="L190">            } else {</span>
+                Matcher matcher;
+<span class="nc" id="L192">                int lineCount = 0;</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">                while (line != null) {</span>
+<span class="nc" id="L194">                    matcher = pattern.matcher(line);</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">                    if (matcher.find()) {</span>
+<span class="nc" id="L196">                        lineCount++;</span>
+                    }
+<span class="nc" id="L198">                    line = br.readLine();</span>
+                }
+<span class="nc" id="L200">                System.out.println(lineCount + &quot; lines containing a match for the regex.&quot;);</span>
+            }
+<span class="nc bnc" id="L202" title="All 8 branches missed.">        } catch (Exception e) {</span>
+<span class="nc" id="L203">            System.out.println(e);</span>
+<span class="nc" id="L204">        }</span>
+<span class="nc" id="L205">    }</span>
+
+    /**
+     * @param regex string
+     * @param input string
+     * @param times how many times the test is run
+     */
+    private static void regexVersusJava(String regex, String input, long times) {
+<span class="nc" id="L213">        System.out.println(&quot;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;MY REGEX&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&quot;);</span>
+<span class="nc" id="L214">        long timeStart = System.currentTimeMillis();</span>
+<span class="nc" id="L215">        benchmarkWholeProgram(regex, input, times);</span>
+<span class="nc" id="L216">        long timeEnd = System.currentTimeMillis();</span>
+<span class="nc" id="L217">        System.out.println(times + &quot; runs of the program with parameters: [ &quot; + regex + &quot;, &quot; + input + &quot; ]\n&quot;</span>
+                + &quot;Total time: &quot; + (timeEnd - timeStart) + &quot;ms.&quot;);
+<span class="nc" id="L219">        System.out.println(&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;JAVA REGEX&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;);</span>
+<span class="nc" id="L220">        timeStart = System.currentTimeMillis();</span>
+<span class="nc" id="L221">        benchmarkJavaRegex(regex, input, times);</span>
+<span class="nc" id="L222">        timeEnd = System.currentTimeMillis();</span>
+<span class="nc" id="L223">        System.out.println(times + &quot; runs of the program with parameters: [ &quot; + regex + &quot;, &quot; + input + &quot; ]\n&quot;</span>
+                + &quot;Total time: &quot; + (timeEnd - timeStart) + &quot;ms.&quot;);
+<span class="nc" id="L225">        System.out.println(&quot;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;\n&quot;);</span>
+<span class="nc" id="L226">    }</span>
+
+    /**
+     * @param regex string
+     * @param filePath path to file to read input from
+     * @param wordByWord read file content word or line at a time
+     */
+    private static void fileRegexVersusJava(String regex, String input, boolean wordByWord) {
+<span class="nc" id="L234">        System.out.println(&quot;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;MY REGEX&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&quot;);</span>
+<span class="nc" id="L235">        long timeStart = System.currentTimeMillis();</span>
+<span class="nc" id="L236">        benchmarkFileRegex(regex, input, wordByWord);</span>
+<span class="nc" id="L237">        long timeEnd = System.currentTimeMillis();</span>
+<span class="nc" id="L238">        System.out.println(&quot;1 run of the program with parameters: [ &quot; + regex + &quot;, &quot; + input + &quot; ]\n&quot;</span>
+                + &quot;Total time: &quot; + (timeEnd - timeStart) + &quot;ms.&quot;);
+<span class="nc" id="L240">        System.out.println(&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;JAVA REGEX&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;);</span>
+<span class="nc" id="L241">        timeStart = System.currentTimeMillis();</span>
+<span class="nc" id="L242">        benchmarkJavaFileRegex(regex, input, wordByWord);</span>
+<span class="nc" id="L243">        timeEnd = System.currentTimeMillis();</span>
+<span class="nc" id="L244">        System.out.println(&quot;1 run of the program with parameters: [ &quot; + regex + &quot;, &quot; + input + &quot; ]\n&quot;</span>
+                + &quot;Total time: &quot; + (timeEnd - timeStart) + &quot;ms.&quot;);
+<span class="nc" id="L246">        System.out.println(&quot;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;\n&quot;);</span>
+<span class="nc" id="L247">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

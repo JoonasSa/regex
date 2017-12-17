@@ -1,4 +1,4 @@
-package regex.nfa;
+package test.java.regex.nfa;
 
 import main.java.regex.nfa.NFAState;
 import main.java.regex.util.StateType;

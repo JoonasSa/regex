@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NFAState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">regex</a> &gt; <a href="index.source.html" class="el_package">main.java.regex.nfa</a> &gt; <span class="el_source">NFAState.java</span></div><h1>NFAState.java</h1><pre class="source lang-java linenums">package main.java.regex.nfa;
+
+
+import main.java.regex.util.StateType;
+
+public class NFAState {
+    public StateType type;
+<span class="fc" id="L8">    public NFAState arrowA = null;</span>
+<span class="fc" id="L9">    public NFAState arrowB = null;</span>
+    public char symbol;
+    
+<span class="fc" id="L12">    public NFAState(StateType t, char s) {</span>
+<span class="fc" id="L13">        this.type = t;</span>
+<span class="fc" id="L14">        this.symbol = s;</span>
+<span class="fc" id="L15">    }</span>
+    
+<span class="fc" id="L17">    public NFAState(char s) {</span>
+<span class="fc" id="L18">        this.type = StateType.NORMAL;</span>
+<span class="fc" id="L19">        this.symbol = s;</span>
+<span class="fc" id="L20">    }</span>
+
+    /**
+     * @param state to set as one of the one of the next nfa states of the current state
+     */
+    public void setNext(NFAState state) {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (this.arrowA == null) {</span>
+<span class="fc" id="L27">            this.arrowA = state;</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        } else if (this.arrowB == null) {</span>
+<span class="fc" id="L29">            this.arrowB = state;</span>
+        } else {
+<span class="nc" id="L31">            throw new IllegalStateException(&quot;Tried to add third connection to a NFA state!&quot;);</span>
+        }
+<span class="fc" id="L33">    }</span>
+    
+    /**
+     * @return Deep copy of the NFAState
+     */
+    public NFAState getCopy() {
+<span class="fc" id="L39">        NFAState s = new NFAState(this.type, this.symbol);</span>
+<span class="fc" id="L40">        s.setNext(this.arrowA);</span>
+<span class="fc" id="L41">        s.setNext(this.arrowB);</span>
+<span class="fc" id="L42">        return s;</span>
+    }
+    
+    /**
+     * @return Deep copy of the latest added NFAState
+     */
+    public NFAState getLatestArrow() {
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (this.arrowB != null) {</span>
+<span class="fc" id="L50">            return this.arrowB;</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        } else if (this.arrowA != null) {</span>
+<span class="fc" id="L52">            return this.arrowA;</span>
+        }
+<span class="fc" id="L54">        return null;</span>
+    }
+    
+    public void removeLatestArrow() {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (this.arrowB != null) {</span>
+<span class="fc" id="L59">            this.arrowB = null;</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        } else if (this.arrowA != null) {</span>
+<span class="fc" id="L61">            this.arrowA = null;</span>
+        }
+<span class="fc" id="L63">    }</span>
+    
+    public String dumpInfo() {
+<span class="fc" id="L66">        return &quot;Type: &quot; + type + &quot;, symbol: &quot; + symbol;</span>
+    }
+
+    /**
+     * @return information about this state and the states it has connections to
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L74">        String info = &quot;Type: &quot; + type + &quot;, symbol: &quot; + symbol;</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if (arrowA != null)</span>
+<span class="fc" id="L76">            info += &quot; | A: &quot; + arrowA.dumpInfo();</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (arrowB != null)</span>
+<span class="nc" id="L78">            info += &quot; | B: &quot; + arrowB.dumpInfo();</span>
+<span class="fc" id="L79">        return info;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

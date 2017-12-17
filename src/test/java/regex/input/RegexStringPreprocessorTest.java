@@ -1,5 +1,4 @@
-
-package regex.input;
+package test.java.regex.input;
 
 import main.java.regex.input.RegexStringPreprocessor;
 import org.junit.Test;

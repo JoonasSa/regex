@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.java.regex.RegexTest" tests="69" skipped="0" failures="0" errors="0" timestamp="2017-12-17T18:31:41" hostname="joonas-SVE1512T1ESI" time="0.084">
+  <properties/>
+  <testcase name="classDInputTrue" classname="test.java.regex.RegexTest" time="0.016"/>
+  <testcase name="classLInputFalse1" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="classLInputFalse2" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="wildCardInputTrue1" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="wildCardInputTrue2" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="wildCardInputTrue3" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="wildCardInputTrue4" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="wildCardInputTrue5" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="wildCardInputTrue6" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="plusInputTrue1" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="plusInputTrue2" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="plusInputTrue3" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="plusInputTrue4" classname="test.java.regex.RegexTest" time="0.002"/>
+  <testcase name="classAInputTrue" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="kleeneStarInputTrue1" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="kleeneStarInputTrue2" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="kleeneStarInputTrue3" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="kleeneStarInputTrue4" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="kleeneStarInputTrue5" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="classDInputFalse" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="classWInputFalse" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="classWInputTrue1" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="classWInputTrue2" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="classWInputTrue3" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="classWInputTrue4" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="simpleInputFalse1" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="simpleInputFalse2" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="simpleInputFalse3" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="simpleInputFalse4" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="classUInputTrue" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="classUInputFalse1" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="classUInputFalse2" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="complicatedInputTrue1" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="complicatedInputTrue2" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="complicatedInputTrue3" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="complicatedInputTrue4" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="complicatedInputTrue6" classname="test.java.regex.RegexTest" time="0.002"/>
+  <testcase name="complicatedInputTrue7" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="complicatedInputTrue8" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="complicatedInputTrue9" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="kleeneStarInputFalse1" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="kleeneStarInputFalse2" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="kleeneStarInputFalse3" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="classAInputFalse" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="wildCardInputFalse1" classname="test.java.regex.RegexTest" time="0.002"/>
+  <testcase name="wildCardInputFalse2" classname="test.java.regex.RegexTest" time="0.003"/>
+  <testcase name="wildCardInputFalse3" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="wildCardInputFalse4" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="simpleInputTrue" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="unionInputTrue1" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="unionInputTrue2" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="unionInputTrue3" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="unionInputTrue4" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="complicatedInputFalse1" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="complicatedInputFalse2" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="complicatedInputFalse3" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="classLInputTrue" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="complicatedInputTrue10" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="complicatedInputTrue11" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="complicatedInputTrue12" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="plusInputFalse1" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="plusInputFalse2" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="plusInputFalse3" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="plusInputFalse4" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="unionInputFalse1" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="unionInputFalse2" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="unionInputFalse3" classname="test.java.regex.RegexTest" time="0.0"/>
+  <testcase name="unionInputFalse4" classname="test.java.regex.RegexTest" time="0.001"/>
+  <testcase name="simpleInputTrue4" classname="test.java.regex.RegexTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.java.regex.nfa.NFAMatcherTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-12-17T18:31:41" hostname="joonas-SVE1512T1ESI" time="0.001">
+  <properties/>
+  <testcase name="doesNotmatchIncorrectInput" classname="test.java.regex.nfa.NFAMatcherTest" time="0.0"/>
+  <testcase name="matchesCorrectInput" classname="test.java.regex.nfa.NFAMatcherTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
