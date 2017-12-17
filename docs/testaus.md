@@ -37,7 +37,7 @@ Niitä on monenlaisia:
 2. RegexPreprocessor testi
 3. NFAConstructor testi
 4. NFAMatcher testi
-5. Minun implementaationa vastaan Javan regex (syötteenä joko merkkijono tai tiedoston sijainti)
+5. Minun implementaatio vastaan Javan regex (syötteenä joko merkkijono tai tiedoston sijainti)
 
 Testille annetaan syötteenä regex ja/tai input, sekä mahdollisesti toistojen määrä n. Testi toistetaan n-kertaa ja tuloksena saadaan kokonaisaika ja n-ajon keskiarvo millisekuntteina. Testit joissa luetaan tiedostosta suoritetaan vain kerran per ajo.
 
