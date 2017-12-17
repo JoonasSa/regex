@@ -9,6 +9,13 @@ repositories {
 sourceSets.main.java.srcDirs = ['src']
 mainClassName = 'main.java.Main'
 
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'main.java.Main'
+    )
+  }
+}
 
 dependencies {
     compile 'junit:junit:4.12'
