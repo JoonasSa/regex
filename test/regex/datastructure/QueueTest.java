@@ -36,6 +36,8 @@ public class QueueTest {
         queue.enqueue(new NFAState('b'));
         NFAState s = new NFAState('c');
         queue.enqueue(s);
+        queue.dequeue();
+        queue.dequeue();
         assertEquals(s, queue.dequeue());
     }
     
@@ -49,4 +51,43 @@ public class QueueTest {
     public void isEmptyTest2() {
         assertTrue(queue.isEmpty());
     }
+    
+    @Test
+    public void dynamicallyIncreaseSizeTest1() {
+        queue.enqueue(new NFAState('a'));
+        queue.enqueue(new NFAState('a'));
+        queue.enqueue(new NFAState('a'));
+        assertEquals("head: 3, tail: 0, size: 4", queue.toString());
+    }
+    
+    @Test
+    public void dynamicallyIncreaseSizeTest2() {
+        queue.enqueue(new NFAState('a'));
+        queue.enqueue(new NFAState('a'));
+        queue.enqueue(new NFAState('a'));
+        queue.enqueue(new NFAState('a'));
+        assertEquals("head: 4, tail: 0, size: 8", queue.toString());
+    }
+    
+    @Test
+    public void dynamicallyIncreaseSizeTest3() {
+        queue.enqueue(new NFAState('a'));
+        queue.enqueue(new NFAState('a'));
+        queue.enqueue(new NFAState('a'));
+        queue.enqueue(new NFAState('a'));
+        queue.dequeue();
+        assertEquals("head: 4, tail: 1, size: 8", queue.toString());
+    }
+    
+    @Test
+    public void dynamicallyIncreaseSizeTest4() {
+        queue.enqueue(new NFAState('a'));
+        NFAState b = new NFAState('b');
+        queue.enqueue(b);
+        queue.enqueue(new NFAState('a'));
+        queue.enqueue(new NFAState('a'));
+        queue.dequeue();
+        assertEquals(b, queue.dequeue());
+    }
+    
 }

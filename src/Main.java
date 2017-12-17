@@ -108,11 +108,11 @@ public class Main {
                 + "    union: |, for example (a|b) (IMPORTANT! Expects parentheses.)\n"
                 + "  Character classes (match certain type of character):\n"
                 + "    any character - .\n"
-                + "    digit - \\\\d\n"
-                + "    alphabet - \\\\a\n"
-                + "    lowercase character - \\\\l\n"
-                + "    uppercase character - \\\\u\n"
-                + "    alphabet, digit and _ - \\\\w\n"
+                + "    digit - \\d\n"
+                + "    alphabet - \\a\n"
+                + "    lowercase character - \\l\n"
+                + "    uppercase character - \\u\n"
+                + "    alphabet, digit and _ - \\w\n"
                 + "\n"
                 + "Optional 3rd argument: test type can be provided after regex and input arguments\n"
                 + "Optional 4th argument: run times can be provided to run the tests a specific number of times\n"
@@ -132,24 +132,8 @@ public class Main {
                 + "  \"java -jar regex.jar a+ aa\" - Normal run, regex a+ with input aa. \n"
                 + "  \"java -jar regex.jar a* ''\" - Normal run, regex a* with input  .\n"
                 + "  \"java -jar regex.jar (a|b)* aaaaabba w\" - Benchmark the whole program, regex (a|b)* with input aaaaabba.\n"
-                + "  \"java -jar regex.jar \\\\a*. abcd_ m\" - Benchmark matching, regex \\\\a*. with input abcd_.\n");
+                + "  \"java -jar regex.jar \\w*. abcd_ m\" - Benchmark matching, regex \\w*. with input abcd_.\n");
         System.exit(0);
     }
 
-    /*TODO LIST:
-    0. BUGIT: 
-    true: 'abab', 'abcd', 'cdabcdab'
-    false: '', 'ab', 'cd'
-    //String regex = "(ab|cd)+"; //b*a* toimii
-    //String input = "cdabcdabcdab";
-    * sulkeet aiheuttaa bugin -> input: "", regex: b+ => false, regex: (b)+ => true 
-    1. file reading mittaukset (vs java regex) 
-    2. testimittaukset ja niiden esittäminen (pandas?)
-    3. dokumentaatio
-    4. loppu hionta kaikkeen => katso se lista
-    ----------------------------------------------
-    x. preprosessointi (lisä syntaksia, kuten [0-9], [a-zA-Z], \*)
-    x.1 muuta regex symbolit vastaamaan lukuja => nyt kaikki \char voidaan esiprosessoida => NFAkonstruktorin ei tarvitse välittää \ merkistä
-    y. paremmat kommentit nfa konstruktoriin + siistiminen
-     */
 }

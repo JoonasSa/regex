@@ -5,23 +5,12 @@ import regex.util.CharacterClassifier;
 import regex.util.StateType;
 
 public class NFAMatcher {
-
-    /*
-        1. To start, enqueue the first state to active states queue Q.
-        2. Whenever the machine reads an input character c, dequeue all the states from Q one by one. 
-        If a dequeued state X has an outgoing arrow(s) labeled c add the state(s) at the end of the arrow(s) to Q.
-        If there is a blank arrow leading from state X to Y, then whenever X is enqueued to Q, also enqueue Y to Q.
-        3. If there are still more characters in the input string return to 2 reading the next char c.
-        4. If one of the dequeued states was the final state and the input string has been read then the input string is matched.
-        Otherwise the string is not matched.
-    */
     
     private Queue queue;
     private NFAState start;
     
     public NFAMatcher(NFAState start) {
         this.start = start;
-        //recursiveDebugNFA(start);
     }
     
     /**
@@ -29,9 +18,8 @@ public class NFAMatcher {
      * @return is the input string a match with the regex
      */
     public boolean match(String input) {
-        this.queue = new Queue(100); //todo different sizes
+        this.queue = new Queue(100);
         recursiveEpsilonTransition(start);
-        //System.out.println("input string: " + input);
         for (int i = 0; i < input.length(); i++) {
             queue.enqueue(new NFAState(StateType.QUEUE_END, 'ε'));
             while (true) {
@@ -39,15 +27,11 @@ public class NFAMatcher {
                 if (current.type == StateType.QUEUE_END) {
                     break;
                 }
-                //System.out.println("current: " + current);
                 handleNFAState(current, input.charAt(i));
             }
-            //System.out.println("queue: " + this.queue);
         }
-        //System.out.println("end queue: " + this.queue);
         while (!queue.isEmpty()) {
             NFAState s = queue.dequeue();
-            //System.out.println("dequeue: " + s);
             if (s.type == StateType.END) {
                 return true;
             }
@@ -106,7 +90,6 @@ public class NFAMatcher {
         if (state == null) {
             return;
         }
-        //System.out.println("epsilon: " + state);
         if (state.arrowA != null && state.arrowA.symbol == 'ε') {
             queue.enqueue(state.arrowA);
             recursiveEpsilonTransition(state.arrowA);
@@ -116,17 +99,5 @@ public class NFAMatcher {
             recursiveEpsilonTransition(state.arrowB);
         }
     }
-    
-    private void recursiveDebugNFA(NFAState state) {
-        if (state == null) {
-            return;
-        }
-        System.out.println(state);
-        if (state.arrowA != null) {
-            recursiveDebugNFA(state.arrowA);
-        }
-        if (state.arrowB != null) {
-            recursiveDebugNFA(state.arrowB);
-        }
-    }
+
 }

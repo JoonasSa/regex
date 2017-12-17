@@ -19,6 +19,7 @@ Get instructions how to use the program with command `java -jar regex.jar --help
 After the base command give regex and input string arguments like so `a* aa` or `a* 'aa'`. 
 
 Optional benchmark test type argument and 'times to run' argument can be provided for benchmarking the program.
+
 ***loremipsum1k.txt file found in the root of the repository can be used for benchmark testing.***
     
 ## Program arguments
@@ -55,7 +56,9 @@ Test types:
 * benchmark regex preprocessing - `p`
 * benchmark nfa construction - `c`
 * benchmark input string matching - `m`
-* benchmark comparisons against Java Patter.match() - `r`
+* benchmark matching against Java Patter.match() - `r`
+* benchmark matching words from a file (provide file location as the input string) - `f`
+* benchmark comparisons against Java Matcher.find() from a file (provide file location as the input string) - `v`
 
 #### Examples
 

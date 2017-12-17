@@ -8,7 +8,6 @@ public class NFAState {
     public NFAState arrowA = null;
     public NFAState arrowB = null;
     public char symbol;
-    public String name = null; //used for debugging, will be removed at some point
     
     public NFAState(StateType t, char s) {
         this.type = t;
@@ -64,10 +63,7 @@ public class NFAState {
     }
     
     public String dumpInfo() {
-        String s = "";
-        if (name != null) 
-            s += ", name: " + name;
-        return "Type: " + type + ", symbol: " + symbol + s;
+        return "Type: " + type + ", symbol: " + symbol;
     }
 
     /**
@@ -76,8 +72,6 @@ public class NFAState {
     @Override
     public String toString() {
         String info = "Type: " + type + ", symbol: " + symbol;
-        if (name != null)
-            info += ", name: " + name;
         if (arrowA != null)
             info += " | A: " + arrowA.dumpInfo();
         if (arrowB != null)

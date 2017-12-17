@@ -47,8 +47,15 @@ Space complexity: `O(i + r)`. Matching needs input string `i` and queue with `1-
 
 ## Comparisons
 
-Comparisons between my and Java's regex implementation can be found in the benchmark measurements section [here](testaus.md).
-TODO (O-notaatio javalle?)	
+Benchmark measurements can be found in benchmarks section [here](testaus.md).
+
+Looking at all of the measurements it seems that there is quite a big overhead on the program as differences between 10000 and 100000 run times on many of the test is not very big. 
+
+Overall biggest inpact on regex runtimes seem to be special characters `|, *, +`.
+
+It is rather obvious from the data that Java's implementation is much faster. My regex performs just fine if you want to match single words every now and then in your code for example for string validation as it is only three times slower than Java's implementation on average. Trying to execute UNIX grep like word matching on a big input with my regex would be a bad idea as Java's regex was over 30 times faster with some regexes on this task.
+
+Overall I'm surprised that my regex preforms this well against Java's.
 
 ## Possible shortcomings & improvement ideas
 
@@ -59,4 +66,4 @@ TODO (O-notaatio javalle?)
    
 ## Sources
 
-Empirical test results and reasoning about the algorithms. ***better?***
+Empirical test results and reasoning about the algorithms.

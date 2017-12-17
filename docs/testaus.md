@@ -39,7 +39,7 @@ Niitä on monenlaisia:
 4. NFAMatcher testi
 5. Minun implementaationa vastaan Javan regex (syötteenä joko merkkijono tai tiedoston sijainti)
 
-Testille annetaan syötteenä regex ja/tai input, sekä mahdollisesti toistojen määrä n. Testi toistetaan n-kertaa ja tuloksena saadaan n-ajon keskiarvo millisekuntteina. ***korjaa ja täydennä tämä***
+Testille annetaan syötteenä regex ja/tai input, sekä mahdollisesti toistojen määrä n. Testi toistetaan n-kertaa ja tuloksena saadaan kokonaisaika ja n-ajon keskiarvo millisekuntteina. Testit joissa luetaan tiedostosta suoritetaan vain kerran per ajo.
 
 ## Benchmark measurements
 
@@ -177,6 +177,7 @@ Word by word with 100k line file
 | `lorem` | 922 | 506 |
 | `(lorem\|ipsum)` | 1024 | 577 |
 | `.*a.*` | 2222 | 829 |
+| `(tor)+` | 698 | 501 |
 
 Line by line with variable file sizes _(non-anchored)_
 
@@ -184,6 +185,5 @@ Line by line with variable file sizes _(non-anchored)_
 | ----- | ----- | ----- | ----- |
 | `lorem` | 100k | 1339 | 138 |
 | `ean tortor ips` | 100k | 2465 | 114 |
+| `(tor)+` | 100k | 7256 | 327 |
 | `(lorem)*` | 10k | 3072 | 95 |
-
-***lisää mittauksia, grafiikkaa?***
