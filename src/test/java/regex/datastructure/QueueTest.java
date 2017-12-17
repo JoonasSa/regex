@@ -1,10 +1,11 @@
-
 package regex.datastructure;
 
+import main.java.regex.datastructure.Queue;
+import main.java.regex.nfa.NFAState;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
-import regex.nfa.NFAState;
+
 
 public class QueueTest {
     

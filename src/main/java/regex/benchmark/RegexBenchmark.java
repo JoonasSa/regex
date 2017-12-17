@@ -1,13 +1,15 @@
-package regex.benchmark;
+package main.java.regex.benchmark;
+
+import main.java.regex.input.RegexStringPreprocessor;
+import main.java.regex.nfa.NFAConstructor;
+import main.java.regex.nfa.NFAMatcher;
+import main.java.regex.nfa.NFAState;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import regex.input.RegexStringPreprocessor;
-import regex.nfa.NFAConstructor;
-import regex.nfa.NFAMatcher;
-import regex.nfa.NFAState;
+
 
 public class RegexBenchmark {
 

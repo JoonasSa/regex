@@ -1,8 +1,12 @@
+package main.java;
+
+import main.java.regex.benchmark.RegexBenchmark;
+import main.java.regex.input.RegexStringPreprocessor;
+import main.java.regex.nfa.NFAConstructor;
+import main.java.regex.nfa.NFAMatcher;
+import main.java.regex.nfa.NFAState;
 
 import java.util.regex.Pattern;
-import regex.benchmark.RegexBenchmark;
-import regex.nfa.*;
-import regex.input.RegexStringPreprocessor;
 
 public class Main {
 
@@ -36,7 +40,7 @@ public class Main {
         
         //ran only once
         if (type == 'v' || type == 'r' || type == 'l') {
-            RegexBenchmark.getBenchmark(type, 1, regex, input);   
+            RegexBenchmark.getBenchmark(type, 1, regex, input);
             return;
         }
         

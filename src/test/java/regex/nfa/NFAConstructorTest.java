@@ -1,10 +1,14 @@
 
 package regex.nfa;
 
+import main.java.regex.nfa.NFAConstructor;
+import main.java.regex.nfa.NFAState;
+import main.java.regex.util.StateType;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import regex.util.StateType;
+
+import static org.junit.Assert.assertEquals;
+
 
 public class NFAConstructorTest {
     

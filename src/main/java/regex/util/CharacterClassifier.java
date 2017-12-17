@@ -1,5 +1,4 @@
-
-package regex.util;
+package main.java.regex.util;
 
 public class CharacterClassifier {
 

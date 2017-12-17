@@ -1,8 +1,10 @@
-
 package regex.util;
 
+import main.java.regex.util.CharacterClassifier;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class CharacterClassifierTest {
 

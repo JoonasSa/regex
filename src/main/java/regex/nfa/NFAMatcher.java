@@ -1,8 +1,8 @@
-package regex.nfa;
+package main.java.regex.nfa;
 
-import regex.datastructure.Queue;
-import regex.util.CharacterClassifier;
-import regex.util.StateType;
+import main.java.regex.datastructure.Queue;
+import main.java.regex.util.CharacterClassifier;
+import main.java.regex.util.StateType;
 
 public class NFAMatcher {
     
